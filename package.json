@@ -1,0 +1,26 @@
+{
+  "name": "custom-quiz",
+  "version": "1.0.0",
+  "description": "",
+  "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "start": "parcel --open",
+    "build": "parcel build",
+    "analyze-build": "parcel build --reporter @parcel/reporter-bundle-analyzer"
+  },
+  "author": "Yauheni Belash",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/reporter-bundle-analyzer": "^2.12.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "parcel": "^2.12.0",
+    "prettier": "^3.3.2",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
