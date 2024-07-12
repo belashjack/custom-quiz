@@ -1,9 +1,12 @@
-import React from 'react';
+import HelloWorld from './HelloWorld';
+import AppContextProvider from './AppContext';
 
 const App = () => {
-    console.log('App');
-
-    return <h1>App</h1>;
+    return (
+        <AppContextProvider>
+            <HelloWorld />
+        </AppContextProvider>
+    );
 };
 
 export default App;
