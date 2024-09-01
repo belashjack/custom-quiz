@@ -1,0 +1,47 @@
+.round-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.round-content {
+    width: 80rem;
+}
+
+.round-description {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+
+    p {
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+    }
+}
+
+.round-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    padding: 1rem;
+}
+
+.round-button {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    color: #ffffff;
+    background-color: #3cc43c;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #319f31;
+    }
+}
+
+.round-button-next {
+    margin-left: auto;
+}

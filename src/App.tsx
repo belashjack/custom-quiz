@@ -1,10 +1,11 @@
-import HelloWorld from './HelloWorld';
 import AppContextProvider from './AppContext';
+import Quiz from './Quiz';
+import './index.scss';
 
 const App = () => {
     return (
         <AppContextProvider>
-            <HelloWorld />
+            <Quiz />
         </AppContextProvider>
     );
 };
