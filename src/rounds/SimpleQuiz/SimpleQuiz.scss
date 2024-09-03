@@ -1,0 +1,111 @@
+@use '../variables.scss' as *;
+
+@mixin blink-animation($start-color, $unique-name) {
+    $keyframes-name: blink-bg-color-#{$unique-name};
+
+    animation: #{$keyframes-name} 0.5s ease-in-out;
+
+    @keyframes #{$keyframes-name} {
+        0%,
+        50%,
+        100% {
+            background-color: $start-color;
+        }
+        25%,
+        75% {
+            background-color: #ffffff;
+        }
+    }
+}
+
+.simple-quiz-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+}
+
+.option {
+    label {
+        display: block;
+        padding: 1.5rem;
+        border: 2px solid $neutral-border-color;
+        border-radius: 4px;
+        background-color: #ffffff;
+        font-size: 1.5rem;
+        font-weight: bold;
+        box-shadow: 4 -4px 12px rgba(0, 0, 0, 0.08);
+
+        &:not(:has(input:disabled)) {
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: darken($color: $neutral-bg-color, $amount: 5%);
+            }
+
+            &:focus-within {
+                background-color: darken($color: $neutral-bg-color, $amount: 5%);
+            }
+
+            &:active {
+                background-color: darken($color: $neutral-bg-color, $amount: 10%);
+            }
+        }
+
+        input {
+            position: absolute;
+            width: 0;
+            height: 0;
+            opacity: 0;
+        }
+    }
+
+    .option-explanation {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 16rem;
+        margin-top: 0.5rem;
+        border: 2px solid;
+        border-radius: 4px;
+        font-size: 1.25rem;
+        background-color: #ffffff;
+    }
+
+    &--correct {
+        $border-color: $positive-border-color;
+        $bg-color: lighten(
+            $color: $positive-bg-color,
+            $amount: 40%,
+        );
+
+        label {
+            background-color: $bg-color;
+            border-color: $border-color;
+            @include blink-animation($bg-color, 'correct');
+        }
+
+        .option-explanation {
+            border-color: $border-color;
+        }
+    }
+
+    &--incorrect {
+        $border-color: $negative-border-color;
+        $bg-color: lighten(
+            $color: $negative-bg-color,
+            $amount: 40%,
+        );
+
+        label {
+            background-color: $bg-color;
+            border-color: $border-color;
+            @include blink-animation($bg-color, 'incorrect');
+        }
+
+        .option-explanation {
+            border-color: $border-color;
+        }
+    }
+}

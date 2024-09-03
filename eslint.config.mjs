@@ -85,13 +85,11 @@ export default [
             '@typescript-eslint/no-loss-of-precision': 'error',
             '@typescript-eslint/no-misused-promises': 'error',
             '@typescript-eslint/no-mixed-enums': 'error',
-            '@typescript-eslint/no-non-null-asserted-nullish-coalescing':
-                'error',
+            '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
             '@typescript-eslint/no-non-null-assertion': 'error',
             '@typescript-eslint/no-redundant-type-constituents': 'error',
             '@typescript-eslint/no-use-before-define': 'error',
-            '@typescript-eslint/no-unnecessary-boolean-literal-compare':
-                'error',
+            '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
             '@typescript-eslint/no-unnecessary-condition': 'error',
             '@typescript-eslint/no-unnecessary-template-expression': 'error',
             '@typescript-eslint/no-unnecessary-type-arguments': 'error',
@@ -122,8 +120,7 @@ export default [
             '@typescript-eslint/require-await': 'error',
             '@typescript-eslint/strict-boolean-expressions': 'error',
             '@typescript-eslint/switch-exhaustiveness-check': 'error',
-            '@typescript-eslint/use-unknown-in-catch-callback-variable':
-                'error',
+            '@typescript-eslint/use-unknown-in-catch-callback-variable': 'error',
 
             // Custom "eslint-plugin-react" rules
             'react/button-has-type': 'error',
@@ -135,17 +132,13 @@ export default [
             'react/jsx-closing-tag-location': 'error',
             'react/jsx-curly-brace-presence': 'error',
             'react/jsx-curly-spacing': 'error',
-            'react/jsx-filename-extension': [
-                'error',
-                { extensions: ['.jsx', '.tsx'] },
-            ],
+            'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
             'react/jsx-fragments': 'error',
             'react/jsx-handler-names': 'error',
             'react/jsx-indent': ['error', 4],
             'react/jsx-key': 'error',
             'react/jsx-no-constructed-context-values': 'error',
             'react/jsx-no-useless-fragment': 'error',
-            'react/jsx-props-no-spreading': ['error', { custom: 'ignore' }],
             'react/jsx-wrap-multilines': 'error',
             'react/no-access-state-in-setstate': 'error',
             'react/no-array-index-key': 'error',

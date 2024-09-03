@@ -1,17 +1,26 @@
-.round-wrapper {
+@use './variables.scss' as *;
+
+.round {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .round-content {
-    width: 80rem;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 2rem;
+
+    &:has(+ .round-footer) {
+        padding-bottom: 10rem;
+    }
 }
 
 .round-description {
     text-align: center;
-    font-size: 2rem;
+    margin-bottom: 5rem;
+    font-size: 2.5rem;
     font-weight: bold;
 
     p {
@@ -24,24 +33,70 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    display: flex;
-    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    padding: 2rem;
+    border-top: 2px solid $neutral-border-color;
+    background-color: #ffffff;
+
+    & > div {
+        display: flex;
+
+        &:nth-child(1) {
+            justify-content: flex-start;
+        }
+
+        &:nth-child(2) {
+            justify-content: center;
+        }
+
+        &:nth-child(3) {
+            justify-content: flex-end;
+        }
+    }
 }
 
 .round-button {
     padding: 1rem 2rem;
     font-size: 1.5rem;
     border: none;
-    border-radius: 0.25rem;
-    color: #ffffff;
-    background-color: #3cc43c;
+    border-radius: 4px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 4px -4px 12px #00000014;
 
-    &:hover {
-        background-color: #319f31;
+    &:active {
+        transform: translateY(1px);
     }
-}
 
-.round-button-next {
-    margin-left: auto;
+    &--previous,
+    &--next {
+        background-color: $positive-bg-color;
+        color: #ffffff;
+
+        &:hover,
+        &:focus {
+            background-color: darken($color: $positive-bg-color, $amount: 10%);
+        }
+
+        &:active {
+            background-color: darken($color: $positive-bg-color, $amount: 20%);
+        }
+    }
+
+    &--reset {
+        border: 2px solid $neutral-border-color;
+        background-color: $neutral-bg-color;
+        color: $neutral-color;
+
+        &:hover,
+        &:focus {
+            background-color: darken($color: $neutral-bg-color, $amount: 5%);
+        }
+
+        &:active {
+            background-color: darken($color: $neutral-bg-color, $amount: 10%);
+        }
+    }
 }

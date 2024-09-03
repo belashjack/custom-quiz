@@ -24,9 +24,7 @@ const APP_CONTEXT_DEFAULT_VALUE: AppContextProps = {
     },
 };
 
-export const AppContext = createContext<AppContextProps>(
-    APP_CONTEXT_DEFAULT_VALUE
-);
+export const AppContext = createContext<AppContextProps>(APP_CONTEXT_DEFAULT_VALUE);
 
 interface AppContextProviderProps {
     children: ReactNode;
@@ -44,10 +42,14 @@ const AppContextProvider: FC<AppContextProviderProps> = ({ children }) => {
                 rounds,
                 updateRounds: setRounds,
                 currentRoundIndex,
-                goToNextRound: () =>
-                    setCurrentRoundIndex(currentRoundIndex + 1),
-                goToPreviousRound: () =>
-                    setCurrentRoundIndex(currentRoundIndex - 1),
+                goToNextRound: () => {
+                    window.scrollTo({ top: 0 });
+                    setCurrentRoundIndex(currentRoundIndex + 1);
+                },
+                goToPreviousRound: () => {
+                    window.scrollTo({ top: 0 });
+                    setCurrentRoundIndex(currentRoundIndex - 1);
+                },
             }}
         >
             {children}

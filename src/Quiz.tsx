@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { AppContext } from './AppContext';
 import { Round, RoundType } from './rounds/types';
-import Preview from './rounds/Preview';
-import SimpleQuiz from './rounds/SimpleQuiz';
+import Preview from './rounds/Preview/Preview';
+import SimpleQuiz from './rounds/SimpleQuiz/SimpleQuiz';
 
 const renderRoundComponent = (currentRound: Round) => {
     switch (currentRound.type) {
