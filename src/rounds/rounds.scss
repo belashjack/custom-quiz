@@ -62,6 +62,8 @@
     font-size: 1.5rem;
     border: none;
     border-radius: 4px;
+    background-color: $positive-bg-color;
+    color: #ffffff;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 4px -4px 12px #00000014;
@@ -70,33 +72,12 @@
         transform: translateY(1px);
     }
 
-    &--previous,
-    &--next {
-        background-color: $positive-bg-color;
-        color: #ffffff;
-
-        &:hover,
-        &:focus {
-            background-color: darken($color: $positive-bg-color, $amount: 10%);
-        }
-
-        &:active {
-            background-color: darken($color: $positive-bg-color, $amount: 20%);
-        }
+    &:hover,
+    &:focus {
+        background-color: darken($color: $positive-bg-color, $amount: 10%);
     }
 
-    &--reset {
-        border: 2px solid $neutral-border-color;
-        background-color: $neutral-bg-color;
-        color: $neutral-color;
-
-        &:hover,
-        &:focus {
-            background-color: darken($color: $neutral-bg-color, $amount: 5%);
-        }
-
-        &:active {
-            background-color: darken($color: $neutral-bg-color, $amount: 10%);
-        }
+    &:active {
+        background-color: darken($color: $positive-bg-color, $amount: 20%);
     }
 }

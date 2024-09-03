@@ -25,12 +25,14 @@
 }
 
 .option {
+    background-color: #ffffff;
+
     label {
         display: block;
+        position: relative;
         padding: 1.5rem;
         border: 2px solid $neutral-border-color;
         border-radius: 4px;
-        background-color: #ffffff;
         font-size: 1.5rem;
         font-weight: bold;
         box-shadow: 4 -4px 12px rgba(0, 0, 0, 0.08);
@@ -58,6 +60,14 @@
             height: 0;
             opacity: 0;
         }
+
+        svg {
+            position: absolute;
+            top: -0.9375rem;
+            right: -0.9375rem;
+            background-color: #ffffff;
+            border-radius: 50%;
+        }
     }
 
     .option-explanation {
@@ -84,6 +94,10 @@
             background-color: $bg-color;
             border-color: $border-color;
             @include blink-animation($bg-color, 'correct');
+
+            svg {
+                color: $positive-border-color;
+            }
         }
 
         .option-explanation {
@@ -102,10 +116,20 @@
             background-color: $bg-color;
             border-color: $border-color;
             @include blink-animation($bg-color, 'incorrect');
+
+            svg {
+                color: $negative-border-color;
+            }
         }
 
         .option-explanation {
             border-color: $border-color;
+        }
+    }
+
+    &--not-answered {
+        label {
+            opacity: 0.5;
         }
     }
 }

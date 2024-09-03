@@ -5,6 +5,8 @@ import './SimpleQuiz.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import clsx from 'clsx';
 import myExampleImage from '../assets/example.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 
 interface SimpleQuizFormFields {
     option: string[];
@@ -35,7 +37,6 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
     const handleResetRound = () => {
         setAnswer(null);
         reset();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const answerExists = answer !== null;
@@ -59,6 +60,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
                     const optionClasses = clsx('option', {
                         'option--correct': isCorrectlyAnsweredOption,
                         'option--incorrect': isIncorrectlyAnsweredOption,
+                        'option--not-answered': answerExists && !isAnsweredOption,
                     });
 
                     return (
@@ -72,6 +74,8 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
                                     disabled={isFormDisabled}
                                 />
                                 {option.text}
+                                {isCorrectlyAnsweredOption && <FontAwesomeIcon icon={faCircleCheck} size="lg" />}
+                                {isIncorrectlyAnsweredOption && <FontAwesomeIcon icon={faCircleXmark} size="lg" />}
                             </label>
                             {isAnsweredOption && (
                                 <div className="option-explanation" ref={explanationRef}>

@@ -39,11 +39,7 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                 <footer className="round-footer">
                     <div>
                         {showPreviousRoundButton && (
-                            <button
-                                className="round-button round-button--previous"
-                                type="button"
-                                onClick={() => goToPreviousRound()}
-                            >
+                            <button className="round-button" type="button" onClick={() => goToPreviousRound()}>
                                 <FontAwesomeIcon icon={faLeftLong} />
                                 &nbsp;Назад
                             </button>
@@ -52,9 +48,12 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                     <div>
                         {showResetRoundButton && (
                             <button
-                                className="round-button round-button--reset"
+                                className="round-button"
                                 type="button"
-                                onClick={() => resetRound?.()}
+                                onClick={() => {
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    resetRound?.();
+                                }}
                             >
                                 <FontAwesomeIcon icon={faRepeat} />
                                 &nbsp;Попробуй еще раз
@@ -63,11 +62,7 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                     </div>
                     <div>
                         {showNextRoundButton && (
-                            <button
-                                className="round-button round-button--next"
-                                type="button"
-                                onClick={() => goToNextRound()}
-                            >
+                            <button className="round-button" type="button" onClick={() => goToNextRound()}>
                                 Дальше&nbsp;
                                 <FontAwesomeIcon icon={faRightLong} />
                             </button>
