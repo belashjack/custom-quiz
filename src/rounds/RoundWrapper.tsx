@@ -2,6 +2,8 @@ import { FC, PropsWithChildren, useContext } from 'react';
 import { AppContext } from '../AppContext';
 import './rounds.scss';
 import { BaseRoundContent } from './types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLeftLong, faRepeat, faRightLong } from '@fortawesome/free-solid-svg-icons';
 
 interface RoundWrapperProps extends PropsWithChildren {
     description: BaseRoundContent['description'];
@@ -42,7 +44,8 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                                 type="button"
                                 onClick={() => goToPreviousRound()}
                             >
-                                &#8678; Назад
+                                <FontAwesomeIcon icon={faLeftLong} />
+                                &nbsp;Назад
                             </button>
                         )}
                     </div>
@@ -53,7 +56,8 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                                 type="button"
                                 onClick={() => resetRound?.()}
                             >
-                                &#8635; Попробуй еще раз
+                                <FontAwesomeIcon icon={faRepeat} />
+                                &nbsp;Попробуй еще раз
                             </button>
                         )}
                     </div>
@@ -64,7 +68,8 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                                 type="button"
                                 onClick={() => goToNextRound()}
                             >
-                                Дальше &#8680;
+                                Дальше&nbsp;
+                                <FontAwesomeIcon icon={faRightLong} />
                             </button>
                         )}
                     </div>
