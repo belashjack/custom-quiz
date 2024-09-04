@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useContext, useEffect, useRef, useState } from 'react';
 import RoundWrapper from '../RoundWrapper';
 import { SimpleQuizRound } from '../types';
 import './SimpleQuiz.scss';
@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import myExampleImage from '../assets/example.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
+import { AppContext } from '../../AppContext';
 
 interface SimpleQuizFormFields {
     option: string[];
@@ -15,13 +16,21 @@ interface SimpleQuizFormFields {
 const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
     const { content } = props;
     const { description, correctOptionIndex, options } = content;
+    const { killLife, isEasyMode } = useContext(AppContext);
     const { register, handleSubmit, reset } = useForm<SimpleQuizFormFields>();
     const [answer, setAnswer] = useState<number | null>(null);
     const explanationRef = useRef<HTMLDivElement>(null);
 
+    const answerExists = answer !== null;
+    const isLose = answerExists && answer !== correctOptionIndex;
+
     useEffect(() => {
-        if (answer !== null) {
+        if (answerExists) {
             explanationRef.current?.scrollIntoView({ block: 'center' });
+        }
+
+        if (!isEasyMode && isLose) {
+            killLife();
         }
     }, [answer]);
 
@@ -39,10 +48,8 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
         reset();
     };
 
-    const answerExists = answer !== null;
     const isFormDisabled = answerExists;
     const isWin = answerExists && answer === correctOptionIndex;
-    const isLose = answerExists && answer !== correctOptionIndex;
 
     return (
         <RoundWrapper

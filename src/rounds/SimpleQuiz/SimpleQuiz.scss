@@ -31,26 +31,29 @@
         display: block;
         position: relative;
         padding: 1.5rem;
-        border: 2px solid $neutral-border-color;
+        border: 2px solid $neutral-color;
         border-radius: 4px;
         font-size: 1.5rem;
         font-weight: bold;
-        box-shadow: 4 -4px 12px rgba(0, 0, 0, 0.08);
+        box-shadow: 4px -4px 12px #00000014;
 
         &:not(:has(input:disabled)) {
             cursor: pointer;
             transition: all 0.3s ease;
 
             &:hover {
-                background-color: darken($color: $neutral-bg-color, $amount: 5%);
+                border-color: darken($neutral-color, $amount: 10%);
+                background-color: lighten($color: $neutral-color, $amount: 45%);
             }
 
             &:focus-within {
-                background-color: darken($color: $neutral-bg-color, $amount: 5%);
+                border-color: darken($neutral-color, $amount: 10%);
+                background-color: lighten($color: $neutral-color, $amount: 45%);
             }
 
             &:active {
-                background-color: darken($color: $neutral-bg-color, $amount: 10%);
+                border-color: darken($neutral-color, $amount: 20%);
+                background-color: lighten($color: $neutral-color, $amount: 40%);
             }
         }
 
@@ -84,9 +87,9 @@
     }
 
     &--correct {
-        $border-color: $positive-border-color;
+        $border-color: $positive-color;
         $bg-color: lighten(
-            $color: $positive-bg-color,
+            $color: $positive-color,
             $amount: 40%,
         );
 
@@ -96,7 +99,7 @@
             @include blink-animation($bg-color, 'correct');
 
             svg {
-                color: $positive-border-color;
+                color: $positive-color;
             }
         }
 
@@ -106,9 +109,9 @@
     }
 
     &--incorrect {
-        $border-color: $negative-border-color;
+        $border-color: $negative-color;
         $bg-color: lighten(
-            $color: $negative-bg-color,
+            $color: $negative-color,
             $amount: 40%,
         );
 
@@ -118,7 +121,7 @@
             @include blink-animation($bg-color, 'incorrect');
 
             svg {
-                color: $negative-border-color;
+                color: $negative-color;
             }
         }
 

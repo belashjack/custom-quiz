@@ -4,6 +4,8 @@ import './rounds.scss';
 import { BaseRoundContent } from './types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLeftLong, faRepeat, faRightLong } from '@fortawesome/free-solid-svg-icons';
+import Button from './components/Button';
+import { INITIAL_LIVES_NUMBER } from '../constants';
 
 interface RoundWrapperProps extends PropsWithChildren {
     description: BaseRoundContent['description'];
@@ -21,9 +23,10 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
     canHaveNextRoundButton = false,
     resetRound,
 }) => {
-    const { rounds, currentRoundIndex, goToPreviousRound, goToNextRound } = useContext(AppContext);
+    const { rounds, currentRoundIndex, goToPreviousRound, goToNextRound, isEasyMode, livesNumber } =
+        useContext(AppContext);
 
-    const showPreviousRoundButton = canHavePreviousRoundButton && currentRoundIndex > 0;
+    const showPreviousRoundButton = isEasyMode && canHavePreviousRoundButton && currentRoundIndex > 0;
     const showResetRoundButton = canHaveResetRoundButton;
     const showNextRoundButton = canHaveNextRoundButton && currentRoundIndex < rounds.length - 1;
 
@@ -31,6 +34,20 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
 
     return (
         <div className="round">
+            {!isEasyMode && (
+                <header className="round-header">
+                    {Array(INITIAL_LIVES_NUMBER)
+                        .fill(null)
+                        .map((_, index) => {
+                            if (index < livesNumber) {
+                                return '❤️';
+                            }
+
+                            return '💔';
+                        })
+                        .join('\u00A0')}
+                </header>
+            )}
             <div className="round-content">
                 <div className="round-description">{description}</div>
                 {children}
@@ -39,33 +56,33 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                 <footer className="round-footer">
                     <div>
                         {showPreviousRoundButton && (
-                            <button className="round-button" type="button" onClick={() => goToPreviousRound()}>
-                                <FontAwesomeIcon icon={faLeftLong} />
-                                &nbsp;Назад
-                            </button>
+                            <Button icon={<FontAwesomeIcon icon={faLeftLong} />} onClick={goToPreviousRound}>
+                                Назад
+                            </Button>
                         )}
                     </div>
                     <div>
                         {showResetRoundButton && (
-                            <button
-                                className="round-button"
-                                type="button"
+                            <Button
+                                icon={<FontAwesomeIcon icon={faRepeat} />}
                                 onClick={() => {
                                     window.scrollTo({ top: 0, behavior: 'smooth' });
                                     resetRound?.();
                                 }}
                             >
-                                <FontAwesomeIcon icon={faRepeat} />
-                                &nbsp;Попробуй еще раз
-                            </button>
+                                Попробуй еще раз
+                            </Button>
                         )}
                     </div>
                     <div>
                         {showNextRoundButton && (
-                            <button className="round-button" type="button" onClick={() => goToNextRound()}>
-                                Дальше&nbsp;
-                                <FontAwesomeIcon icon={faRightLong} />
-                            </button>
+                            <Button
+                                icon={<FontAwesomeIcon icon={faRightLong} />}
+                                iconPosition="right"
+                                onClick={goToNextRound}
+                            >
+                                Дальше
+                            </Button>
                         )}
                     </div>
                 </footer>

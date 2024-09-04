@@ -1,0 +1,26 @@
+@use '../variables.scss' as *;
+
+.button {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 4px;
+    background-color: $neutral-color;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 4px -4px 12px #00000014;
+
+    &:active {
+        transform: translateY(1px);
+    }
+
+    &:hover,
+    &:focus {
+        background-color: darken($color: $neutral-color, $amount: 10%);
+    }
+
+    &:active {
+        background-color: darken($color: $neutral-color, $amount: 20%);
+    }
+}
