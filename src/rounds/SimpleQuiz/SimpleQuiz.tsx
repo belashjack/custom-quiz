@@ -1,34 +1,30 @@
-import { FC, useContext, useEffect, useRef, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import RoundWrapper from '../RoundWrapper';
 import { SimpleQuizRound } from '../types';
 import './SimpleQuiz.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import clsx from 'clsx';
-import myExampleImage from '../assets/example.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { AppContext } from '../../AppContext';
+import Explanation from '../components/Explanation/Explanation';
 
 interface SimpleQuizFormFields {
     option: string[];
 }
 
 const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
-    const { content } = props;
-    const { description, correctOptionIndex, options } = content;
+    const {
+        content: { description, correctOptionIndex, options },
+    } = props;
     const { killLife, isEasyMode } = useContext(AppContext);
     const { register, handleSubmit, reset } = useForm<SimpleQuizFormFields>();
     const [answer, setAnswer] = useState<number | null>(null);
-    const explanationRef = useRef<HTMLDivElement>(null);
 
     const answerExists = answer !== null;
     const isLose = answerExists && answer !== correctOptionIndex;
 
     useEffect(() => {
-        if (answerExists) {
-            explanationRef.current?.scrollIntoView({ block: 'center' });
-        }
-
         if (!isEasyMode && isLose) {
             killLife();
         }
@@ -37,10 +33,6 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
     const onSubmit: SubmitHandler<SimpleQuizFormFields> = (data) => {
         const { option } = data;
         setAnswer(Number(option));
-    };
-
-    const handleChange = () => {
-        void handleSubmit(onSubmit)();
     };
 
     const handleResetRound = () => {
@@ -58,7 +50,12 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
             canHaveNextRoundButton={isWin}
             resetRound={handleResetRound}
         >
-            <form className="simple-quiz-form" onChange={handleChange}>
+            <form
+                className="simple-quiz-form"
+                onChange={(e) => {
+                    void handleSubmit(onSubmit)(e);
+                }}
+            >
                 {options.map((option, index) => {
                     const isAnsweredOption = index === answer;
                     const isCorrectlyAnsweredOption = isAnsweredOption && index === correctOptionIndex;
@@ -85,10 +82,11 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
                                 {isIncorrectlyAnsweredOption && <FontAwesomeIcon icon={faCircleXmark} size="lg" />}
                             </label>
                             {isAnsweredOption && (
-                                <div className="option-explanation" ref={explanationRef}>
-                                    <img src={myExampleImage} alt="" width={160} />
-                                    {option.explanation}
-                                </div>
+                                <Explanation
+                                    text={option.explanation}
+                                    isCorrect={isCorrectlyAnsweredOption}
+                                    isIncorrect={isIncorrectlyAnsweredOption}
+                                />
                             )}
                         </div>
                     );

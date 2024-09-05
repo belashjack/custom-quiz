@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from '../components/Button';
+import Button from '../components/Button/Button';
 import RoundWrapper from '../RoundWrapper';
 import { faRepeat } from '@fortawesome/free-solid-svg-icons';
 import { useContext } from 'react';

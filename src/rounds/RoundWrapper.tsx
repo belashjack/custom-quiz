@@ -4,7 +4,7 @@ import './rounds.scss';
 import { BaseRoundContent } from './types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLeftLong, faRepeat, faRightLong } from '@fortawesome/free-solid-svg-icons';
-import Button from './components/Button';
+import Button from './components/Button/Button';
 import { INITIAL_LIVES_NUMBER } from '../constants';
 
 interface RoundWrapperProps extends PropsWithChildren {
