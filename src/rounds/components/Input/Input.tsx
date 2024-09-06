@@ -4,15 +4,26 @@ import './Input.scss';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     hasError?: boolean;
+    isCorrect?: boolean;
+    isIncorrect?: boolean;
 }
 
 // eslint-disable-next-line prefer-arrow-callback
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(props, ref) {
-    const { hasError, ...rest } = props;
+    const { hasError, isCorrect, isIncorrect, ...rest } = props;
 
     return (
         <label className="input-label">
-            <input ref={ref} className={clsx('input', { 'input--error': hasError })} type="text" {...rest} />
+            <input
+                ref={ref}
+                className={clsx('input', {
+                    'input--error': hasError,
+                    'input--correct': isCorrect,
+                    'input--incorrect': isIncorrect,
+                })}
+                type="text"
+                {...rest}
+            />
         </label>
     );
 });

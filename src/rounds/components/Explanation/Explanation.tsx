@@ -1,14 +1,14 @@
 import { FC, useEffect, useRef } from 'react';
 import './Explanation.scss';
 import clsx from 'clsx';
+import { Explanation } from '../../types';
 
-interface ExplanationProps {
-    text: string;
-    isCorrect: boolean;
-    isIncorrect: boolean;
+interface ExplanationProps extends Explanation {
+    isCorrect?: boolean;
+    isIncorrect?: boolean;
 }
 
-const Explanation: FC<ExplanationProps> = ({ text, isCorrect, isIncorrect }) => {
+const Explanation: FC<ExplanationProps> = ({ text, asset, isCorrect, isIncorrect }) => {
     const explanationRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -23,6 +23,7 @@ const Explanation: FC<ExplanationProps> = ({ text, isCorrect, isIncorrect }) => 
                 'explanation--incorrect': isIncorrect,
             })}
         >
+            <div className="asset">{asset}</div>
             {text}
         </div>
     );

@@ -41,7 +41,6 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
 
     const onSubmit: SubmitHandler<InputCorrectAnswerFormFields> = (data) => {
         const { answer } = data;
-        console.log('answer', answer);
 
         setAnswer(answer);
     };
@@ -67,20 +66,16 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
                     placeholder="Введи ответ"
                     disabled={isFormDisabled}
                     hasError={Boolean(errors.answer)}
+                    isCorrect={isWin}
+                    isIncorrect={isLose}
                 />
                 {!isFormDisabled && (
                     <Button isSubmitButton disabled={isFormDisabled}>
                         Ответить
                     </Button>
                 )}
-                {answerExists && (
-                    <Explanation
-                        // eslint-disable-next-line no-nested-ternary
-                        text={isWin ? correctExplanation : isLose ? incorrectExplanation : ''}
-                        isCorrect={isWin}
-                        isIncorrect={isLose}
-                    />
-                )}
+                {isWin && <Explanation isCorrect {...correctExplanation} />}
+                {isLose && <Explanation isIncorrect {...incorrectExplanation} />}
             </form>
         </RoundWrapper>
     );

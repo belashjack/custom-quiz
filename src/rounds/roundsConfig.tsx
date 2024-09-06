@@ -1,10 +1,18 @@
+import { CORRECT_EXPLANATION_ASSETS, INCORRECT_EXPLANATION_ASSETS } from './constants';
 import { BaseRoundContent, InputCorrectAnswerRoundContent, Round, RoundType, SimpleQuizRoundContent } from './types';
+import { getRandomFromArray } from './utils';
 
 const ROUND_1_CONTENT: InputCorrectAnswerRoundContent = {
     description: <p>Введи правильный ответ на вопрос: сколько мне лет?</p>,
     correctAnswer: '29',
-    correctExplanation: 'К счастью, ты хоть это знаешь! 🎉',
-    incorrectExplanation: 'Капец, даже не знаешь сколько мне лет! 😱',
+    correctExplanation: {
+        text: 'К счастью, ты хоть это знаешь! 🎉',
+        asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+    },
+    incorrectExplanation: {
+        text: 'Капец, даже не знаешь сколько мне лет! 😱',
+        asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+    },
 };
 
 const ROUND_2_CONTENT: SimpleQuizRoundContent = {
@@ -14,31 +22,31 @@ const ROUND_2_CONTENT: SimpleQuizRoundContent = {
     options: [
         {
             text: 'Знать тебя не хочу',
-            explanation: 'Нет, это не правильный ответ 🙃',
+            explanation: {
+                text: 'Нет, это не правильный ответ 🙃',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
         },
         {
             text: 'Я католик',
-            explanation: 'Нет, это не правильный ответ 🙃',
+            explanation: {
+                text: 'Нет, это не правильный ответ 🙃',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
         },
         {
             text: 'Спасибо за веру в меня',
-            explanation: 'Да, это правильный ответ',
+            explanation: {
+                text: 'Да, это правильный ответ',
+                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+            },
         },
         {
             text: 'Ясно понятно',
-            explanation: 'Нет, это не правильный ответ 🙃',
-        },
-        {
-            text: 'Ясно понятно',
-            explanation: 'Нет, это не правильный ответ 🙃',
-        },
-        {
-            text: 'Ясно понятно',
-            explanation: 'Нет, это не правильный ответ 🙃',
-        },
-        {
-            text: 'Ясно понятно',
-            explanation: 'Нет, это не правильный ответ 🙃',
+            explanation: {
+                text: 'Нет, это не правильный ответ 🙃',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
         },
     ],
     correctOptionIndex: 2,

@@ -18,9 +18,16 @@
             }
         }
 
-        &--error {
-            border-color: $negative-color;
+        &--correct {
+            border-color: $positive-color;
+        }
 
+        &--error,
+        &--incorrect {
+            border-color: $negative-color;
+        }
+
+        &--error {
             &:not(:disabled) {
                 &:focus-visible {
                     outline-color: $negative-color;

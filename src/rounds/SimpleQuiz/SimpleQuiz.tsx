@@ -83,9 +83,9 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
                             </label>
                             {isAnsweredOption && (
                                 <Explanation
-                                    text={option.explanation}
                                     isCorrect={isCorrectlyAnsweredOption}
                                     isIncorrect={isIncorrectlyAnsweredOption}
+                                    {...option.explanation}
                                 />
                             )}
                         </div>
