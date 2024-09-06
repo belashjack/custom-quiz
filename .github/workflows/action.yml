@@ -38,7 +38,7 @@ jobs:
         id: build
         run: |
           npm run build
-          echo "::set-output name=build_dir::./dist"  # Output the build directory
+          echo "build_dir=./dist" >> $GITHUB_ENV
 
   deploy:
     needs: build
