@@ -1,0 +1,31 @@
+@use '../../variables.scss' as *;
+
+.input-label {
+    background-color: #ffffff;
+
+    .input {
+        min-width: 30rem;
+        padding: 1rem 2rem;
+        font-size: 1.25rem;
+        border: 2px solid $neutral-color;
+        border-radius: 4px;
+        outline-offset: 1px;
+        box-shadow: 4px -4px 12px #00000014;
+
+        &:not(:disabled) {
+            &:focus-visible {
+                outline-color: $neutral-color;
+            }
+        }
+
+        &--error {
+            border-color: $negative-color;
+
+            &:not(:disabled) {
+                &:focus-visible {
+                    outline-color: $negative-color;
+                }
+            }
+        }
+    }
+}

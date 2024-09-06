@@ -1,18 +1,26 @@
-import { FC, PropsWithChildren } from 'react';
+import { ButtonHTMLAttributes, FC, PropsWithChildren } from 'react';
 import './Button.scss';
 
-interface ButtonProps extends PropsWithChildren {
-    icon: JSX.Element;
+interface ButtonProps extends PropsWithChildren, ButtonHTMLAttributes<HTMLButtonElement> {
+    icon?: JSX.Element;
     iconPosition?: 'left' | 'right';
-    onClick: () => void;
+    onClick?: () => void;
+    isSubmitButton?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({ children, icon, iconPosition = 'left', onClick }) => {
+const Button: FC<ButtonProps> = ({
+    children,
+    icon,
+    iconPosition = 'left',
+    isSubmitButton = false,
+    onClick,
+    ...rest
+}) => {
     return (
-        <button className="button" type="button" onClick={onClick}>
-            {iconPosition === 'left' && <>{icon}&nbsp;</>}
+        <button className="button" type={isSubmitButton ? 'submit' : 'button'} onClick={onClick} {...rest}>
+            {iconPosition === 'left' && icon && <>{icon}&nbsp;</>}
             {children}
-            {iconPosition === 'right' && <>&nbsp;{icon}</>}
+            {iconPosition === 'right' && icon && <>&nbsp;{icon}</>}
         </button>
     );
 };

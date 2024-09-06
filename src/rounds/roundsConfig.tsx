@@ -1,7 +1,16 @@
-import { BaseRoundContent, Round, RoundType, SimpleQuizRoundContent } from './types';
+import { BaseRoundContent, InputCorrectAnswerRoundContent, Round, RoundType, SimpleQuizRoundContent } from './types';
 
-const ROUND_1_CONTENT: SimpleQuizRoundContent = {
-    description: 'Ты знаешь мою первую фразу при нашем знакомстве. "Интересная". А какой был твой ответ?',
+const ROUND_1_CONTENT: InputCorrectAnswerRoundContent = {
+    description: <p>Введи правильный ответ на вопрос: сколько мне лет?</p>,
+    correctAnswer: '29',
+    correctExplanation: 'К счастью, ты хоть это знаешь! 🎉',
+    incorrectExplanation: 'Капец, даже не знаешь сколько мне лет! 😱',
+};
+
+const ROUND_2_CONTENT: SimpleQuizRoundContent = {
+    description: (
+        <p>Ты знаешь мою первую фразу при нашем знакомстве. &ldquo;Интересная&rdquo;. А какой был твой ответ?</p>
+    ),
     options: [
         {
             text: 'Знать тебя не хочу',
@@ -19,11 +28,23 @@ const ROUND_1_CONTENT: SimpleQuizRoundContent = {
             text: 'Ясно понятно',
             explanation: 'Нет, это не правильный ответ 🙃',
         },
+        {
+            text: 'Ясно понятно',
+            explanation: 'Нет, это не правильный ответ 🙃',
+        },
+        {
+            text: 'Ясно понятно',
+            explanation: 'Нет, это не правильный ответ 🙃',
+        },
+        {
+            text: 'Ясно понятно',
+            explanation: 'Нет, это не правильный ответ 🙃',
+        },
     ],
     correctOptionIndex: 2,
 };
 
-const ROUND_2_CONTENT: BaseRoundContent = {
+const ROUND_3_CONTENT: BaseRoundContent = {
     description: (
         <>
             <p>Привет. Это мой небольшой подарок тебе. Да, он создан специально для тебя!!! 😀</p>
@@ -65,12 +86,13 @@ const ROUND_2_CONTENT: BaseRoundContent = {
     ),
 };
 
-const ROUND_3_CONTENT: BaseRoundContent = {
-    description: 'Спасибо за игру!',
+const ROUND_4_CONTENT: BaseRoundContent = {
+    description: <p>Спасибо за игру!</p>,
 };
 
 export const roundsConfig: Round[] = [
-    { type: RoundType.SIMPLE_QUIZ, content: ROUND_1_CONTENT },
-    { type: RoundType.PREVIEW, content: ROUND_2_CONTENT },
+    { type: RoundType.INPUT_CORRECT_ANSWER, content: ROUND_1_CONTENT },
+    { type: RoundType.SIMPLE_QUIZ, content: ROUND_2_CONTENT },
     { type: RoundType.PREVIEW, content: ROUND_3_CONTENT },
+    { type: RoundType.PREVIEW, content: ROUND_4_CONTENT },
 ];

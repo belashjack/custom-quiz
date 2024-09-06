@@ -16,7 +16,7 @@
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
         background-color: darken($color: $neutral-color, $amount: 10%);
     }
 

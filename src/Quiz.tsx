@@ -4,6 +4,7 @@ import { Round, RoundType } from './rounds/types';
 import Preview from './rounds/Preview/Preview';
 import SimpleQuiz from './rounds/SimpleQuiz/SimpleQuiz';
 import GameOver from './rounds/GameOver/GameOver';
+import InputCorrectAnswer from './rounds/InputCorrectAnswer/InputCorrectAnswer';
 
 const renderRoundComponent = (currentRound: Round) => {
     switch (currentRound.type) {
@@ -11,6 +12,8 @@ const renderRoundComponent = (currentRound: Round) => {
             return <Preview {...currentRound} />;
         case RoundType.SIMPLE_QUIZ:
             return <SimpleQuiz {...currentRound} />;
+        case RoundType.INPUT_CORRECT_ANSWER:
+            return <InputCorrectAnswer {...currentRound} />;
         default:
             return null;
     }
