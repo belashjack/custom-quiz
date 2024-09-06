@@ -6,7 +6,7 @@
     "browserslist": "> 0.5%, last 2 versions, not dead",
     "scripts": {
         "start": "parcel --open --no-cache",
-        "build": "parcel build",
+        "build": "parcel build --public-url ./",
         "analyze-build": "parcel build --reporter @parcel/reporter-bundle-analyzer",
         "lint": "npm-run-all --parallel check-types eslint",
         "lint-fix": "npm-run-all --parallel check-types eslint-fix",
