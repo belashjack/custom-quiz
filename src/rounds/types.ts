@@ -14,8 +14,13 @@ interface BaseOption {
     explanation: Explanation;
 }
 
+export interface Description {
+    text: React.ReactNode;
+    asset?: React.ReactNode;
+}
+
 export interface BaseRoundContent {
-    description: React.ReactNode;
+    description: Description;
 }
 
 export interface SimpleQuizRoundContent extends BaseRoundContent {
@@ -24,7 +29,7 @@ export interface SimpleQuizRoundContent extends BaseRoundContent {
 }
 
 export interface InputCorrectAnswerRoundContent extends BaseRoundContent {
-    correctAnswer: string;
+    correctAnswers: string[];
     correctExplanation: Explanation;
     incorrectExplanation: Explanation;
 }

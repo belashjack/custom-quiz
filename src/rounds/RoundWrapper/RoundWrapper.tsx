@@ -1,14 +1,14 @@
 import { FC, PropsWithChildren, useContext } from 'react';
-import { AppContext } from '../AppContext';
-import './rounds.scss';
-import { BaseRoundContent } from './types';
+import { AppContext } from '../../AppContext';
+import './RoundWrapper.scss';
+import { Description } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLeftLong, faRepeat, faRightLong } from '@fortawesome/free-solid-svg-icons';
-import Button from './components/Button/Button';
-import { INITIAL_LIVES_NUMBER } from '../constants';
+import Button from '../components/Button/Button';
+import { INITIAL_LIVES_NUMBER } from '../../constants';
 
 interface RoundWrapperProps extends PropsWithChildren {
-    description: BaseRoundContent['description'];
+    description: Description;
     canHavePreviousRoundButton?: boolean;
     canHaveResetRoundButton?: boolean;
     canHaveNextRoundButton?: boolean;
@@ -32,6 +32,11 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
 
     const showFooter = showPreviousRoundButton || showResetRoundButton || showNextRoundButton;
 
+    const handleResetRound = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        resetRound?.();
+    };
+
     return (
         <div className="round">
             {!isEasyMode && (
@@ -49,7 +54,10 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                 </header>
             )}
             <div className="round-content">
-                <div className="round-description">{description}</div>
+                <div className="round-description">
+                    <div className="round-description-text">{description.text}</div>
+                    {Boolean(description.asset) && <div className="round-description-asset">{description.asset}</div>}
+                </div>
                 {children}
             </div>
             {showFooter && (
@@ -63,13 +71,7 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                     </div>
                     <div>
                         {showResetRoundButton && (
-                            <Button
-                                icon={<FontAwesomeIcon icon={faRepeat} />}
-                                onClick={() => {
-                                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                                    resetRound?.();
-                                }}
-                            >
+                            <Button icon={<FontAwesomeIcon icon={faRepeat} />} onClick={handleResetRound}>
                                 Попробуй еще раз
                             </Button>
                         )}
@@ -79,7 +81,10 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                             <Button
                                 icon={<FontAwesomeIcon icon={faRightLong} />}
                                 iconPosition="right"
-                                onClick={goToNextRound}
+                                onClick={() => {
+                                    handleResetRound();
+                                    goToNextRound();
+                                }}
                             >
                                 Дальше
                             </Button>

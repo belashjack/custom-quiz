@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import RoundWrapper from '../RoundWrapper';
+import RoundWrapper from '../RoundWrapper/RoundWrapper';
 import { PreviewRound } from '../types';
 
 const Preview: FC<PreviewRound> = (props) => {

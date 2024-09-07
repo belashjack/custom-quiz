@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react';
-import RoundWrapper from '../RoundWrapper';
+import RoundWrapper from '../RoundWrapper/RoundWrapper';
 import { SimpleQuizRound } from '../types';
 import './SimpleQuiz.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';

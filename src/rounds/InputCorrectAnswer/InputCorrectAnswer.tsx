@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react';
-import RoundWrapper from '../RoundWrapper';
+import RoundWrapper from '../RoundWrapper/RoundWrapper';
 import { InputCorrectAnswerRound } from '../types';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AppContext } from '../../AppContext';
@@ -14,7 +14,7 @@ interface InputCorrectAnswerFormFields {
 
 const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     const {
-        content: { description, correctAnswer, correctExplanation, incorrectExplanation },
+        content: { description, correctAnswers, correctExplanation, incorrectExplanation },
     } = props;
     const { killLife, isEasyMode } = useContext(AppContext);
     const {
@@ -26,7 +26,9 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     const [answer, setAnswer] = useState<string | null>(null);
 
     const answerExists = answer !== null;
-    const isLose = answerExists && answer.toLocaleLowerCase() !== correctAnswer.toLocaleLowerCase();
+    const isLose =
+        answerExists &&
+        !correctAnswers.map((correctAnswer) => correctAnswer.toLocaleLowerCase()).includes(answer.toLocaleLowerCase());
 
     useEffect(() => {
         if (!isEasyMode && isLose) {
@@ -46,7 +48,9 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     };
 
     const isFormDisabled = answerExists;
-    const isWin = answerExists && answer.toLocaleLowerCase() === correctAnswer.toLocaleLowerCase();
+    const isWin =
+        answerExists &&
+        correctAnswers.map((correctAnswer) => correctAnswer.toLocaleLowerCase()).includes(answer.toLocaleLowerCase());
 
     return (
         <RoundWrapper
