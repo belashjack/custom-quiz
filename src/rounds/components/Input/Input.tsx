@@ -16,13 +16,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(props, ref
         <label className="input-label">
             <input
                 ref={ref}
+                {...rest}
                 className={clsx('input', {
                     'input--error': hasError,
                     'input--correct': isCorrect,
                     'input--incorrect': isIncorrect,
                 })}
                 type="text"
-                {...rest}
             />
         </label>
     );

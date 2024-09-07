@@ -1,12 +1,12 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC } from 'react';
 import RoundWrapper from '../RoundWrapper/RoundWrapper';
 import { InputCorrectAnswerRound } from '../types';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { AppContext } from '../../AppContext';
 import './InputCorrectAnswer.scss';
 import Explanation from '../components/Explanation/Explanation';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
+import useAnswer from '../hooks/useAnswer';
 
 interface InputCorrectAnswerFormFields {
     answer: string;
@@ -16,41 +16,31 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     const {
         content: { description, correctAnswers, correctExplanation, incorrectExplanation },
     } = props;
-    const { killLife, isEasyMode } = useContext(AppContext);
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
     } = useForm<InputCorrectAnswerFormFields>();
-    const [answer, setAnswer] = useState<string | null>(null);
 
-    const answerExists = answer !== null;
-    const isLose =
-        answerExists &&
-        !correctAnswers.map((correctAnswer) => correctAnswer.toLocaleLowerCase()).includes(answer.toLocaleLowerCase());
+    const winDetector = (answer: string) => {
+        return correctAnswers
+            .map((correctAnswer) => correctAnswer.toLocaleLowerCase())
+            .includes(answer.toLocaleLowerCase());
+    };
 
-    useEffect(() => {
-        if (!isEasyMode && isLose) {
-            killLife();
-        }
-    }, [answer]);
+    const { answerExists, giveAnswer, isWin, isLose } = useAnswer<string>(winDetector);
 
     const handleResetRound = () => {
-        setAnswer(null);
+        giveAnswer(null);
         reset();
     };
 
-    const onSubmit: SubmitHandler<InputCorrectAnswerFormFields> = (data) => {
-        const { answer } = data;
-
-        setAnswer(answer);
+    const onSubmit: SubmitHandler<InputCorrectAnswerFormFields> = ({ answer }) => {
+        giveAnswer(answer);
     };
 
     const isFormDisabled = answerExists;
-    const isWin =
-        answerExists &&
-        correctAnswers.map((correctAnswer) => correctAnswer.toLocaleLowerCase()).includes(answer.toLocaleLowerCase());
 
     return (
         <RoundWrapper

@@ -4,12 +4,14 @@ export enum RoundType {
     INPUT_CORRECT_ANSWER = 'INPUT_CORRECT_ANSWER',
 }
 
+export type Answer = number | string | null;
+
 export interface Explanation {
     text: string;
     asset: React.ReactNode;
 }
 
-interface BaseOption {
+export interface Option {
     text: string;
     explanation: Explanation;
 }
@@ -24,7 +26,7 @@ export interface BaseRoundContent {
 }
 
 export interface SimpleQuizRoundContent extends BaseRoundContent {
-    options: BaseOption[];
+    options: Option[];
     correctOptionIndex: number;
 }
 

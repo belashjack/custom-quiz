@@ -1,0 +1,115 @@
+@use '../../variables.scss' as *;
+
+@mixin blink-animation($start-color, $unique-name) {
+    $keyframes-name: blink-bg-color-#{$unique-name};
+
+    animation: #{$keyframes-name} 0.5s ease-in-out;
+
+    @keyframes #{$keyframes-name} {
+        0%,
+        50%,
+        100% {
+            background-color: $start-color;
+        }
+        25%,
+        75% {
+            background-color: #ffffff;
+        }
+    }
+}
+
+.option {
+    background-color: #ffffff;
+
+    label {
+        display: block;
+        position: relative;
+        padding: 1.5rem;
+        border: 2px solid $neutral-color;
+        border-radius: 4px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        box-shadow: 4px -4px 12px #00000014;
+
+        &:not(:has(input:disabled)) {
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                border-color: darken($neutral-color, $amount: 10%);
+                background-color: lighten($color: $neutral-color, $amount: 45%);
+            }
+
+            &:focus-within {
+                border-color: darken($neutral-color, $amount: 10%);
+                background-color: lighten($color: $neutral-color, $amount: 45%);
+            }
+
+            &:active {
+                border-color: darken($neutral-color, $amount: 20%);
+                background-color: lighten($color: $neutral-color, $amount: 40%);
+            }
+        }
+
+        &:has(+ .explanation) {
+            margin-bottom: 0.5rem;
+        }
+
+        input {
+            position: absolute;
+            width: 0;
+            height: 0;
+            opacity: 0;
+        }
+
+        svg {
+            position: absolute;
+            top: -0.9375rem;
+            right: -0.9375rem;
+            background-color: #ffffff;
+            border-radius: 50%;
+        }
+    }
+
+    &--correct {
+        $border-color: $positive-color;
+        $bg-color: lighten(
+            $color: $positive-color,
+            $amount: 40%,
+        );
+
+        label {
+            background-color: $bg-color;
+            border-color: $border-color;
+            @include blink-animation($bg-color, 'correct');
+
+            svg {
+                color: $positive-color;
+            }
+        }
+    }
+
+    &--incorrect {
+        $border-color: $negative-color;
+        $bg-color: lighten(
+            $color: $negative-color,
+            $amount: 40%,
+        );
+
+        label {
+            background-color: $bg-color;
+            border-color: $border-color;
+            @include blink-animation($bg-color, 'incorrect');
+
+            svg {
+                color: $negative-color;
+            }
+        }
+    }
+
+    &--not-answered {
+        label {
+            opacity: 0.5;
+        }
+    }
+}
