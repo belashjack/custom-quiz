@@ -19,97 +19,82 @@
 }
 
 .option {
+    position: relative;
+    padding: 1.5rem;
+    border: 2px solid $neutral-color;
+    border-radius: 4px;
+    font-size: 1.25rem;
+    font-weight: bold;
     background-color: #ffffff;
+    box-shadow: 4px -4px 12px #00000014;
 
-    label {
-        display: block;
-        position: relative;
-        padding: 1.5rem;
-        border: 2px solid $neutral-color;
-        border-radius: 4px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        box-shadow: 4px -4px 12px #00000014;
+    &:not(:has(input:disabled)) {
+        cursor: pointer;
+        transition: all 0.3s ease;
 
-        &:not(:has(input:disabled)) {
-            cursor: pointer;
-            transition: all 0.3s ease;
-
-            &:hover {
-                border-color: darken($neutral-color, $amount: 10%);
-                background-color: lighten($color: $neutral-color, $amount: 45%);
-            }
-
-            &:focus-within {
-                border-color: darken($neutral-color, $amount: 10%);
-                background-color: lighten($color: $neutral-color, $amount: 45%);
-            }
-
-            &:active {
-                border-color: darken($neutral-color, $amount: 20%);
-                background-color: lighten($color: $neutral-color, $amount: 40%);
-            }
+        &:hover {
+            transform: scale(1.005);
         }
 
-        &:has(+ .explanation) {
-            margin-bottom: 0.5rem;
-        }
-
-        input {
-            position: absolute;
-            width: 0;
-            height: 0;
-            opacity: 0;
-        }
-
-        svg {
-            position: absolute;
-            top: -0.9375rem;
-            right: -0.9375rem;
-            background-color: #ffffff;
-            border-radius: 50%;
+        &:active {
+            border-color: darken($neutral-color, $amount: 20%);
+            background-color: lighten($color: $neutral-color, $amount: 40%);
         }
     }
 
+    input {
+        position: absolute;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    svg {
+        position: absolute;
+        top: -0.75rem;
+        right: -0.75rem;
+        border-radius: 50%;
+        background-color: #ffffff;
+    }
+
+    &--selected {
+        border-color: darken($neutral-color, $amount: 10%);
+        background-color: lighten($color: $neutral-color, $amount: 45%);
+    }
+
+    &--not-selected {
+        border-color: $disabled-color;
+        background-color: lighten($color: $disabled-color, $amount: 12%);
+        color: darken($disabled-color, $amount: 10%);
+    }
+
     &--correct {
-        $border-color: $positive-color;
         $bg-color: lighten(
             $color: $positive-color,
             $amount: 40%,
         );
 
-        label {
-            background-color: $bg-color;
-            border-color: $border-color;
-            @include blink-animation($bg-color, 'correct');
+        border-color: $positive-color;
+        background-color: $bg-color;
+        @include blink-animation($bg-color, 'correct');
 
-            svg {
-                color: $positive-color;
-            }
+        svg {
+            color: $positive-color;
         }
     }
 
     &--incorrect {
-        $border-color: $negative-color;
         $bg-color: lighten(
             $color: $negative-color,
             $amount: 40%,
         );
 
-        label {
-            background-color: $bg-color;
-            border-color: $border-color;
-            @include blink-animation($bg-color, 'incorrect');
+        border-color: $negative-color;
+        background-color: $bg-color;
+        @include blink-animation($bg-color, 'incorrect');
 
-            svg {
-                color: $negative-color;
-            }
-        }
-    }
-
-    &--not-answered {
-        label {
-            opacity: 0.5;
+        svg {
+            color: $negative-color;
         }
     }
 }

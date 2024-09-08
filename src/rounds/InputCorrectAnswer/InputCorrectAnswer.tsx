@@ -14,7 +14,7 @@ interface InputCorrectAnswerFormFields {
 
 const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     const {
-        content: { description, correctAnswers, correctExplanation, incorrectExplanation },
+        content: { description, correctAnswer, winExplanation, loseExplanation },
     } = props;
     const {
         register,
@@ -24,20 +24,20 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     } = useForm<InputCorrectAnswerFormFields>();
 
     const winDetector = (answer: string) => {
-        return correctAnswers
+        return correctAnswer
             .map((correctAnswer) => correctAnswer.toLocaleLowerCase())
             .includes(answer.toLocaleLowerCase());
     };
 
-    const { answerExists, giveAnswer, isWin, isLose } = useAnswer<string>(winDetector);
+    const { answerExists, setAnswer, isWin, isLose } = useAnswer<string>(winDetector);
 
     const handleResetRound = () => {
-        giveAnswer(null);
+        setAnswer(null);
         reset();
     };
 
     const onSubmit: SubmitHandler<InputCorrectAnswerFormFields> = ({ answer }) => {
-        giveAnswer(answer);
+        setAnswer(answer);
     };
 
     const isFormDisabled = answerExists;
@@ -68,8 +68,8 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
                         Ответить
                     </Button>
                 )}
-                {isWin && <Explanation isCorrect {...correctExplanation} />}
-                {isLose && <Explanation isIncorrect {...incorrectExplanation} />}
+                {isWin && <Explanation isCorrect {...winExplanation} />}
+                {isLose && <Explanation isIncorrect {...loseExplanation} />}
             </form>
         </RoundWrapper>
     );

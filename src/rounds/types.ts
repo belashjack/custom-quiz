@@ -4,36 +4,53 @@ export enum RoundType {
     INPUT_CORRECT_ANSWER = 'INPUT_CORRECT_ANSWER',
 }
 
-export type Answer = number | string | null;
+export type Answer = string | number[] | null;
+export type Progress = Record<number, Answer>;
 
 export interface Explanation {
     text: string;
     asset: React.ReactNode;
 }
 
-export interface Option {
+export interface SingleOption {
     text: string;
     explanation: Explanation;
 }
+
+export interface MultipleOption {
+    text: string;
+}
+
+export type Option = SingleOption | MultipleOption;
 
 export interface Description {
     text: React.ReactNode;
     asset?: React.ReactNode;
 }
 
-export interface BaseRoundContent {
+interface BaseRoundContent {
     description: Description;
 }
 
-export interface SimpleQuizRoundContent extends BaseRoundContent {
-    options: Option[];
-    correctOptionIndex: number;
+interface SimpleQuizRoundSingleContent extends BaseRoundContent {
+    isSingleChoice: true;
+    options: SingleOption[];
+    correctOptionIndexes: [number];
 }
 
-export interface InputCorrectAnswerRoundContent extends BaseRoundContent {
-    correctAnswers: string[];
-    correctExplanation: Explanation;
-    incorrectExplanation: Explanation;
+interface SimpleQuizRoundMultipleContent extends BaseRoundContent {
+    options: MultipleOption[];
+    winExplanation: Explanation;
+    loseExplanation: Explanation;
+    correctOptionIndexes: number[];
+}
+
+export type SimpleQuizRoundContent = SimpleQuizRoundSingleContent | SimpleQuizRoundMultipleContent;
+
+interface InputCorrectAnswerRoundContent extends BaseRoundContent {
+    correctAnswer: string[];
+    winExplanation: Explanation;
+    loseExplanation: Explanation;
 }
 
 interface BaseRound {

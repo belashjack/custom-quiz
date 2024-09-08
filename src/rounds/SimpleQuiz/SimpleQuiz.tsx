@@ -1,37 +1,122 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import RoundWrapper from '../RoundWrapper/RoundWrapper';
-import { SimpleQuizRound } from '../types';
+import { MultipleOption, SimpleQuizRound, SingleOption } from '../types';
 import './SimpleQuiz.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import useAnswer from '../hooks/useAnswer';
 import Option from './Option/Option';
+import { doArraysContainSameValues } from '../utils';
+import Button from '../components/Button/Button';
+import Explanation from '../components/Explanation/Explanation';
 
 interface SimpleQuizFormFields {
     option: string[];
 }
 
 const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
+    const { content } = props;
+    const { description, correctOptionIndexes } = content;
     const {
-        content: { description, correctOptionIndex, options },
-    } = props;
-    const { register, handleSubmit, reset } = useForm<SimpleQuizFormFields>();
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+        watch,
+    } = useForm<SimpleQuizFormFields>({
+        defaultValues: {
+            option: [],
+        },
+    });
 
-    const winDetector = (answer: number) => {
-        return answer === correctOptionIndex;
+    if (correctOptionIndexes.length === 0) {
+        throw new Error('SimpleQuiz round must have at least one correct option');
+    }
+    const winDetector = (answer: number[]) => {
+        return doArraysContainSameValues(correctOptionIndexes, answer);
     };
 
-    const { answer, answerExists, giveAnswer, isWin, isLose } = useAnswer<number>(winDetector);
+    const { answerExists, setAnswer, isWin, isLose } = useAnswer<number[]>(winDetector);
 
-    const onSubmit: SubmitHandler<SimpleQuizFormFields> = ({ option }) => {
-        giveAnswer(Number(option));
+    const isSingleChoice = 'isSingleChoice' in content;
+
+    const watchedOptionValue = watch('option');
+
+    const valueExists = watchedOptionValue.length > 0;
+
+    useEffect(() => {
+        if (isSingleChoice && valueExists) {
+            setAnswer(watchedOptionValue.map((value) => Number(value)));
+        }
+    }, [watchedOptionValue]);
+
+    const onSubmit: SubmitHandler<SimpleQuizFormFields> = () => {
+        setAnswer(watchedOptionValue.map((value) => Number(value)));
     };
 
     const handleResetRound = () => {
-        giveAnswer(null);
+        setAnswer(null);
         reset();
     };
 
-    const isFormDisabled = answerExists;
+    const singleChoiceOptionsRenderer = (options: SingleOption[]) => {
+        return (
+            <div className="options">
+                {options.map((option, index) => {
+                    const isSelected = valueExists && index === Number(watchedOptionValue[0]);
+                    const isNotSelected = answerExists && !isSelected;
+                    const isCorrect = isWin && correctOptionIndexes.includes(index);
+                    const isIncorrect = isLose && isSelected;
+
+                    return (
+                        <>
+                            <Option
+                                // eslint-disable-next-line react/no-array-index-key
+                                key={index}
+                                {...register('option')}
+                                option={option}
+                                value={index}
+                                isNotSelected={isNotSelected}
+                                isCorrect={isCorrect}
+                                isIncorrect={isIncorrect}
+                                disabled={valueExists}
+                            />
+                            {(isCorrect || isIncorrect) && (
+                                <Explanation isCorrect={isCorrect} isIncorrect={isIncorrect} {...option.explanation} />
+                            )}
+                        </>
+                    );
+                })}
+            </div>
+        );
+    };
+
+    const multipleChoiceOptionsRenderer = (options: MultipleOption[]) => {
+        return (
+            <div className="options">
+                {options.map((option, index) => {
+                    const isSelected = valueExists && watchedOptionValue.map((value) => Number(value)).includes(index);
+                    const isNotSelected = answerExists && !isSelected;
+                    const isCorrect = isWin && correctOptionIndexes.includes(index);
+
+                    return (
+                        <Option
+                            // eslint-disable-next-line react/no-array-index-key
+                            key={index}
+                            {...register('option', {
+                                validate: (value) => value.length > 0,
+                            })}
+                            option={option}
+                            value={index}
+                            isCorrect={isCorrect}
+                            isSelected={isSelected}
+                            isNotSelected={isNotSelected}
+                            disabled={answerExists}
+                        />
+                    );
+                })}
+            </div>
+        );
+    };
 
     return (
         <RoundWrapper
@@ -40,33 +125,21 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
             canHaveNextRoundButton={isWin}
             resetRound={handleResetRound}
         >
-            <form
-                className="simple-quiz-form"
-                onChange={(e) => {
-                    void handleSubmit(onSubmit)(e);
-                }}
-            >
-                {options.map((option, index) => {
-                    const isAnsweredOption = index === answer;
-                    const isCorrect = isAnsweredOption && index === correctOptionIndex;
-                    const isIncorrect = isAnsweredOption && index !== correctOptionIndex;
-                    const isNotAnswered = answerExists && !isAnsweredOption;
-
-                    return (
-                        <Option
-                            // eslint-disable-next-line react/no-array-index-key
-                            key={index}
-                            {...register('option')}
-                            option={option}
-                            value={index}
-                            isCorrect={isCorrect}
-                            isIncorrect={isIncorrect}
-                            isNotAnswered={isNotAnswered}
-                            disabled={isFormDisabled}
-                        />
-                    );
-                })}
-            </form>
+            {isSingleChoice && <form className="simple-quiz-form">{singleChoiceOptionsRenderer(content.options)}</form>}
+            {!isSingleChoice && (
+                <form
+                    className="simple-quiz-form simple-quiz-form--multiple"
+                    onSubmit={(e) => {
+                        void handleSubmit(onSubmit)(e);
+                    }}
+                >
+                    {multipleChoiceOptionsRenderer(content.options)}
+                    {isWin && <Explanation isCorrect {...content.winExplanation} />}
+                    {isLose && <Explanation isIncorrect {...content.loseExplanation} />}
+                    {errors.option && <p className="error-message">Выбери хотя бы один вариант</p>}
+                    {!answerExists && <Button isSubmitButton>Ответить</Button>}
+                </form>
+            )}
         </RoundWrapper>
     );
 };

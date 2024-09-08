@@ -1,5 +1,31 @@
+@use '../variables.scss' as *;
+
 .simple-quiz-form {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    .options {
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 1rem;
+    }
+
+    &--multiple {
+        .explanation {
+            margin-top: 1rem;
+        }
+
+        .error-message {
+            margin-top: 2rem;
+            align-self: center;
+            color: $negative-color;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .button {
+            margin-top: 2rem;
+            align-self: center;
+        }
+    }
 }

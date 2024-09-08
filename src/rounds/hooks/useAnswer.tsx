@@ -17,7 +17,7 @@ const useAnswer = <T extends Answer>(winDetector: (answer: T) => boolean) => {
         }
     }, [answer]);
 
-    return { answer, answerExists, giveAnswer: setAnswer, isWin, isLose };
+    return { answer, answerExists, setAnswer, isWin, isLose };
 };
 
 export default useAnswer;

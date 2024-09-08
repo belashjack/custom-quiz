@@ -6,6 +6,7 @@ export const roundsConfig: Round[] = [
     {
         type: RoundType.SIMPLE_QUIZ,
         content: {
+            isSingleChoice: true,
             description: {
                 text: <p>Вкусный?</p>,
                 asset: <img src={new URL('./assets/2024-09-07 14.08.27.jpg', import.meta.url).href} />,
@@ -26,7 +27,7 @@ export const roundsConfig: Round[] = [
                     },
                 },
             ],
-            correctOptionIndex: 0,
+            correctOptionIndexes: [0],
         },
     },
     {
@@ -36,12 +37,9 @@ export const roundsConfig: Round[] = [
                 text: <p>В каком городе я сделал это фото? Да да, я хочу узнать место</p>,
                 asset: <img src={new URL('./assets/2024-09-07 14.12.32.jpg', import.meta.url).href} />,
             },
-            correctAnswers: ['Дубай', 'Dubai'],
-            correctExplanation: {
-                text: 'Верно! Это Дубай! 🎉',
-                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
-            },
-            incorrectExplanation: {
+            correctAnswer: ['Дубай', 'Dubai'],
+            winExplanation: { text: 'Верно! Это Дубай! 🎉', asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS) },
+            loseExplanation: {
                 text: 'Нет, ну ведь на фотке же известное место! 🤦‍♂️',
                 asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
             },
@@ -50,15 +48,13 @@ export const roundsConfig: Round[] = [
     {
         type: RoundType.INPUT_CORRECT_ANSWER,
         content: {
-            description: {
-                text: <p>Введи правильный ответ на вопрос: сколько мне лет?</p>,
-            },
-            correctAnswers: ['29'],
-            correctExplanation: {
+            description: { text: <p>Введи правильный ответ на вопрос: сколько мне лет?</p> },
+            correctAnswer: ['29'],
+            winExplanation: {
                 text: 'К счастью, ты хоть это знаешь! 🎉',
                 asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
             },
-            incorrectExplanation: {
+            loseExplanation: {
                 text: 'Капец, даже не знаешь сколько мне лет! 😱',
                 asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
             },
@@ -76,36 +72,20 @@ export const roundsConfig: Round[] = [
                 ),
             },
             options: [
-                {
-                    text: 'Знать тебя не хочу',
-                    explanation: {
-                        text: 'Нет, это не правильный ответ 🙃',
-                        asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
-                    },
-                },
-                {
-                    text: 'Я католик',
-                    explanation: {
-                        text: 'Нет, это не правильный ответ 🙃',
-                        asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
-                    },
-                },
-                {
-                    text: 'Спасибо за веру в меня',
-                    explanation: {
-                        text: 'Да, это правильный ответ',
-                        asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
-                    },
-                },
-                {
-                    text: 'Ясно понятно',
-                    explanation: {
-                        text: 'Нет, это не правильный ответ 🙃',
-                        asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
-                    },
-                },
+                { text: 'Знать тебя не хочу' },
+                { text: 'Я католик' },
+                { text: 'Спасибо за веру в меня' },
+                { text: 'Ясно понятно' },
             ],
-            correctOptionIndex: 2,
+            winExplanation: {
+                text: 'К счастью, ты хоть это знаешь! 🎉',
+                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+            },
+            loseExplanation: {
+                text: 'Капец, даже не знаешь сколько мне лет! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+            correctOptionIndexes: [2, 3],
         },
     },
     {
@@ -157,9 +137,7 @@ export const roundsConfig: Round[] = [
     {
         type: RoundType.PREVIEW,
         content: {
-            description: {
-                text: <p>Спасибо за игру!</p>,
-            },
+            description: { text: <p>Спасибо за игру!</p> },
         },
     },
 ];
