@@ -8,6 +8,7 @@ import Option from './Option/Option';
 import { doArraysContainSameValues } from '../utils';
 import Button from '../components/Button/Button';
 import Explanation from '../components/Explanation/Explanation';
+import clsx from 'clsx';
 
 interface SimpleQuizFormFields {
     option: string[];
@@ -59,8 +60,10 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
     };
 
     const singleChoiceOptionsRenderer = (options: SingleOption[]) => {
+        const atLeastOneOptionHasAsset = options.some((option) => 'asset' in option);
+
         return (
-            <div className="options">
+            <div className={clsx('options', { 'options--with-asset': atLeastOneOptionHasAsset })}>
                 {options.map((option, index) => {
                     const isSelected = valueExists && index === Number(watchedOptionValue[0]);
                     const isNotSelected = answerExists && !isSelected;
@@ -91,8 +94,10 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
     };
 
     const multipleChoiceOptionsRenderer = (options: MultipleOption[]) => {
+        const atLeastOneOptionHasAsset = options.some((option) => 'asset' in option);
+
         return (
-            <div className="options">
+            <div className={clsx('options', { 'options--with-asset': atLeastOneOptionHasAsset })}>
                 {options.map((option, index) => {
                     const isSelected = valueExists && watchedOptionValue.map((value) => Number(value)).includes(index);
                     const isNotSelected = answerExists && !isSelected;

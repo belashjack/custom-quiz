@@ -13,12 +13,14 @@ export interface Explanation {
 }
 
 export interface SingleOption {
-    text: string;
+    asset?: React.ReactNode;
+    text?: string;
     explanation: Explanation;
 }
 
 export interface MultipleOption {
-    text: string;
+    asset?: React.ReactNode;
+    text?: string;
 }
 
 export type Option = SingleOption | MultipleOption;

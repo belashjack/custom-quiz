@@ -19,7 +19,7 @@
         border-color: $negative-color;
     }
 
-    .asset {
+    .explanation-asset {
         width: 12rem;
         height: 12rem;
         margin-bottom: 1.5rem;
@@ -28,6 +28,11 @@
         video {
             width: 100%;
             height: 100%;
+            object-fit: contain;
         }
+    }
+
+    .explanation-text {
+        text-align: center;
     }
 }

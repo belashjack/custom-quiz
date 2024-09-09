@@ -3,6 +3,7 @@ import { Round, RoundType } from './types';
 import { getRandomFromArray } from './utils';
 
 export const roundsConfig: Round[] = [
+    // single choice, without asset
     {
         type: RoundType.SIMPLE_QUIZ,
         content: {
@@ -28,6 +29,114 @@ export const roundsConfig: Round[] = [
                 },
             ],
             correctOptionIndexes: [0],
+        },
+    },
+    // single choice, with asset
+    {
+        type: RoundType.SIMPLE_QUIZ,
+        content: {
+            isSingleChoice: true,
+            description: {
+                text: <p>Вкусный?</p>,
+                asset: <img src={new URL('./assets/2024-09-07 14.08.27.jpg', import.meta.url).href} />,
+            },
+            options: [
+                {
+                    explanation: {
+                        text: 'Ага, вкуснятина, спасибо за совет 😋',
+                        asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+                    },
+                    asset: <img src={new URL('./assets/2024-09-07 14.08.27.jpg', import.meta.url).href} />,
+                },
+                {
+                    text: 'Нет',
+                    explanation: {
+                        text: 'Да нет же, вкусный был, не ври 😏',
+                        asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+                    },
+                    asset: <img src={new URL('./assets/correctAnswers/image3.webp', import.meta.url).href} />,
+                },
+                {
+                    text: 'Нет же, как можно вообще подумать что он может быть вкусный, не понимаю',
+                    explanation: {
+                        text: 'Да нет же, вкусный был, не ври 😏 Да нет же, вкусный был, не ври Да нет же, вкусный был, не ври Да нет же, вкусный был, не ври',
+                        asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+                    },
+                },
+                {
+                    text: 'Нет же 2',
+                    explanation: {
+                        text: 'Да нет же, вкусный был, не ври 😏',
+                        asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+                    },
+                    asset: <img src={new URL('./assets/correctAnswers/image3.webp', import.meta.url).href} />,
+                },
+            ],
+            correctOptionIndexes: [0],
+        },
+    },
+    // multiple choice, without asset
+    {
+        type: RoundType.SIMPLE_QUIZ,
+        content: {
+            description: {
+                text: (
+                    <p>
+                        Ты знаешь мою первую фразу при нашем знакомстве. &ldquo;Интересная&rdquo;. А какой был твой
+                        ответ?
+                    </p>
+                ),
+            },
+            options: [
+                { text: 'Знать тебя не хочу' },
+                { text: 'Я католик' },
+                { text: 'Спасибо за веру в меня' },
+                { text: 'Ясно понятно' },
+            ],
+            winExplanation: {
+                text: 'К счастью, ты хоть это знаешь! 🎉',
+                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+            },
+            loseExplanation: {
+                text: 'Капец, даже не знаешь сколько мне лет! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+            correctOptionIndexes: [2, 3],
+        },
+    },
+    // multiple choice, with asset
+    {
+        type: RoundType.SIMPLE_QUIZ,
+        content: {
+            description: {
+                text: (
+                    <p>
+                        Ты знаешь мою первую фразу при нашем знакомстве. &ldquo;Интересная&rdquo;. А какой был твой
+                        ответ?
+                    </p>
+                ),
+            },
+            options: [
+                {
+                    text: 'Знать тебя не хочу',
+                    asset: <img src={new URL('./assets/2024-09-07 14.12.32.jpg', import.meta.url).href} />,
+                },
+                { text: 'Я католик' },
+                { text: 'Спасибо за веру в меня' },
+                {
+                    text: 'Ясно понятно',
+                    asset: <img src={new URL('./assets/2024-09-07 14.08.27.jpg', import.meta.url).href} />,
+                },
+            ],
+            winExplanation: {
+                text: 'К счастью, ты хоть это знаешь! 🎉',
+                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+            },
+            loseExplanation: {
+                text: 'Капец, даже не знаешь сколько мне лет! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+            correctOptionIndexes: [2, 3],
         },
     },
     {
@@ -58,34 +167,6 @@ export const roundsConfig: Round[] = [
                 text: 'Капец, даже не знаешь сколько мне лет! 😱',
                 asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
             },
-        },
-    },
-    {
-        type: RoundType.SIMPLE_QUIZ,
-        content: {
-            description: {
-                text: (
-                    <p>
-                        Ты знаешь мою первую фразу при нашем знакомстве. &ldquo;Интересная&rdquo;. А какой был твой
-                        ответ?
-                    </p>
-                ),
-            },
-            options: [
-                { text: 'Знать тебя не хочу' },
-                { text: 'Я католик' },
-                { text: 'Спасибо за веру в меня' },
-                { text: 'Ясно понятно' },
-            ],
-            winExplanation: {
-                text: 'К счастью, ты хоть это знаешь! 🎉',
-                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
-            },
-            loseExplanation: {
-                text: 'Капец, даже не знаешь сколько мне лет! 😱',
-                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
-            },
-            correctOptionIndexes: [2, 3],
         },
     },
     {

@@ -18,6 +18,7 @@ interface OptionProps extends React.InputHTMLAttributes<HTMLInputElement> {
 // eslint-disable-next-line prefer-arrow-callback
 const Option = forwardRef<HTMLInputElement, OptionProps>(function Option(props, ref) {
     const { option, value, isSelected, isNotSelected, isCorrect, isIncorrect = false, disabled, ...rest } = props;
+    const { text, asset } = option;
 
     const optionClasses = clsx('option', {
         'option--selected': isSelected,
@@ -29,7 +30,8 @@ const Option = forwardRef<HTMLInputElement, OptionProps>(function Option(props, 
     return (
         <label className={optionClasses}>
             <input ref={ref} {...rest} type="checkbox" value={value} disabled={disabled} />
-            {option.text}
+            {Boolean(asset) && <div className="option-asset">{asset}</div>}
+            {Boolean(text) && <span className="option-text">{text}</span>}
             {isCorrect && <FontAwesomeIcon icon={faCircleCheck} size="lg" />}
             {isIncorrect && <FontAwesomeIcon icon={faCircleXmark} size="lg" />}
         </label>

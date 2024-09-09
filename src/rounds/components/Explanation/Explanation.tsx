@@ -23,8 +23,8 @@ const Explanation: FC<ExplanationProps> = ({ text, asset, isCorrect, isIncorrect
                 'explanation--incorrect': isIncorrect,
             })}
         >
-            <div className="asset">{asset}</div>
-            {text}
+            <div className="explanation-asset">{asset}</div>
+            <span className="explanation-text">{text}</span>
         </div>
     );
 };
