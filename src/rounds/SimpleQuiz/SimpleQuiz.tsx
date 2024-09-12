@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, Fragment, useEffect } from 'react';
 import RoundWrapper from '../RoundWrapper/RoundWrapper';
 import { MultipleOption, SimpleQuizRound, SingleOption } from '../types';
 import './SimpleQuiz.scss';
@@ -17,6 +17,11 @@ interface SimpleQuizFormFields {
 const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
     const { content } = props;
     const { description, correctOptionIndexes } = content;
+    const winDetector = (answer: number[]) => {
+        return doArraysContainSameValues(correctOptionIndexes, answer);
+    };
+
+    const { answer, answerExists, setAnswer, isWin, isLose } = useAnswer<number[]>(winDetector);
     const {
         register,
         handleSubmit,
@@ -25,18 +30,13 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
         watch,
     } = useForm<SimpleQuizFormFields>({
         defaultValues: {
-            option: [],
+            option: answerExists(answer) ? answer.map((value) => String(value)) : [],
         },
     });
 
     if (correctOptionIndexes.length === 0) {
         throw new Error('SimpleQuiz round must have at least one correct option');
     }
-    const winDetector = (answer: number[]) => {
-        return doArraysContainSameValues(correctOptionIndexes, answer);
-    };
-
-    const { answerExists, setAnswer, isWin, isLose } = useAnswer<number[]>(winDetector);
 
     const isSingleChoice = 'isSingleChoice' in content;
 
@@ -55,7 +55,6 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
     };
 
     const handleResetRound = () => {
-        setAnswer(null);
         reset();
     };
 
@@ -65,28 +64,27 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
         return (
             <div className={clsx('options', { 'options--with-asset': atLeastOneOptionHasAsset })}>
                 {options.map((option, index) => {
-                    const isSelected = valueExists && index === Number(watchedOptionValue[0]);
-                    const isNotSelected = answerExists && !isSelected;
+                    const isSelected = answerExists(answer) && index === answer[0];
+                    const isNotSelected = answerExists(answer) && !isSelected;
                     const isCorrect = isWin && correctOptionIndexes.includes(index);
                     const isIncorrect = isLose && isSelected;
 
                     return (
-                        <>
+                        // eslint-disable-next-line react/no-array-index-key
+                        <Fragment key={index}>
                             <Option
-                                // eslint-disable-next-line react/no-array-index-key
-                                key={index}
                                 {...register('option')}
                                 option={option}
                                 value={index}
                                 isNotSelected={isNotSelected}
                                 isCorrect={isCorrect}
                                 isIncorrect={isIncorrect}
-                                disabled={valueExists}
+                                disabled={answerExists(answer)}
                             />
                             {(isCorrect || isIncorrect) && (
                                 <Explanation isCorrect={isCorrect} isIncorrect={isIncorrect} {...option.explanation} />
                             )}
-                        </>
+                        </Fragment>
                     );
                 })}
             </div>
@@ -100,7 +98,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
             <div className={clsx('options', { 'options--with-asset': atLeastOneOptionHasAsset })}>
                 {options.map((option, index) => {
                     const isSelected = valueExists && watchedOptionValue.map((value) => Number(value)).includes(index);
-                    const isNotSelected = answerExists && !isSelected;
+                    const isNotSelected = answerExists(answer) && !isSelected;
                     const isCorrect = isWin && correctOptionIndexes.includes(index);
 
                     return (
@@ -115,7 +113,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
                             isCorrect={isCorrect}
                             isSelected={isSelected}
                             isNotSelected={isNotSelected}
-                            disabled={answerExists}
+                            disabled={answerExists(answer)}
                         />
                     );
                 })}
@@ -142,7 +140,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
                     {isWin && <Explanation isCorrect {...content.winExplanation} />}
                     {isLose && <Explanation isIncorrect {...content.loseExplanation} />}
                     {errors.option && <p className="error-message">Выбери хотя бы один вариант</p>}
-                    {!answerExists && <Button isSubmitButton>Ответить</Button>}
+                    {!answerExists(answer) && <Button isSubmitButton>Ответить</Button>}
                 </form>
             )}
         </RoundWrapper>

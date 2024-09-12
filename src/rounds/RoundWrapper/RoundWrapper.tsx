@@ -23,8 +23,14 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
     canHaveNextRoundButton = false,
     resetRound,
 }) => {
-    const { rounds, currentRoundIndex, goToPreviousRound, goToNextRound, isEasyMode, livesNumber } =
-        useContext(AppContext);
+    const {
+        rounds,
+        progress: { currentRoundIndex, livesLeft },
+        goToPreviousRound,
+        tryAgain,
+        goToNextRound,
+        isEasyMode,
+    } = useContext(AppContext);
 
     const showPreviousRoundButton = isEasyMode && canHavePreviousRoundButton && currentRoundIndex > 0;
     const showResetRoundButton = canHaveResetRoundButton;
@@ -44,7 +50,7 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                     {Array(INITIAL_LIVES_NUMBER)
                         .fill(null)
                         .map((_, index) => {
-                            if (index < livesNumber) {
+                            if (index < livesLeft) {
                                 return '❤️';
                             }
 
@@ -71,7 +77,13 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                     </div>
                     <div>
                         {showResetRoundButton && (
-                            <Button icon={<FontAwesomeIcon icon={faRepeat} />} onClick={handleResetRound}>
+                            <Button
+                                icon={<FontAwesomeIcon icon={faRepeat} />}
+                                onClick={() => {
+                                    handleResetRound();
+                                    tryAgain();
+                                }}
+                            >
                                 Попробуй еще раз
                             </Button>
                         )}
@@ -82,7 +94,6 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                                 icon={<FontAwesomeIcon icon={faRightLong} />}
                                 iconPosition="right"
                                 onClick={() => {
-                                    handleResetRound();
                                     goToNextRound();
                                 }}
                             >

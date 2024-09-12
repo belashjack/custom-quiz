@@ -6,29 +6,32 @@ import SimpleQuiz from './rounds/SimpleQuiz/SimpleQuiz';
 import GameOver from './rounds/GameOver/GameOver';
 import InputCorrectAnswer from './rounds/InputCorrectAnswer/InputCorrectAnswer';
 
-const renderRoundComponent = (currentRound: Round) => {
+const renderRoundComponent = (currentRound: Round, currentRoundIndex: number) => {
     switch (currentRound.type) {
         case RoundType.PREVIEW:
-            return <Preview {...currentRound} />;
+            return <Preview key={currentRoundIndex} {...currentRound} />;
         case RoundType.SIMPLE_QUIZ:
-            return <SimpleQuiz {...currentRound} />;
+            return <SimpleQuiz key={currentRoundIndex} {...currentRound} />;
         case RoundType.INPUT_CORRECT_ANSWER:
-            return <InputCorrectAnswer {...currentRound} />;
+            return <InputCorrectAnswer key={currentRoundIndex} {...currentRound} />;
         default:
             return null;
     }
 };
 
 const Quiz = () => {
-    const { rounds, currentRoundIndex, livesNumber } = useContext(AppContext);
+    const {
+        rounds,
+        progress: { currentRoundIndex, livesLeft },
+    } = useContext(AppContext);
 
-    if (livesNumber === 0) {
+    if (livesLeft === 0) {
         return <GameOver />;
     }
 
     const currentRound = rounds[currentRoundIndex];
 
-    return renderRoundComponent(currentRound);
+    return renderRoundComponent(currentRound, currentRoundIndex);
 };
 
 export default Quiz;

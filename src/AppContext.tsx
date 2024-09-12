@@ -1,34 +1,45 @@
 import { FC, ReactNode, createContext, useState } from 'react';
-import { Round } from './rounds/types';
+import { Answer, Progress, Round } from './rounds/types';
 import { roundsConfig } from './rounds/roundsConfig';
 import { EASY_MODE_SEARCH_PARAM, INITIAL_LIVES_NUMBER } from './constants';
+import useSessionStorage from './rounds/hooks/useSessionStorage';
 
 interface AppContextProps {
     rounds: Round[];
-    currentRoundIndex: number;
     goToNextRound: () => void;
+    tryAgain: () => void;
     goToPreviousRound: () => void;
     isEasyMode: boolean;
-    livesNumber: number;
     killLife: () => void;
     startAgain: () => void;
+    progress: Progress;
+    saveAnswer: (answer: Answer) => void;
 }
 
 const APP_CONTEXT_DEFAULT_VALUE: AppContextProps = {
     rounds: [],
-    currentRoundIndex: 0,
     goToNextRound: () => {
+        // Do nothing
+    },
+    tryAgain: () => {
         // Do nothing
     },
     goToPreviousRound: () => {
         // Do nothing
     },
     isEasyMode: false,
-    livesNumber: 0,
     killLife: () => {
         // Do nothing
     },
     startAgain: () => {
+        // Do nothing
+    },
+    progress: {
+        currentRoundIndex: 0,
+        livesLeft: 0,
+        answers: { 0: null },
+    },
+    saveAnswer: () => {
         // Do nothing
     },
 };
@@ -42,9 +53,22 @@ interface AppContextProviderProps {
 const AppContextProvider: FC<AppContextProviderProps> = ({ children }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [rounds, setRounds] = useState<Round[]>(roundsConfig);
-    const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
-    const [livesNumber, setLivesNumber] = useState(INITIAL_LIVES_NUMBER);
     const searchParams = new URLSearchParams(window.location.search);
+
+    const progressInitialValue: Progress = {
+        currentRoundIndex: 0,
+        livesLeft: INITIAL_LIVES_NUMBER,
+        answers: Object.fromEntries(rounds.map((_, index) => [index, null])),
+    };
+
+    const [progress, setProgress] = useSessionStorage<Progress>('progress', progressInitialValue);
+
+    const setProgressField = (field: keyof Progress, value: Progress[keyof Progress]) => {
+        setProgress((progress) => ({
+            ...progress,
+            [field]: value,
+        }));
+    };
 
     return (
         <AppContext.Provider
@@ -52,23 +76,27 @@ const AppContextProvider: FC<AppContextProviderProps> = ({ children }) => {
             // eslint-disable-next-line react/jsx-no-constructed-context-values
             value={{
                 rounds,
-                currentRoundIndex,
                 goToNextRound: () => {
                     window.scrollTo({ top: 0 });
-                    setCurrentRoundIndex(currentRoundIndex + 1);
+                    setProgressField('currentRoundIndex', progress.currentRoundIndex + 1);
+                },
+                tryAgain: () => {
+                    setProgressField('answers', { ...progress.answers, [progress.currentRoundIndex]: null });
                 },
                 goToPreviousRound: () => {
                     window.scrollTo({ top: 0 });
-                    setCurrentRoundIndex(currentRoundIndex - 1);
+                    setProgressField('currentRoundIndex', progress.currentRoundIndex - 1);
                 },
                 isEasyMode: searchParams.get(EASY_MODE_SEARCH_PARAM) === 'true',
-                livesNumber,
                 killLife: () => {
-                    setLivesNumber(livesNumber - 1);
+                    setProgressField('livesLeft', progress.livesLeft - 1);
                 },
                 startAgain: () => {
-                    setCurrentRoundIndex(0);
-                    setLivesNumber(INITIAL_LIVES_NUMBER);
+                    setProgress(progressInitialValue);
+                },
+                progress,
+                saveAnswer: (answer) => {
+                    setProgressField('answers', { ...progress.answers, [progress.currentRoundIndex]: answer });
                 },
             }}
         >

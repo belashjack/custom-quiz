@@ -16,12 +16,6 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     const {
         content: { description, correctAnswer, winExplanation, loseExplanation },
     } = props;
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm<InputCorrectAnswerFormFields>();
 
     const winDetector = (answer: string) => {
         return correctAnswer
@@ -29,7 +23,18 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
             .includes(answer.toLocaleLowerCase());
     };
 
-    const { answerExists, setAnswer, isWin, isLose } = useAnswer<string>(winDetector);
+    const { answer, answerExists, setAnswer, isWin, isLose } = useAnswer<string>(winDetector);
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<InputCorrectAnswerFormFields>({
+        defaultValues: {
+            answer: answerExists(answer) ? answer : '',
+        },
+    });
 
     const handleResetRound = () => {
         setAnswer(null);
@@ -40,7 +45,7 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
         setAnswer(answer);
     };
 
-    const isFormDisabled = answerExists;
+    const isFormDisabled = answerExists(answer);
 
     return (
         <RoundWrapper

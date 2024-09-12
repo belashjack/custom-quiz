@@ -5,7 +5,11 @@ export enum RoundType {
 }
 
 export type Answer = string | number[] | null;
-export type Progress = Record<number, Answer>;
+export interface Progress {
+    currentRoundIndex: number;
+    livesLeft: number;
+    answers: Record<number, Answer>;
+}
 
 export interface Explanation {
     text: string;
