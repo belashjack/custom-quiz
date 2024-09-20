@@ -1,7 +1,17 @@
 import { FC, useState } from 'react';
 import { DragAndDropRound } from '../types';
 import RoundWrapper from '../RoundWrapper/RoundWrapper';
-import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core';
+import {
+    DndContext,
+    DragEndEvent,
+    DragOverlay,
+    DragStartEvent,
+    KeyboardSensor,
+    MouseSensor,
+    TouchSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
 import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import Sortable from './Sortable';
 import Item from './Item/Item';
@@ -18,6 +28,17 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
     } = props;
     const [activeId, setActiveId] = useState<number | null>(null);
     const [items, setItems] = useState(options);
+
+    const sensors = useSensors(
+        useSensor(MouseSensor),
+        useSensor(TouchSensor, {
+            activationConstraint: {
+                delay: 250,
+                tolerance: 5,
+            },
+        }),
+        useSensor(KeyboardSensor)
+    );
 
     const winDetector = (answer: number[]) => {
         return areArraysEqual(answer, correctOrder);
@@ -65,6 +86,7 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
         >
             <div className="drag-and-drop">
                 <DndContext
+                    sensors={sensors}
                     onDragCancel={() => {
                         setActiveId(null);
                     }}
