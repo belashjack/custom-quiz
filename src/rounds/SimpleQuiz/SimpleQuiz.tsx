@@ -29,9 +29,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
         formState: { errors },
         watch,
     } = useForm<SimpleQuizFormFields>({
-        defaultValues: {
-            option: answerExists(answer) ? answer.map((value) => String(value)) : [],
-        },
+        defaultValues: { option: [] },
     });
 
     if (correctOptionIndexes.length === 0) {
