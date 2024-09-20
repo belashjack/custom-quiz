@@ -5,7 +5,7 @@ export enum RoundType {
     DRAG_AND_DROP = 'DRAG_AND_DROP',
 }
 
-export type Answer = string | number[] | null;
+export type Answer = string | number[] | boolean | null;
 export interface Progress {
     currentRoundIndex: number;
     livesLeft: number;

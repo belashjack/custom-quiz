@@ -1,11 +1,26 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import RoundWrapper from '../RoundWrapper/RoundWrapper';
 import { PreviewRound } from '../types';
+import { useInView } from 'react-intersection-observer';
+import useAnswer from '../hooks/useAnswer';
 
 const Preview: FC<PreviewRound> = (props) => {
     const { content } = props;
+    const { ref, inView } = useInView({ triggerOnce: true });
 
-    return <RoundWrapper description={content.description} canHaveNextRoundButton />;
+    const winDetector = (answer: boolean) => answer;
+
+    const { setAnswer, isWin } = useAnswer<boolean>(winDetector);
+
+    useEffect(() => {
+        if (inView) setAnswer(true);
+    }, [inView]);
+
+    return (
+        <RoundWrapper description={content.description} canHaveNextRoundButton={isWin}>
+            <div ref={ref} />
+        </RoundWrapper>
+    );
 };
 
 export default Preview;
