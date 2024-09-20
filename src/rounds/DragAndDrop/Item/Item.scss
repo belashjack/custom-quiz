@@ -1,0 +1,7 @@
+@use '../../mixins.scss' as *;
+
+.item {
+    text-align: center;
+    cursor: grab;
+    @include option-item-common-styles;
+}

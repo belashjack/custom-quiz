@@ -15,8 +15,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(props, ref
     return (
         <label className="input-label">
             <input
-                ref={ref}
                 {...rest}
+                ref={ref}
                 className={clsx('input', {
                     'input--error': hasError,
                     'input--correct': isCorrect,

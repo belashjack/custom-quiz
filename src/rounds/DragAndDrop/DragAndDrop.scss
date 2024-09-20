@@ -1,0 +1,22 @@
+@use '../variables.scss' as *;
+@use '../mixins.scss' as *;
+
+.drag-and-drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 2rem;
+}
+
+.sortable-items {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+
+    &--disabled {
+        .item {
+            @include option-item-common-disabled-styles;
+            cursor: default;
+        }
+    }
+}

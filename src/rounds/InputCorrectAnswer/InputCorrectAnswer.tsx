@@ -37,7 +37,6 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     });
 
     const handleResetRound = () => {
-        setAnswer(null);
         reset();
     };
 

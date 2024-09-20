@@ -2,6 +2,7 @@ export enum RoundType {
     PREVIEW = 'PREVIEW',
     SIMPLE_QUIZ = 'SIMPLE_QUIZ',
     INPUT_CORRECT_ANSWER = 'INPUT_CORRECT_ANSWER',
+    DRAG_AND_DROP = 'DRAG_AND_DROP',
 }
 
 export type Answer = string | number[] | null;
@@ -59,6 +60,18 @@ interface InputCorrectAnswerRoundContent extends BaseRoundContent {
     loseExplanation: Explanation;
 }
 
+interface DragAndDropItem {
+    id: number;
+    text: string;
+}
+
+interface DragAndDropRoundContent extends BaseRoundContent {
+    options: DragAndDropItem[];
+    correctOrder: number[];
+    winExplanation: Explanation;
+    loseExplanation: Explanation;
+}
+
 interface BaseRound {
     type: RoundType;
     content: BaseRoundContent;
@@ -78,4 +91,9 @@ export interface InputCorrectAnswerRound extends BaseRound {
     content: InputCorrectAnswerRoundContent;
 }
 
-export type Round = PreviewRound | SimpleQuizRound | InputCorrectAnswerRound;
+export interface DragAndDropRound extends BaseRound {
+    type: RoundType.DRAG_AND_DROP;
+    content: DragAndDropRoundContent;
+}
+
+export type Round = PreviewRound | SimpleQuizRound | InputCorrectAnswerRound | DragAndDropRound;

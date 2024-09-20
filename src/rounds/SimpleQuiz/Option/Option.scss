@@ -1,4 +1,5 @@
 @use '../../variables.scss' as *;
+@use '../../mixins.scss' as *;
 
 @mixin blink-animation($start-color, $unique-name) {
     $keyframes-name: blink-bg-color-#{$unique-name};
@@ -25,13 +26,7 @@
     justify-content: center;
     align-items: center;
     row-gap: 1rem;
-    padding: 1.5rem;
-    border: 2px solid $neutral-color;
-    border-radius: 4px;
-    font-size: 1.25rem;
-    font-weight: bold;
-    background-color: #ffffff;
-    box-shadow: 4px -4px 12px #00000014;
+    @include option-item-common-styles;
 
     .option-text {
         text-align: center;
@@ -84,9 +79,7 @@
     }
 
     &--not-selected {
-        border-color: $disabled-color;
-        background-color: lighten($color: $disabled-color, $amount: 12%);
-        color: darken($disabled-color, $amount: 10%);
+        @include option-item-common-disabled-styles;
     }
 
     &--correct {

@@ -3,6 +3,35 @@ import { Round, RoundType } from './types';
 import { getRandomFromArray } from './utils';
 
 export const roundsConfig: Round[] = [
+    {
+        type: RoundType.DRAG_AND_DROP,
+        content: {
+            description: {
+                text: <p>Сделай в хронологическом порядке</p>,
+            },
+            options: [
+                { id: 1, text: 'Мы встретились' },
+                { id: 2, text: 'Я поехал в Грецию' },
+                { id: 3, text: 'Ты подарила мне тапки' },
+                { id: 4, text: 'Ты поехала в Польшу' },
+                { id: 5, text: 'Месси перешёл в Майами, А Роналду в Аль-Наср' },
+                { id: 6, text: 'Прошли Олимпийские игры в Париже' },
+                {
+                    id: 7,
+                    text: 'Рандомный длинный текст. Рандомный длинный текст. Рандомный длинный текст. Рандомный длинный текст. Рандомный длинный текст. Рандомный длинный текст. ',
+                },
+            ],
+            correctOrder: [7, 1, 2, 3, 4, 5, 6],
+            winExplanation: {
+                text: 'К счастью, ты хоть это знаешь! 🎉',
+                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+            },
+            loseExplanation: {
+                text: 'Капец, даже не знаешь порядок! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
+    },
     // single choice, without asset
     {
         type: RoundType.SIMPLE_QUIZ,

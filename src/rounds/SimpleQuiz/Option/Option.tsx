@@ -29,7 +29,7 @@ const Option = forwardRef<HTMLInputElement, OptionProps>(function Option(props, 
 
     return (
         <label className={optionClasses}>
-            <input ref={ref} {...rest} type="checkbox" value={value} disabled={disabled} />
+            <input {...rest} ref={ref} type="checkbox" value={value} disabled={disabled} />
             {Boolean(asset) && <div className="option-asset">{asset}</div>}
             {Boolean(text) && <span className="option-text">{text}</span>}
             {isCorrect && <FontAwesomeIcon icon={faCircleCheck} size="lg" />}

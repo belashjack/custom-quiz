@@ -4,7 +4,7 @@ export const getRandomFromArray = <T>(array: T[]) => {
     return array[randomIndex];
 };
 
-export const doArraysContainSameValues = <T>(array1: T[], array2: T[]) => {
+export const doArraysContainSameValues = (array1: unknown[], array2: unknown[]) => {
     const set1 = new Set(array1);
     const set2 = new Set(array2);
 
@@ -16,3 +16,6 @@ export const doArraysContainSameValues = <T>(array1: T[], array2: T[]) => {
 
     return true;
 };
+
+export const areArraysEqual = (array1: unknown[], array2: unknown[]) =>
+    array1.length === array2.length && array1.every((value, index) => value === array2[index]);

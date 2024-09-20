@@ -17,7 +17,7 @@ const Button: FC<ButtonProps> = ({
     ...rest
 }) => {
     return (
-        <button className="button" type={isSubmitButton ? 'submit' : 'button'} onClick={onClick} {...rest}>
+        <button {...rest} className="button" type={isSubmitButton ? 'submit' : 'button'} onClick={onClick}>
             {iconPosition === 'left' && icon && <>{icon}&nbsp;</>}
             {children}
             {iconPosition === 'right' && icon && <>&nbsp;{icon}</>}
