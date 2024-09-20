@@ -3,5 +3,6 @@
 .item {
     text-align: center;
     cursor: grab;
+    user-select: none;
     @include option-item-common-styles;
 }
