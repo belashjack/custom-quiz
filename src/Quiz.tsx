@@ -6,6 +6,7 @@ import SimpleQuiz from './rounds/SimpleQuiz/SimpleQuiz';
 import GameOver from './rounds/GameOver/GameOver';
 import InputCorrectAnswer from './rounds/InputCorrectAnswer/InputCorrectAnswer';
 import DragAndDrop from './rounds/DragAndDrop/DragAndDrop';
+import PressButton from './rounds/PressButton/PressButton';
 
 const renderRoundComponent = (currentRound: Round, currentRoundIndex: number) => {
     switch (currentRound.type) {
@@ -17,6 +18,8 @@ const renderRoundComponent = (currentRound: Round, currentRoundIndex: number) =>
             return <InputCorrectAnswer key={currentRoundIndex} {...currentRound} />;
         case RoundType.DRAG_AND_DROP:
             return <DragAndDrop key={currentRoundIndex} {...currentRound} />;
+        case RoundType.PRESS_BUTTON:
+            return <PressButton key={currentRoundIndex} {...currentRound} />;
         default:
             return null;
     }

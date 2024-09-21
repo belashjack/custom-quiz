@@ -3,6 +3,7 @@ export enum RoundType {
     SIMPLE_QUIZ = 'SIMPLE_QUIZ',
     INPUT_CORRECT_ANSWER = 'INPUT_CORRECT_ANSWER',
     DRAG_AND_DROP = 'DRAG_AND_DROP',
+    PRESS_BUTTON = 'PRESS_BUTTON',
 }
 
 export type Answer = string | number[] | boolean | null;
@@ -72,6 +73,12 @@ interface DragAndDropRoundContent extends BaseRoundContent {
     loseExplanation: Explanation;
 }
 
+export type DIFFICULTY = 'EASY' | 'HARD';
+
+interface PressButtonRoundContent extends BaseRoundContent {
+    difficulty: DIFFICULTY;
+}
+
 interface BaseRound {
     type: RoundType;
     content: BaseRoundContent;
@@ -96,4 +103,9 @@ export interface DragAndDropRound extends BaseRound {
     content: DragAndDropRoundContent;
 }
 
-export type Round = PreviewRound | SimpleQuizRound | InputCorrectAnswerRound | DragAndDropRound;
+export interface PressButtonRound extends BaseRound {
+    type: RoundType.PRESS_BUTTON;
+    content: PressButtonRoundContent;
+}
+
+export type Round = PreviewRound | SimpleQuizRound | InputCorrectAnswerRound | DragAndDropRound | PressButtonRound;
