@@ -1,0 +1,89 @@
+.hearts-wrapper {
+    position: relative;
+}
+
+.hearts-trigger {
+    position: relative;
+    z-index: 1;
+}
+
+.heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    animation-duration: 1500ms;
+}
+
+@keyframes float-1 {
+    0% {
+        scale: 0.4;
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        translate: 300px -300px;
+        rotate: 30deg;
+        scale: 0.7;
+        opacity: 0;
+    }
+}
+
+@keyframes float-2 {
+    0% {
+        scale: 0.2;
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        translate: 100px -300px;
+        rotate: 15deg;
+        scale: 1;
+        opacity: 0;
+    }
+}
+
+@keyframes float-3 {
+    0% {
+        scale: 0.3;
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        translate: -150px -350px;
+        rotate: -10deg;
+        scale: 1;
+        opacity: 0;
+    }
+}
+
+@keyframes float-4 {
+    0% {
+        scale: 0.4;
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        translate: -300px -280px;
+        rotate: -20deg;
+        scale: 0.8;
+        opacity: 0;
+    }
+}

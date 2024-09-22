@@ -22,12 +22,16 @@ const PressButton: FC<PressButtonRound> = (props) => {
     const { step, decrementStep } = isEasyMode ? DIFFICULTY_TO_STEPS_MAP.EASY : DIFFICULTY_TO_STEPS_MAP[difficulty];
     const { text, increment, isWin } = usePressButton(INITIAL_VALUE, FINAL_VALUE, step, decrementStep);
 
+    const handleClick = () => {
+        increment();
+    };
+
     return (
         <RoundWrapper description={description} canHaveNextRoundButton={isWin}>
             <div className="press-button">
                 <span className="text">{text}</span>
                 {!isWin && (
-                    <Button onClick={increment} disabled={isWin}>
+                    <Button onClick={handleClick} disabled={isWin} withHeartAnimation>
                         Нажимай меня!
                     </Button>
                 )}
