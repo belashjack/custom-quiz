@@ -5,6 +5,7 @@ import './PressButton.scss';
 import usePressButton from './usePressButton';
 import { AppContext } from '../../AppContext';
 import Button from '../components/Button/Button';
+import Explanation from '../components/Explanation/Explanation';
 
 const INITIAL_VALUE = 0;
 const FINAL_VALUE = 100;
@@ -16,7 +17,7 @@ const DIFFICULTY_TO_STEPS_MAP: Record<DIFFICULTY, { step: number; decrementStep:
 
 const PressButton: FC<PressButtonRound> = (props) => {
     const {
-        content: { description, difficulty },
+        content: { description, difficulty, winExplanation },
     } = props;
     const { isEasyMode } = useContext(AppContext);
     const { step, decrementStep } = isEasyMode ? DIFFICULTY_TO_STEPS_MAP.EASY : DIFFICULTY_TO_STEPS_MAP[difficulty];
@@ -35,6 +36,7 @@ const PressButton: FC<PressButtonRound> = (props) => {
                         Нажимай меня!
                     </Button>
                 )}
+                {isWin && <Explanation isCorrect {...winExplanation} />}
             </div>
         </RoundWrapper>
     );

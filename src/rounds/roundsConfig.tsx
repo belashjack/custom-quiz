@@ -18,7 +18,11 @@ export const roundsConfig: Round[] = [
                 ),
                 asset: <img src={new URL('./assets/2024-09-07 14.08.27.jpg', import.meta.url).href} />,
             },
-            difficulty: 'HARD',
+            difficulty: 'EASY',
+            winExplanation: {
+                text: 'Ты справилась! 🎉',
+                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+            },
         },
     },
     {

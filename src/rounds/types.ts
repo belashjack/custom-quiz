@@ -77,6 +77,7 @@ export type DIFFICULTY = 'EASY' | 'HARD';
 
 interface PressButtonRoundContent extends BaseRoundContent {
     difficulty: DIFFICULTY;
+    winExplanation: Explanation;
 }
 
 interface BaseRound {
