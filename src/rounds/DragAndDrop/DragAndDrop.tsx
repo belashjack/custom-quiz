@@ -80,8 +80,8 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
     return (
         <RoundWrapper
             description={description}
-            canHaveResetRoundButton={isLose}
-            canHaveNextRoundButton={isWin}
+            showResetRoundButton={isLose}
+            showNextRoundButton={isWin}
             resetRound={handleResetRound}
         >
             <div className="drag-and-drop">

@@ -15,7 +15,7 @@ const findRange = (value: number) => TEXT_RANGES.find(({ min, max }) => value >=
 
 const usePressButton = (initialValue: number, finalValue: number, step: number, decrementStep: number) => {
     const winDetector = (answer: boolean) => answer;
-    const { setAnswer, isWin } = useAnswer<boolean>(winDetector);
+    const { answer, setAnswer, isWin } = useAnswer<boolean>(winDetector);
     const [value, setValue] = useState(isWin ? finalValue : initialValue);
     const [text, setText] = useState(findRange(value)?.text);
     const [isTimerActive, setIsTimerActive] = useState(!isWin);
@@ -54,6 +54,14 @@ const usePressButton = (initialValue: number, finalValue: number, step: number, 
             setAnswer(true);
         }
     }, [value]);
+
+    useEffect(() => {
+        if (answer === null) {
+            setValue(initialValue);
+            setText(findRange(initialValue)?.text);
+            setIsTimerActive(true);
+        }
+    }, [answer]);
 
     const increment = () => {
         setValue((prevValue) => {

@@ -122,8 +122,8 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
     return (
         <RoundWrapper
             description={description}
-            canHaveResetRoundButton={isLose}
-            canHaveNextRoundButton={isWin}
+            showResetRoundButton={isLose}
+            showNextRoundButton={isWin}
             resetRound={handleResetRound}
         >
             {isSingleChoice && <form className="simple-quiz-form">{singleChoiceOptionsRenderer(content.options)}</form>}

@@ -49,8 +49,8 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     return (
         <RoundWrapper
             description={description}
-            canHaveResetRoundButton={isLose}
-            canHaveNextRoundButton={isWin}
+            showResetRoundButton={isLose}
+            showNextRoundButton={isWin}
             resetRound={handleResetRound}
         >
             <form

@@ -28,7 +28,7 @@ const PressButton: FC<PressButtonRound> = (props) => {
     };
 
     return (
-        <RoundWrapper description={description} canHaveNextRoundButton={isWin}>
+        <RoundWrapper description={description} showNextRoundButton={isWin}>
             <div className="press-button">
                 <span className="text">{text}</span>
                 {!isWin && (

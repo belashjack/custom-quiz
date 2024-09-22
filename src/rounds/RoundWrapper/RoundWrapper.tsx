@@ -9,18 +9,18 @@ import { INITIAL_LIVES_NUMBER } from '../../constants';
 
 interface RoundWrapperProps extends PropsWithChildren {
     description: Description;
-    canHavePreviousRoundButton?: boolean;
-    canHaveResetRoundButton?: boolean;
-    canHaveNextRoundButton?: boolean;
+    withoutResetButton?: boolean;
+    showResetRoundButton?: boolean;
+    showNextRoundButton?: boolean;
     resetRound?: () => void;
 }
 
 const RoundWrapper: FC<RoundWrapperProps> = ({
     description,
     children,
-    canHavePreviousRoundButton = true,
-    canHaveResetRoundButton = false,
-    canHaveNextRoundButton = false,
+    withoutResetButton = false,
+    showResetRoundButton = false,
+    showNextRoundButton = false,
     resetRound,
 }) => {
     const {
@@ -32,9 +32,11 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
         isEasyMode,
     } = useContext(AppContext);
 
-    const showPreviousRoundButton = isEasyMode && canHavePreviousRoundButton && currentRoundIndex > 0;
-    const showResetRoundButton = canHaveResetRoundButton;
-    const showNextRoundButton = canHaveNextRoundButton && currentRoundIndex < rounds.length - 1;
+    const showPreviousRoundButton = isEasyMode && currentRoundIndex > 0;
+    const showResetRoundButtonFinal = isEasyMode
+        ? !withoutResetButton && (showNextRoundButton || showResetRoundButton)
+        : showResetRoundButton;
+    const showNextRoundButtonFinal = showNextRoundButton && currentRoundIndex < rounds.length - 1;
 
     const showFooter = showPreviousRoundButton || showResetRoundButton || showNextRoundButton;
 
@@ -76,7 +78,7 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                         )}
                     </div>
                     <div>
-                        {showResetRoundButton && (
+                        {showResetRoundButtonFinal && (
                             <Button
                                 icon={<FontAwesomeIcon icon={faRepeat} />}
                                 onClick={() => {
@@ -89,7 +91,7 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                         )}
                     </div>
                     <div>
-                        {showNextRoundButton && (
+                        {showNextRoundButtonFinal && (
                             <Button
                                 icon={<FontAwesomeIcon icon={faRightLong} />}
                                 iconPosition="right"
