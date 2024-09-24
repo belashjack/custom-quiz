@@ -10,7 +10,7 @@ const GameOver = () => {
     const { startAgain } = useContext(AppContext);
 
     return (
-        <RoundWrapper description={{ text: 'Гейм овер 😢' }}>
+        <RoundWrapper description={{ text: 'Гейм овер 😢' }} showHeader={false}>
             <div className="game-over">
                 <Button icon={<FontAwesomeIcon icon={faRepeat} />} onClick={startAgain}>
                     Начни игру заново

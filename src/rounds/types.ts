@@ -40,25 +40,26 @@ interface BaseRoundContent {
     description: Description;
 }
 
+interface GameRoundContent extends BaseRoundContent {
+    winExplanation: Explanation;
+    loseExplanation: Explanation;
+}
+
 interface SimpleQuizRoundSingleContent extends BaseRoundContent {
     isSingleChoice: true;
     options: SingleOption[];
     correctOptionIndexes: [number];
 }
 
-interface SimpleQuizRoundMultipleContent extends BaseRoundContent {
+interface SimpleQuizRoundMultipleContent extends GameRoundContent {
     options: MultipleOption[];
-    winExplanation: Explanation;
-    loseExplanation: Explanation;
     correctOptionIndexes: number[];
 }
 
 export type SimpleQuizRoundContent = SimpleQuizRoundSingleContent | SimpleQuizRoundMultipleContent;
 
-interface InputCorrectAnswerRoundContent extends BaseRoundContent {
+interface InputCorrectAnswerRoundContent extends GameRoundContent {
     correctAnswer: string[];
-    winExplanation: Explanation;
-    loseExplanation: Explanation;
 }
 
 interface DragAndDropItem {
@@ -66,22 +67,25 @@ interface DragAndDropItem {
     text: string;
 }
 
-interface DragAndDropRoundContent extends BaseRoundContent {
+interface DragAndDropRoundContent extends GameRoundContent {
     options: DragAndDropItem[];
     correctOrder: number[];
-    winExplanation: Explanation;
-    loseExplanation: Explanation;
 }
 
 export type DIFFICULTY = 'EASY' | 'HARD';
 
-interface PressButtonRoundContent extends BaseRoundContent {
+interface PressButtonRoundContent extends GameRoundContent {
     difficulty: DIFFICULTY;
-    winExplanation: Explanation;
+}
+
+export interface TimerOptions {
+    duration: number;
+    loseByTimerExplanation: Explanation;
 }
 
 interface BaseRound {
     type: RoundType;
+    timerOptions?: TimerOptions;
     content: BaseRoundContent;
 }
 

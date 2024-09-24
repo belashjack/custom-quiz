@@ -21,7 +21,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
         return doArraysContainSameValues(correctOptionIndexes, answer);
     };
 
-    const { answer, answerExists, setAnswer, isWin, isLose } = useAnswer<number[]>(winDetector);
+    const { answer, answerExists, setAnswer, isWin, isLose, isLoseByTimer } = useAnswer<number[]>(winDetector);
     const {
         register,
         handleSubmit,
@@ -122,9 +122,11 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
     return (
         <RoundWrapper
             description={description}
-            showResetRoundButton={isLose}
-            showNextRoundButton={isWin}
+            isWin={isWin}
+            isLose={isLose}
+            isLoseByTimer={isLoseByTimer}
             resetRound={handleResetRound}
+            forceLose={() => setAnswer([], true)}
         >
             {isSingleChoice && <form className="simple-quiz-form">{singleChoiceOptionsRenderer(content.options)}</form>}
             {!isSingleChoice && (
@@ -135,8 +137,6 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
                     }}
                 >
                     {multipleChoiceOptionsRenderer(content.options)}
-                    {isWin && <Explanation isCorrect {...content.winExplanation} />}
-                    {isLose && <Explanation isIncorrect {...content.loseExplanation} />}
                     {errors.option && <p className="error-message">Выбери хотя бы один вариант</p>}
                     {!answerExists(answer) && <Button isSubmitButton>Ответить</Button>}
                 </form>

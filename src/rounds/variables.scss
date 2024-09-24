@@ -1,4 +1,14 @@
 $positive-color: #23af23;
+$warning-color: #dc9c43;
 $negative-color: #ba2424;
 $neutral-color: #2566c7;
 $disabled-color: #d6d6d6;
+
+/* Map SCSS variables to CSS variables to make them available in React code */
+:root {
+    --positive-color: #{$positive-color};
+    --warning-color: #{$warning-color};
+    --negative-color: #{$negative-color};
+    --neutral-color: #{$neutral-color};
+    --disabled-color: #{$disabled-color};
+}

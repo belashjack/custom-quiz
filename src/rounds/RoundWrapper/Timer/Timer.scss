@@ -1,0 +1,15 @@
+.timer-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.timer-circle {
+    transform: rotate(-90deg);
+}
+
+.timer-text {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+}

@@ -1,10 +1,17 @@
-import { CORRECT_EXPLANATION_ASSETS, INCORRECT_EXPLANATION_ASSETS } from './constants';
+import { CORRECT_EXPLANATION_ASSETS, DEFAULT_TIMER_DURATION, INCORRECT_EXPLANATION_ASSETS } from './constants';
 import { Round, RoundType } from './types';
 import { getRandomFromArray } from './utils';
 
 export const roundsConfig: Round[] = [
     {
         type: RoundType.PRESS_BUTTON,
+        timerOptions: {
+            duration: DEFAULT_TIMER_DURATION,
+            loseByTimerExplanation: {
+                text: 'Время вышло! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
         content: {
             description: {
                 text: (
@@ -22,6 +29,10 @@ export const roundsConfig: Round[] = [
             winExplanation: {
                 text: 'Ты справилась! 🎉',
                 asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+            },
+            loseExplanation: {
+                text: 'Ты не справилась! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
             },
         },
     },
@@ -207,6 +218,13 @@ export const roundsConfig: Round[] = [
     },
     {
         type: RoundType.INPUT_CORRECT_ANSWER,
+        timerOptions: {
+            duration: DEFAULT_TIMER_DURATION,
+            loseByTimerExplanation: {
+                text: 'Время вышло! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
         content: {
             description: { text: <p>Введи правильный ответ на вопрос: сколько мне лет?</p> },
             correctAnswer: ['29'],

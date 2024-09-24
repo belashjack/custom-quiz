@@ -82,3 +82,5 @@ export const INCORRECT_EXPLANATION_ASSETS: Explanation['asset'][] = [
     <img src={new URL('./assets/incorrectAnswers/image3.webp', import.meta.url).href} />,
     <img src={new URL('./assets/incorrectAnswers/image4.webp', import.meta.url).href} />,
 ];
+
+export const DEFAULT_TIMER_DURATION = 15000;

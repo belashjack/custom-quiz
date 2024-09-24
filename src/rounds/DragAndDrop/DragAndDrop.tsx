@@ -20,11 +20,10 @@ import { areArraysEqual } from '../utils';
 import useAnswer from '../hooks/useAnswer';
 import Button from '../components/Button/Button';
 import clsx from 'clsx';
-import Explanation from '../components/Explanation/Explanation';
 
 const DragAndDrop: FC<DragAndDropRound> = (props) => {
     const {
-        content: { description, options, correctOrder, winExplanation, loseExplanation },
+        content: { description, options, correctOrder },
     } = props;
     const [activeId, setActiveId] = useState<number | null>(null);
     const [items, setItems] = useState(options);
@@ -44,7 +43,7 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
         return areArraysEqual(answer, correctOrder);
     };
 
-    const { answer, answerExists, setAnswer, isWin, isLose } = useAnswer<number[]>(winDetector);
+    const { answer, answerExists, setAnswer, isWin, isLose, isLoseByTimer } = useAnswer<number[]>(winDetector);
 
     const handleDragStart = (event: DragStartEvent) => {
         const { active } = event;
@@ -80,9 +79,11 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
     return (
         <RoundWrapper
             description={description}
-            showResetRoundButton={isLose}
-            showNextRoundButton={isWin}
+            isWin={isWin}
+            isLose={isLose}
+            isLoseByTimer={isLoseByTimer}
             resetRound={handleResetRound}
+            forceLose={() => setAnswer([], true)}
         >
             <div className="drag-and-drop">
                 <DndContext
@@ -107,8 +108,6 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
                 {!answerExists(answer) && (
                     <Button onClick={() => setAnswer(items.map((item) => item.id))}>Ответить</Button>
                 )}
-                {isWin && <Explanation isCorrect {...winExplanation} />}
-                {isLose && <Explanation isIncorrect {...loseExplanation} />}
             </div>
         </RoundWrapper>
     );

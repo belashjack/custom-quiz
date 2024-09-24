@@ -19,7 +19,7 @@ const Preview: FC<PreviewRound> = (props) => {
     }, [inView]);
 
     return (
-        <RoundWrapper description={description} withoutResetButton showNextRoundButton={isWin}>
+        <RoundWrapper description={description} withoutResetButton isWin={isWin}>
             <div ref={ref} />
         </RoundWrapper>
     );

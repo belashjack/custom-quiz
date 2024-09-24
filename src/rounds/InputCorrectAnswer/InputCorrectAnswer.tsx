@@ -3,7 +3,6 @@ import RoundWrapper from '../RoundWrapper/RoundWrapper';
 import { InputCorrectAnswerRound } from '../types';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import './InputCorrectAnswer.scss';
-import Explanation from '../components/Explanation/Explanation';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 import useAnswer from '../hooks/useAnswer';
@@ -14,7 +13,7 @@ interface InputCorrectAnswerFormFields {
 
 const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     const {
-        content: { description, correctAnswer, winExplanation, loseExplanation },
+        content: { description, correctAnswer },
     } = props;
 
     const winDetector = (answer: string) => {
@@ -23,7 +22,7 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
             .includes(answer.toLocaleLowerCase());
     };
 
-    const { answer, answerExists, setAnswer, isWin, isLose } = useAnswer<string>(winDetector);
+    const { answer, answerExists, setAnswer, isWin, isLose, isLoseByTimer } = useAnswer<string>(winDetector);
 
     const {
         register,
@@ -49,9 +48,11 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     return (
         <RoundWrapper
             description={description}
-            showResetRoundButton={isLose}
-            showNextRoundButton={isWin}
+            isWin={isWin}
+            isLose={isLose}
+            isLoseByTimer={isLoseByTimer}
             resetRound={handleResetRound}
+            forceLose={() => setAnswer('', true)}
         >
             <form
                 className="input-correct-answer-form"
@@ -72,8 +73,6 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
                         Ответить
                     </Button>
                 )}
-                {isWin && <Explanation isCorrect {...winExplanation} />}
-                {isLose && <Explanation isIncorrect {...loseExplanation} />}
             </form>
         </RoundWrapper>
     );
