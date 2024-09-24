@@ -9,9 +9,9 @@ interface TimerProps {
 
 const getRemainingColor = (duration: number, timeLeft: number) => {
     const percentageLeft = (timeLeft / duration) * 100;
-    if (percentageLeft <= 10) return 'var(--negative-color)';
+    if (percentageLeft <= 20) return 'var(--negative-color)';
 
-    if (percentageLeft <= 30) return 'var(--warning-color)';
+    if (percentageLeft <= 40) return 'var(--warning-color)';
 
     return 'var(--positive-color)';
 };

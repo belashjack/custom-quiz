@@ -8,6 +8,8 @@ import Button from '../components/Button/Button';
 import { INITIAL_LIVES_NUMBER } from '../../constants';
 import Explanation from '../components/Explanation/Explanation';
 import Timer from './Timer/Timer';
+import { encodeToMorse } from '../utils';
+import clsx from 'clsx';
 
 interface RoundWrapperProps extends PropsWithChildren {
     description: Description;
@@ -103,7 +105,17 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
             )}
             <div className="round-content">
                 <div className="round-description">
-                    <div className="round-description-text">{description.text}</div>
+                    <div
+                        className={clsx('round-description-text', {
+                            'round-description-text--upside-down': Boolean(description.isUpsideDown),
+                        })}
+                    >
+                        {Boolean(description.isMorseCode) && typeof description.text === 'string' ? (
+                            <p style={{ fontFamily: `monospace` }}>{encodeToMorse(description.text)}</p>
+                        ) : (
+                            description.text
+                        )}
+                    </div>
                     {Boolean(description.asset) && <div className="round-description-asset">{description.asset}</div>}
                 </div>
                 {children}

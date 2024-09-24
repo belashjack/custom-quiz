@@ -48,6 +48,10 @@
             margin-block-start: 1em;
             margin-block-end: 1em;
         }
+
+        &--upside-down {
+            transform: rotate(180deg);
+        }
     }
 
     .round-description-asset {

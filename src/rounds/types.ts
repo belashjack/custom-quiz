@@ -33,6 +33,8 @@ export type Option = SingleOption | MultipleOption;
 
 export interface Description {
     text: React.ReactNode;
+    isMorseCode?: boolean;
+    isUpsideDown?: boolean;
     asset?: React.ReactNode;
 }
 
