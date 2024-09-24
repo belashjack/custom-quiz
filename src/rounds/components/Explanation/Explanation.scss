@@ -11,6 +11,7 @@
     border-radius: 4px;
     font-size: 1.25rem;
     background-color: #ffffff;
+    user-select: none;
 
     &--correct {
         border-color: $positive-color;

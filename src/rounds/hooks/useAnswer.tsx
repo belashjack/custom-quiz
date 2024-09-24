@@ -22,15 +22,18 @@ const useAnswer = <T extends Answer>(winDetector: (answer: T) => boolean) => {
         if (!answerExists(answer)) {
             setIsLoseByTimer(false);
         }
-
-        if (isLose && !isEasyMode) {
-            killLife();
-        }
     }, [answer]);
 
     const setAnswer = (value: T, lostByTimer = false) => {
         if (lostByTimer) {
             setIsLoseByTimer(true);
+        }
+
+        const willWin = winDetector(value);
+        const willLose = !willWin;
+
+        if (willLose && !isEasyMode) {
+            killLife();
         }
 
         saveAnswer(value);
