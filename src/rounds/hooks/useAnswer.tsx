@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { AppContext } from '../../AppContext';
 import { Answer } from '../types';
 
@@ -8,38 +8,35 @@ const useAnswer = <T extends Answer>(winDetector: (answer: T) => boolean) => {
     const {
         killLife,
         isEasyMode,
-        progress: { currentRoundIndex, answers },
+        progress: { currentRoundIndex, rounds },
         saveAnswer,
     } = useContext(AppContext);
-    const [isLoseByTimer, setIsLoseByTimer] = useState(false);
+    const currentRoundProgress = rounds[currentRoundIndex];
 
-    const answer = answers[currentRoundIndex] as T | null;
+    const answer = currentRoundProgress.answer as T | null;
 
     const isWin = answerExists(answer) && winDetector(answer);
     const isLose = answerExists(answer) && !isWin;
 
-    useEffect(() => {
-        if (!answerExists(answer)) {
-            setIsLoseByTimer(false);
-        }
-    }, [answer]);
-
-    const setAnswer = (value: T, lostByTimer = false) => {
-        if (lostByTimer) {
-            setIsLoseByTimer(true);
-        }
-
-        const willWin = winDetector(value);
-        const willLose = !willWin;
+    const setAnswer = (newAnswer: T | null, isLoseByTimer = false) => {
+        const willWin = answerExists(newAnswer) && winDetector(newAnswer);
+        const willLose = answerExists(newAnswer) && !willWin;
 
         if (willLose && !isEasyMode) {
             killLife();
         }
 
-        saveAnswer(value);
+        saveAnswer(newAnswer, isLoseByTimer);
     };
 
-    return { answer, answerExists, setAnswer, isWin, isLose, isLoseByTimer };
+    return {
+        answer,
+        answerExists,
+        setAnswer,
+        isWin,
+        isLose,
+        isLoseByTimer: Boolean(currentRoundProgress.isLoseByTimer),
+    };
 };
 
 export default useAnswer;

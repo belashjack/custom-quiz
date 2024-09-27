@@ -25,8 +25,17 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
     const {
         content: { description, options, correctOrder },
     } = props;
+
+    const winDetector = (answer: number[]) => {
+        return areArraysEqual(answer, correctOrder);
+    };
+
+    const { answer, answerExists, setAnswer, isWin, isLose, isLoseByTimer } = useAnswer<number[]>(winDetector);
+    const initialItems = answerExists(answer)
+        ? answer.map((id) => options.find((option) => option.id === id)).filter((item) => item !== undefined)
+        : options;
     const [activeId, setActiveId] = useState<number | null>(null);
-    const [items, setItems] = useState(options);
+    const [items, setItems] = useState(initialItems);
 
     const sensors = useSensors(
         useSensor(MouseSensor),
@@ -38,12 +47,6 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
         }),
         useSensor(KeyboardSensor)
     );
-
-    const winDetector = (answer: number[]) => {
-        return areArraysEqual(answer, correctOrder);
-    };
-
-    const { answer, answerExists, setAnswer, isWin, isLose, isLoseByTimer } = useAnswer<number[]>(winDetector);
 
     const handleDragStart = (event: DragStartEvent) => {
         const { active } = event;
@@ -69,12 +72,12 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
         }
     };
 
-    const handleResetRound = () => {
+    const resetInternalState = () => {
         setItems(options);
     };
 
     const activeItem = items.find((item) => item.id === activeId);
-    const isSortingDisabled = answerExists(answer);
+    const isRoundDisabled = answerExists(answer) || isLoseByTimer;
 
     return (
         <RoundWrapper
@@ -82,8 +85,11 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
             isWin={isWin}
             isLose={isLose}
             isLoseByTimer={isLoseByTimer}
-            resetRound={handleResetRound}
-            forceLose={() => setAnswer([], true)}
+            resetRound={resetInternalState}
+            forceLose={() => {
+                setAnswer(null, true);
+                resetInternalState();
+            }}
         >
             <div className="drag-and-drop">
                 <DndContext
@@ -94,8 +100,8 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
                     onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
                 >
-                    <SortableContext disabled={isSortingDisabled} items={items} strategy={verticalListSortingStrategy}>
-                        <div className={clsx('sortable-items', { 'sortable-items--disabled': isSortingDisabled })}>
+                    <SortableContext disabled={isRoundDisabled} items={items} strategy={verticalListSortingStrategy}>
+                        <div className={clsx('sortable-items', { 'sortable-items--disabled': isRoundDisabled })}>
                             {items.map((item) => (
                                 <Sortable key={item.id} id={item.id} isDragging={activeId === item.id}>
                                     <Item text={item.text} />
@@ -105,9 +111,7 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
                     </SortableContext>
                     <DragOverlay>{activeItem ? <Item text={activeItem.text} /> : null}</DragOverlay>
                 </DndContext>
-                {!answerExists(answer) && (
-                    <Button onClick={() => setAnswer(items.map((item) => item.id))}>Ответить</Button>
-                )}
+                {!isRoundDisabled && <Button onClick={() => setAnswer(items.map((item) => item.id))}>Ответить</Button>}
             </div>
         </RoundWrapper>
     );

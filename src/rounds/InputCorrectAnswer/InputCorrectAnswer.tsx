@@ -35,7 +35,7 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
         },
     });
 
-    const handleResetRound = () => {
+    const resetInternalState = () => {
         reset();
     };
 
@@ -43,7 +43,7 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
         setAnswer(answer);
     };
 
-    const isFormDisabled = answerExists(answer);
+    const isRoundDisabled = answerExists(answer) || isLoseByTimer;
 
     return (
         <RoundWrapper
@@ -51,8 +51,11 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
             isWin={isWin}
             isLose={isLose}
             isLoseByTimer={isLoseByTimer}
-            resetRound={handleResetRound}
-            forceLose={() => setAnswer('', true)}
+            resetRound={resetInternalState}
+            forceLose={() => {
+                setAnswer(null, true);
+                resetInternalState();
+            }}
         >
             <form
                 className="input-correct-answer-form"
@@ -63,16 +66,12 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
                 <Input
                     {...register('answer', { required: true })}
                     placeholder="Введи ответ"
-                    disabled={isFormDisabled}
+                    disabled={isRoundDisabled}
                     hasError={Boolean(errors.answer)}
                     isCorrect={isWin}
                     isIncorrect={isLose}
                 />
-                {!isFormDisabled && (
-                    <Button isSubmitButton disabled={isFormDisabled}>
-                        Ответить
-                    </Button>
-                )}
+                {!isRoundDisabled && <Button isSubmitButton>Ответить</Button>}
             </form>
         </RoundWrapper>
     );

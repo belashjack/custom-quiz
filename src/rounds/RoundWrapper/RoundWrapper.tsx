@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, useContext } from 'react';
 import { AppContext } from '../../AppContext';
 import './RoundWrapper.scss';
 import { Description, Round } from '../types';
@@ -57,17 +57,13 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
     } = useContext(AppContext);
     const currentRound = rounds[currentRoundIndex];
 
-    const [showTimer, setShowTimer] = useState(!isWin && !isLose && !isLoseByTimer);
-
-    useEffect(() => {
-        if (isWin || isLose || isLoseByTimer) {
-            setShowTimer(false);
-        }
-    }, [isWin, isLose, isLoseByTimer]);
-
     const showPreviousRoundButton = isEasyMode && currentRoundIndex > 0;
     // eslint-disable-next-line no-nested-ternary
-    const showResetRoundButton = withoutResetButton ? false : isEasyMode ? isWin || isLose : isLose;
+    const showResetRoundButton = withoutResetButton
+        ? false
+        : isEasyMode
+          ? isWin || isLose || isLoseByTimer
+          : isLose || isLoseByTimer;
     const showNextRoundButton = isWin && currentRoundIndex < rounds.length - 1;
 
     const showFooter = showPreviousRoundButton || showResetRoundButton || showNextRoundButton;
@@ -75,7 +71,6 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
     const handleResetRound = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         resetRound?.();
-        setShowTimer(Boolean(currentRound.timerOptions));
         tryAgain();
     };
 
@@ -98,7 +93,7 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                             .join('\u00A0')}
                     </div>
 
-                    {showTimer && currentRound.timerOptions && (
+                    {currentRound.timerOptions && !isWin && !isLose && !isLoseByTimer && (
                         <Timer duration={currentRound.timerOptions.duration} onTimerPassed={forceLose} />
                     )}
                 </header>

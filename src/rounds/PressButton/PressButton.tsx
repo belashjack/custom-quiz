@@ -20,7 +20,7 @@ const PressButton: FC<PressButtonRound> = (props) => {
     } = props;
     const { isEasyMode } = useContext(AppContext);
     const { step, decrementStep } = isEasyMode ? DIFFICULTY_TO_STEPS_MAP.EASY : DIFFICULTY_TO_STEPS_MAP[difficulty];
-    const { text, increment, isWin, isLose, isLoseByTimer, setAnswer } = usePressButton(
+    const { text, increment, decrementToInitial, isWin, isLoseByTimer, setAnswer } = usePressButton(
         INITIAL_VALUE,
         FINAL_VALUE,
         step,
@@ -31,18 +31,27 @@ const PressButton: FC<PressButtonRound> = (props) => {
         increment();
     };
 
+    const resetInternalState = () => {
+        decrementToInitial();
+    };
+
+    const isRoundDisabled = isWin || isLoseByTimer;
+
     return (
         <RoundWrapper
             description={description}
             isWin={isWin}
-            isLose={isLose}
             isLoseByTimer={isLoseByTimer}
-            forceLose={() => setAnswer(false, true)}
+            resetRound={resetInternalState}
+            forceLose={() => {
+                setAnswer(null, true);
+                resetInternalState();
+            }}
         >
             <div className="press-button">
                 <span className="text">{text}</span>
-                {!isWin && (
-                    <Button onClick={handleClick} disabled={isWin} withHeartAnimation>
+                {!isRoundDisabled && (
+                    <Button onClick={handleClick} withHeartAnimation>
                         Нажимай меня!
                     </Button>
                 )}

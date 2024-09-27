@@ -25,7 +25,6 @@ const Timer: FC<TimerProps> = ({ duration, onTimerPassed }) => {
                 if (prevTime > 100) return prevTime - 100;
 
                 clearInterval(interval);
-                onTimerPassed?.();
 
                 return 0;
             });
@@ -33,6 +32,12 @@ const Timer: FC<TimerProps> = ({ duration, onTimerPassed }) => {
 
         return () => clearInterval(interval);
     }, []);
+
+    useEffect(() => {
+        if (timeLeft === 0) {
+            onTimerPassed?.();
+        }
+    }, [timeLeft]);
 
     const radius = 29.5;
     const circumference = 2 * Math.PI * radius;

@@ -16,7 +16,6 @@
     &--disabled {
         .item {
             @include option-item-common-disabled-styles;
-            cursor: default;
         }
     }
 }

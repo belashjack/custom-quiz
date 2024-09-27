@@ -15,10 +15,10 @@ const findRange = (value: number) => TEXT_RANGES.find(({ min, max }) => value >=
 
 const usePressButton = (initialValue: number, finalValue: number, step: number, decrementStep: number) => {
     const winDetector = (answer: boolean) => answer;
-    const { answer, setAnswer, isWin, isLose, isLoseByTimer } = useAnswer<boolean>(winDetector);
+    const { answer, setAnswer, isWin, isLoseByTimer } = useAnswer<boolean>(winDetector);
     const [value, setValue] = useState(isWin ? finalValue : initialValue);
     const [text, setText] = useState(findRange(value)?.text);
-    const [isTimerActive, setIsTimerActive] = useState(!isWin);
+    const [isTimerActive, setIsTimerActive] = useState(!isWin && !isLoseByTimer);
 
     const updateText = (newValue: number, direction: 'increment' | 'decrement') => {
         const range = findRange(newValue);
@@ -77,7 +77,13 @@ const usePressButton = (initialValue: number, finalValue: number, step: number, 
         });
     };
 
-    return { text, increment, isWin, isLose, isLoseByTimer, setAnswer };
+    const decrementToInitial = () => {
+        setValue(initialValue);
+        setText(findRange(initialValue)?.text);
+        setIsTimerActive(false);
+    };
+
+    return { text, increment, decrementToInitial, isWin, isLoseByTimer, setAnswer };
 };
 
 export default usePressButton;

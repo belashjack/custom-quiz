@@ -13,7 +13,7 @@ interface AppContextProps {
     killLife: () => void;
     startAgain: () => void;
     progress: Progress;
-    saveAnswer: (answer: Answer) => void;
+    saveAnswer: (answer: Answer, isLoseByTimer: boolean) => void;
 }
 
 const APP_CONTEXT_DEFAULT_VALUE: AppContextProps = {
@@ -37,7 +37,7 @@ const APP_CONTEXT_DEFAULT_VALUE: AppContextProps = {
     progress: {
         currentRoundIndex: 0,
         livesLeft: 0,
-        answers: { 0: null },
+        rounds: { 0: { answer: null } },
     },
     saveAnswer: () => {
         // Do nothing
@@ -58,7 +58,7 @@ const AppContextProvider: FC<AppContextProviderProps> = ({ children }) => {
     const progressInitialValue: Progress = {
         currentRoundIndex: 0,
         livesLeft: INITIAL_LIVES_NUMBER,
-        answers: Object.fromEntries(rounds.map((_, index) => [index, null])),
+        rounds: Object.fromEntries(rounds.map((_, index) => [index, { answer: null }])),
     };
 
     const [progress, setProgress] = useSessionStorage<Progress>('progress', progressInitialValue);
@@ -81,7 +81,7 @@ const AppContextProvider: FC<AppContextProviderProps> = ({ children }) => {
                     setProgressField('currentRoundIndex', progress.currentRoundIndex + 1);
                 },
                 tryAgain: () => {
-                    setProgressField('answers', { ...progress.answers, [progress.currentRoundIndex]: null });
+                    setProgressField('rounds', { ...progress.rounds, [progress.currentRoundIndex]: { answer: null } });
                 },
                 goToPreviousRound: () => {
                     window.scrollTo({ top: 0 });
@@ -95,8 +95,14 @@ const AppContextProvider: FC<AppContextProviderProps> = ({ children }) => {
                     setProgress(progressInitialValue);
                 },
                 progress,
-                saveAnswer: (answer) => {
-                    setProgressField('answers', { ...progress.answers, [progress.currentRoundIndex]: answer });
+                saveAnswer: (answer, isLoseByTimer) => {
+                    setProgressField('rounds', {
+                        ...progress.rounds,
+                        [progress.currentRoundIndex]: {
+                            answer,
+                            ...(isLoseByTimer && { isLoseByTimer: true }),
+                        },
+                    });
                 },
             }}
         >

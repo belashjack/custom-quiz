@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect } from 'react';
+import { FC, Fragment } from 'react';
 import RoundWrapper from '../RoundWrapper/RoundWrapper';
 import { MultipleOption, SimpleQuizRound, SingleOption } from '../types';
 import './SimpleQuiz.scss';
@@ -29,7 +29,9 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
         formState: { errors },
         watch,
     } = useForm<SimpleQuizFormFields>({
-        defaultValues: { option: [] },
+        defaultValues: {
+            option: answerExists(answer) ? answer.map((value) => String(value)) : [],
+        },
     });
 
     if (correctOptionIndexes.length === 0) {
@@ -42,19 +44,15 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
 
     const valueExists = watchedOptionValue.length > 0;
 
-    useEffect(() => {
-        if (isSingleChoice && valueExists) {
-            setAnswer(watchedOptionValue.map((value) => Number(value)));
-        }
-    }, [watchedOptionValue]);
-
     const onSubmit: SubmitHandler<SimpleQuizFormFields> = () => {
         setAnswer(watchedOptionValue.map((value) => Number(value)));
     };
 
-    const handleResetRound = () => {
-        reset();
+    const resetInternalState = () => {
+        reset({ option: [] });
     };
+
+    const isRoundDisabled = answerExists(answer) || isLoseByTimer;
 
     const singleChoiceOptionsRenderer = (options: SingleOption[]) => {
         const atLeastOneOptionHasAsset = options.some((option) => 'asset' in option);
@@ -63,7 +61,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
             <div className={clsx('options', { 'options--with-asset': atLeastOneOptionHasAsset })}>
                 {options.map((option, index) => {
                     const isSelected = answerExists(answer) && index === answer[0];
-                    const isNotSelected = answerExists(answer) && !isSelected;
+                    const isNotSelected = isRoundDisabled && !isSelected;
                     const isCorrect = isWin && correctOptionIndexes.includes(index);
                     const isIncorrect = isLose && isSelected;
 
@@ -74,10 +72,13 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
                                 {...register('option')}
                                 option={option}
                                 value={index}
-                                isNotSelected={isNotSelected}
                                 isCorrect={isCorrect}
                                 isIncorrect={isIncorrect}
-                                disabled={answerExists(answer)}
+                                isNotSelected={isNotSelected}
+                                disabled={isRoundDisabled}
+                                onChange={() => {
+                                    setAnswer([index]);
+                                }}
                             />
                             {(isCorrect || isIncorrect) && (
                                 <Explanation isCorrect={isCorrect} isIncorrect={isIncorrect} {...option.explanation} />
@@ -96,7 +97,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
             <div className={clsx('options', { 'options--with-asset': atLeastOneOptionHasAsset })}>
                 {options.map((option, index) => {
                     const isSelected = valueExists && watchedOptionValue.map((value) => Number(value)).includes(index);
-                    const isNotSelected = answerExists(answer) && !isSelected;
+                    const isNotSelected = isRoundDisabled && !isSelected;
                     const isCorrect = isWin && correctOptionIndexes.includes(index);
 
                     return (
@@ -111,7 +112,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
                             isCorrect={isCorrect}
                             isSelected={isSelected}
                             isNotSelected={isNotSelected}
-                            disabled={answerExists(answer)}
+                            disabled={isRoundDisabled}
                         />
                     );
                 })}
@@ -125,8 +126,11 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
             isWin={isWin}
             isLose={isLose}
             isLoseByTimer={isLoseByTimer}
-            resetRound={handleResetRound}
-            forceLose={() => setAnswer([], true)}
+            resetRound={resetInternalState}
+            forceLose={() => {
+                setAnswer(null, true);
+                resetInternalState();
+            }}
         >
             {isSingleChoice && <form className="simple-quiz-form">{singleChoiceOptionsRenderer(content.options)}</form>}
             {!isSingleChoice && (
@@ -138,7 +142,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
                 >
                     {multipleChoiceOptionsRenderer(content.options)}
                     {errors.option && <p className="error-message">Выбери хотя бы один вариант</p>}
-                    {!answerExists(answer) && <Button isSubmitButton>Ответить</Button>}
+                    {!isRoundDisabled && <Button isSubmitButton>Ответить</Button>}
                 </form>
             )}
         </RoundWrapper>

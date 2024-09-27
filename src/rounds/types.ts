@@ -7,10 +7,16 @@ export enum RoundType {
 }
 
 export type Answer = string | number[] | boolean | null;
+
+interface ProgressRound {
+    answer: Answer;
+    isLoseByTimer?: boolean;
+}
+
 export interface Progress {
     currentRoundIndex: number;
     livesLeft: number;
-    answers: Record<number, Answer>;
+    rounds: Record<number, ProgressRound>;
 }
 
 export interface Explanation {
@@ -80,7 +86,7 @@ interface PressButtonRoundContent extends GameRoundContent {
     difficulty: DIFFICULTY;
 }
 
-export interface TimerOptions {
+interface TimerOptions {
     duration: number;
     loseByTimerExplanation: Explanation;
 }
