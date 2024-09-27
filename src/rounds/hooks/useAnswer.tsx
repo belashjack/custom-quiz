@@ -20,7 +20,7 @@ const useAnswer = <T extends Answer>(winDetector: (answer: T) => boolean) => {
 
     const setAnswer = (newAnswer: T | null, isLoseByTimer = false) => {
         const willWin = answerExists(newAnswer) && winDetector(newAnswer);
-        const willLose = answerExists(newAnswer) && !willWin;
+        const willLose = !willWin;
 
         if (willLose && !isEasyMode) {
             killLife();
