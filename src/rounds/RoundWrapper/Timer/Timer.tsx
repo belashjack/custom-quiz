@@ -71,7 +71,7 @@ const Timer: FC<TimerProps> = ({ duration, onTimerPassed }) => {
                 />
             </svg>
             <div className="timer-text" style={{ color }}>
-                {(timeLeft / 1000).toFixed(1)}
+                {(timeLeft / 1000).toFixed(0)}
             </div>
         </div>
     );

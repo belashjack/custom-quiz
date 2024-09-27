@@ -3,8 +3,42 @@ import { Round, RoundType } from './types';
 import { getRandomFromArray } from './utils';
 
 export const roundsConfig: Round[] = [
+    // puzzle
+    {
+        type: RoundType.PUZZLE,
+        timerOptions: {
+            duration: DEFAULT_TIMER_DURATION,
+            loseByTimerExplanation: {
+                text: 'Время вышло! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
+        content: {
+            description: {
+                text: <p>Соберись, тряпка!</p>,
+            },
+            imageUrl: new URL('./assets/2024-09-07 14.08.27.jpg', import.meta.url).href,
+            winExplanation: {
+                text: 'Ты справилась! 🎉',
+                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+            },
+            loseExplanation: {
+                text: 'Ты не справилась! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+            difficulty: 'EASY',
+        },
+    },
+    // press button
     {
         type: RoundType.PRESS_BUTTON,
+        timerOptions: {
+            duration: DEFAULT_TIMER_DURATION,
+            loseByTimerExplanation: {
+                text: 'Время вышло! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
         content: {
             description: {
                 text: (
@@ -27,8 +61,16 @@ export const roundsConfig: Round[] = [
             },
         },
     },
+    // drag and drop
     {
         type: RoundType.DRAG_AND_DROP,
+        timerOptions: {
+            duration: DEFAULT_TIMER_DURATION,
+            loseByTimerExplanation: {
+                text: 'Время вышло! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
         content: {
             description: {
                 text: <p>Сделай в хронологическом порядке</p>,
@@ -59,6 +101,13 @@ export const roundsConfig: Round[] = [
     // single choice, without asset
     {
         type: RoundType.SIMPLE_QUIZ,
+        timerOptions: {
+            duration: DEFAULT_TIMER_DURATION,
+            loseByTimerExplanation: {
+                text: 'Время вышло! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
         content: {
             isSingleChoice: true,
             description: {
@@ -87,6 +136,13 @@ export const roundsConfig: Round[] = [
     // single choice, with asset
     {
         type: RoundType.SIMPLE_QUIZ,
+        timerOptions: {
+            duration: DEFAULT_TIMER_DURATION,
+            loseByTimerExplanation: {
+                text: 'Время вышло! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
         content: {
             isSingleChoice: true,
             description: {
@@ -131,6 +187,13 @@ export const roundsConfig: Round[] = [
     // multiple choice, without asset
     {
         type: RoundType.SIMPLE_QUIZ,
+        timerOptions: {
+            duration: DEFAULT_TIMER_DURATION,
+            loseByTimerExplanation: {
+                text: 'Время вышло! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
         content: {
             description: {
                 text: (
@@ -192,8 +255,16 @@ export const roundsConfig: Round[] = [
             correctOptionIndexes: [2, 3],
         },
     },
+    // input correct answer
     {
         type: RoundType.INPUT_CORRECT_ANSWER,
+        timerOptions: {
+            duration: DEFAULT_TIMER_DURATION,
+            loseByTimerExplanation: {
+                text: 'Время вышло! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
         content: {
             description: {
                 text: `What is your sister's name?`,
@@ -208,6 +279,7 @@ export const roundsConfig: Round[] = [
             },
         },
     },
+    // input correct answer
     {
         type: RoundType.INPUT_CORRECT_ANSWER,
         timerOptions: {
@@ -230,6 +302,7 @@ export const roundsConfig: Round[] = [
             },
         },
     },
+    // preview
     {
         type: RoundType.PREVIEW,
         content: {
@@ -276,6 +349,7 @@ export const roundsConfig: Round[] = [
             },
         },
     },
+    // preview
     {
         type: RoundType.PREVIEW,
         content: {

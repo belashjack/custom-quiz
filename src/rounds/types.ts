@@ -4,6 +4,7 @@ export enum RoundType {
     INPUT_CORRECT_ANSWER = 'INPUT_CORRECT_ANSWER',
     DRAG_AND_DROP = 'DRAG_AND_DROP',
     PRESS_BUTTON = 'PRESS_BUTTON',
+    PUZZLE = 'PUZZLE',
 }
 
 export type Answer = string | number[] | boolean | null;
@@ -86,6 +87,11 @@ interface PressButtonRoundContent extends GameRoundContent {
     difficulty: DIFFICULTY;
 }
 
+interface PuzzleRoundContent extends GameRoundContent {
+    imageUrl: string;
+    difficulty: DIFFICULTY;
+}
+
 interface TimerOptions {
     duration: number;
     loseByTimerExplanation: Explanation;
@@ -121,4 +127,15 @@ export interface PressButtonRound extends BaseRound {
     content: PressButtonRoundContent;
 }
 
-export type Round = PreviewRound | SimpleQuizRound | InputCorrectAnswerRound | DragAndDropRound | PressButtonRound;
+export interface PuzzleRound extends BaseRound {
+    type: RoundType.PUZZLE;
+    content: PuzzleRoundContent;
+}
+
+export type Round =
+    | PreviewRound
+    | SimpleQuizRound
+    | InputCorrectAnswerRound
+    | DragAndDropRound
+    | PressButtonRound
+    | PuzzleRound;
