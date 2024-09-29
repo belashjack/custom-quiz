@@ -1,0 +1,40 @@
+@use './Balloon.scss' as *;
+
+@keyframes gameBalloonFlyAnimation {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(calc(-100vh - var(--balloon-height)));
+    }
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+        filter: opacity(1);
+    }
+    50% {
+        transform: scale(1.05);
+        filter: opacity(0.8);
+    }
+    100% {
+        transform: scale(0.95);
+        filter: opacity(0);
+    }
+}
+
+.game-balloon {
+    $fligth-animation: gameBalloonFlyAnimation var(--animation-duration) linear var(--animation-delay) forwards;
+    $rotate-animation: balloonRotateAnimation 4s linear var(--animation-delay) infinite;
+
+    transform-origin: bottom center;
+    animation: $fligth-animation, $rotate-animation;
+
+    &--pop {
+        animation:
+            $fligth-animation,
+            $rotate-animation,
+            pop 0.2s ease-out forwards;
+    }
+}

@@ -1,66 +1,38 @@
-@keyframes balloonFlightAnimation {
-    0% {
-        transform: translateY(0);
-    }
-    20% {
-        transform: translateY(calc(-20vh - var(--balloon-height) * 0.2)) rotate(5deg);
-    }
-    40% {
-        transform: translateY(calc(-40vh - var(--balloon-height) * 0.4)) rotate(-5deg);
-    }
-    60% {
-        transform: translateY(calc(-60vh - var(--balloon-height) * 0.6)) rotate(5deg);
-    }
-    80% {
-        transform: translateY(calc(-80vh - var(--balloon-height) * 0.8)) rotate(-5deg);
-    }
-    100% {
-        transform: translateY(calc(-100vh - var(--balloon-height)));
-    }
-}
-
-@keyframes pop {
-    0% {
-        transform: scale(1);
-        filter: opacity(1);
-    }
-    50% {
-        transform: scale(1.05);
-        filter: opacity(0.8);
-    }
-    100% {
-        transform: scale(0.95);
-        filter: opacity(0);
-    }
-}
-
 :root {
     --balloon-width: 100px;
     --balloon-height: 164px;
 }
 
-.balloon {
-    $fligth-animation: balloonFlightAnimation var(--animation-duration) linear var(--animation-delay) forwards;
+@keyframes balloonRotateAnimation {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(5deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
 
+.balloon {
     position: absolute;
     left: var(--left-position);
     bottom: calc(-1 * var(--balloon-height));
     width: var(--balloon-width);
     height: var(--balloon-height);
-    transform-origin: bottom center;
-    animation: $fligth-animation;
-
-    &--pop {
-        animation:
-            $fligth-animation,
-            pop 0.2s ease-out forwards;
-        animation-composition: add;
-    }
+    animation-composition: add;
 }
 
 @media (width < 768px) {
     :root {
-        --balloon-width: 50px;
-        --balloon-height: 82px;
+        --balloon-width: 45px;
+        --balloon-height: 74px;
     }
 }

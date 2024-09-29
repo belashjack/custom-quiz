@@ -1,3 +1,4 @@
+import { BALLOON_COLOR } from './Balloons/Balloon/Balloon';
 import { CORRECT_EXPLANATION_ASSETS, DEFAULT_TIMER_DURATION, INCORRECT_EXPLANATION_ASSETS } from './constants';
 import { Round, RoundType } from './types';
 import { getRandomFromArray } from './utils';
@@ -10,16 +11,13 @@ export const roundsConfig: Round[] = [
             description: {
                 text: <p>Попробуй лопнуть все красные шарики!</p>,
             },
-            correctColor: '#ff0000',
-            winExplanation: {
-                text: 'Ты справилась! 🎉',
-                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
-            },
+            correctColor: BALLOON_COLOR.RED,
             loseExplanation: {
                 text: 'Ты не справилась! 😱',
                 asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
             },
             difficulty: 'EASY',
+            happyBirthdayName: 'Diana',
         },
     },
     // puzzle

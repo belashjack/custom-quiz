@@ -1,0 +1,16 @@
+@use './Balloon.scss' as *;
+
+@keyframes happyBirthdayBalloonFlyAnimation {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(var(--finish-position));
+    }
+}
+
+.happy-birthday-balloon {
+    animation:
+        happyBirthdayBalloonFlyAnimation var(--animation-duration) linear var(--animation-delay) forwards,
+        balloonRotateAnimation 4s linear var(--animation-delay) infinite;
+}

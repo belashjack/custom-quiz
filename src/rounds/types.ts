@@ -1,3 +1,5 @@
+import { BALLOON_COLOR } from './Balloons/Balloon/Balloon';
+
 export enum RoundType {
     PREVIEW = 'PREVIEW',
     SIMPLE_QUIZ = 'SIMPLE_QUIZ',
@@ -93,9 +95,10 @@ interface PuzzleRoundContent extends GameRoundContent {
     difficulty: Difficulty;
 }
 
-interface BalloonsRoundContent extends GameRoundContent {
+interface BalloonsRoundContent extends Omit<GameRoundContent, 'winExplanation'> {
     difficulty: Difficulty;
-    correctColor: string;
+    correctColor: BALLOON_COLOR;
+    happyBirthdayName: string;
 }
 
 interface TimerOptions {
