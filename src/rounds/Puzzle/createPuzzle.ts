@@ -2,16 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as headbreaker from 'headbreaker';
-import { DIFFICULTY } from '../types';
 
 const createPuzzle = (
     puzzleElement: HTMLDivElement | null,
     initialSize: number,
     image: HTMLImageElement,
-    isEasyMode: boolean,
     onSolved: () => void,
     shouldShuffle: boolean,
-    difficulty: DIFFICULTY
+    isEasyGame: boolean
 ) => {
     const rowCount = 4;
     const canvas = new headbreaker.Canvas(puzzleElement?.id, {
@@ -35,7 +33,7 @@ const createPuzzle = (
     });
 
     if (shouldShuffle) {
-        if (isEasyMode || difficulty === 'EASY') {
+        if (isEasyGame) {
             canvas.puzzle.pieces[rowCount * rowCount - 1].translate(25, 25);
         } else {
             canvas.shuffleGrid();

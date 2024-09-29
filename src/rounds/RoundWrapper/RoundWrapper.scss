@@ -11,6 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 6rem;
     padding: 1rem;
     font-size: 3rem;
     border-bottom: 1px solid $neutral-color;
@@ -26,11 +27,12 @@
     width: 100%;
     max-width: 60rem;
     margin: 0 auto;
-    padding: 1rem;
-    margin-bottom: 4rem;
+    padding: 1rem 1rem 4rem;
+    overflow: hidden;
+    position: relative;
 
     &:has(+ .round-footer) {
-        margin-bottom: 10.75rem;
+        margin-bottom: 6.5rem;
     }
 }
 

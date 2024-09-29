@@ -3,6 +3,25 @@ import { Round, RoundType } from './types';
 import { getRandomFromArray } from './utils';
 
 export const roundsConfig: Round[] = [
+    // balloons
+    {
+        type: RoundType.BALLOONS,
+        content: {
+            description: {
+                text: <p>Попробуй лопнуть все красные шарики!</p>,
+            },
+            correctColor: '#ff0000',
+            winExplanation: {
+                text: 'Ты справилась! 🎉',
+                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+            },
+            loseExplanation: {
+                text: 'Ты не справилась! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+            difficulty: 'EASY',
+        },
+    },
     // puzzle
     {
         type: RoundType.PUZZLE,

@@ -23,10 +23,9 @@ const createHeartElement = () => {
 const withHeartAnimation = <P extends WithHeartAnimationProps>(
     WrappedComponent: React.ComponentType<P & WithHeartAnimationProps>
 ): FC<P> => {
-    // eslint-disable-next-line react/display-name
-    return (props) => {
+    return function withHeartAnimation(props) {
         const containerRef = useRef<HTMLDivElement>(null);
-        // eslint-disable-next-line react/prop-types
+
         const { withHeartAnimation, onClick, ...rest } = props;
 
         if (withHeartAnimation === undefined || !withHeartAnimation)

@@ -75,10 +75,11 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
     };
 
     const loseExplanation = getLoseExplanation(isLoseByTimer, currentRound);
+    const showHeaderFinal = showHeader && !isEasyMode;
 
     return (
         <div className="round">
-            {showHeader && !isEasyMode && (
+            {showHeaderFinal && (
                 <header className="round-header">
                     <div>
                         {Array(INITIAL_LIVES_NUMBER)
@@ -98,7 +99,7 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                     )}
                 </header>
             )}
-            <div className="round-content">
+            <div className="round-content" style={{ minHeight: showHeaderFinal ? `calc(100vh - 6rem)` : '100vh' }}>
                 <div className="round-description">
                     <div
                         className={clsx('round-description-text', {

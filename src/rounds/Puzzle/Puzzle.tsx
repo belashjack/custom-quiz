@@ -11,6 +11,7 @@ const Puzzle: FC<PuzzleRound> = (props) => {
         content: { description, imageUrl, difficulty },
     } = props;
     const { isEasyMode } = useContext(AppContext);
+    const isEasyGame = isEasyMode || difficulty === 'EASY';
     const puzzleRef = useRef<HTMLDivElement>(null);
     const initialSize = 620;
 
@@ -34,15 +35,7 @@ const Puzzle: FC<PuzzleRound> = (props) => {
 
         image.onload = () => {
             const shouldShuffle = !answerExists(answer);
-            const methods = createPuzzle(
-                puzzleElement,
-                initialSize,
-                image,
-                isEasyMode,
-                onSolved,
-                shouldShuffle,
-                difficulty
-            );
+            const methods = createPuzzle(puzzleElement, initialSize, image, onSolved, shouldShuffle, isEasyGame);
             ({ resizeCanvas } = methods);
 
             resizeCanvas(); // resise for first render (for mobile devices)
