@@ -193,7 +193,7 @@ const Balloon =
                             textTransform: 'uppercase',
                             fontSize: '1000%',
                             fontWeight: 'bolder',
-                            fontFamily: 'Comic Sans MS, Comic Sans, cursive',
+                            fontFamily: 'Comic Sans, Comic Sans MS, Chalkboard, ChalkboardSE-Regular, sans-serif',
                         }}
                     >
                         {letter}

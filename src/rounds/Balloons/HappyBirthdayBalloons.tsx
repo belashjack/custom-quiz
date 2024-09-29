@@ -26,7 +26,7 @@ const getBalloons = (fullMessage: string, containerWidth: number) => {
             color: getRandomFromArray(Object.values(BALLOON_COLOR)),
             letter,
             leftPosition: `${containerWidth / 2 + balloonWidth * index - (balloonWidth * letters.length) / 2 + balloonWidth / 2}px`,
-            finishPosition: `calc(-75vh + ${balloonHeight * rowIndex}px)`,
+            finishPosition: `calc(-70vh + ${balloonHeight * rowIndex}px)`,
         }));
 
         return [...acc, ...baloons];

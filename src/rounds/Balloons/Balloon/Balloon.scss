@@ -28,6 +28,7 @@
     width: var(--balloon-width);
     height: var(--balloon-height);
     animation-composition: add;
+    -webkit-tap-highlight-color: transparent;
 }
 
 @media (width < 768px) {
