@@ -1,0 +1,44 @@
+@use '../variables.scss' as *;
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.03);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.carry {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 1rem;
+    padding: 2rem;
+    user-select: none;
+}
+
+.draggable {
+    font-size: 3rem;
+    z-index: 1;
+}
+
+.droppable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+    border: 2px dashed $neutral-color;
+    font-size: 3rem;
+    background-color: #ffffff;
+
+    &--over {
+        background-color: lighten($color: $neutral-color, $amount: 45%);
+        animation: pulse 0.5s infinite;
+    }
+}

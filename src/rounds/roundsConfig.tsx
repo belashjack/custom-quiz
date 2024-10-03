@@ -4,12 +4,41 @@ import { Round, RoundType } from './types';
 import { getRandomFromArray } from './utils';
 
 export const roundsConfig: Round[] = [
+    // carry
+    {
+        type: RoundType.CARRY,
+        timerOptions: {
+            duration: DEFAULT_TIMER_DURATION,
+            loseByTimerExplanation: {
+                text: 'Время вышло! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+        },
+        content: {
+            description: {
+                text: <p>Я думаю догадаешься 🙃</p>,
+            },
+            winExplanation: {
+                text: 'Ты справилась! 🎉',
+                asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
+            },
+            loseExplanation: {
+                text: 'Ты не справилась! 😱',
+                asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
+            },
+            items: [
+                { draggable: { content: '❤️' }, droppable: { content: '🧠' } },
+                { draggable: { content: '🍌' }, droppable: { content: '🍉' } },
+                { draggable: { content: '🚁' }, droppable: { content: '⭐️' } },
+            ],
+        },
+    },
     // balloons
     {
         type: RoundType.BALLOONS,
         content: {
             description: {
-                text: <p>Попробуй лопнуть все красные шарики!</p>,
+                text: <p>Красный!</p>,
             },
             correctColor: BALLOON_COLOR.RED,
             loseExplanation: {

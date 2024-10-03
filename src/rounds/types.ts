@@ -8,6 +8,7 @@ export enum RoundType {
     PRESS_BUTTON = 'PRESS_BUTTON',
     PUZZLE = 'PUZZLE',
     BALLOONS = 'BALLOONS',
+    CARRY = 'CARRY',
 }
 
 export type Answer = string | number[] | boolean | null;
@@ -101,6 +102,19 @@ interface BalloonsRoundContent extends Omit<GameRoundContent, 'winExplanation'> 
     happyBirthdayName: string;
 }
 
+export interface DraggableDroppable {
+    content: string;
+}
+
+export interface CarryRoundItem {
+    draggable: DraggableDroppable;
+    droppable: DraggableDroppable;
+}
+
+interface CarryRoundContent extends GameRoundContent {
+    items: CarryRoundItem[];
+}
+
 interface TimerOptions {
     duration: number;
     loseByTimerExplanation: Explanation;
@@ -146,6 +160,11 @@ export interface BalloonsRound extends BaseRound {
     content: BalloonsRoundContent;
 }
 
+export interface CarryRound extends BaseRound {
+    type: RoundType.CARRY;
+    content: CarryRoundContent;
+}
+
 export type Round =
     | PreviewRound
     | SimpleQuizRound
@@ -153,4 +172,5 @@ export type Round =
     | DragAndDropRound
     | PressButtonRound
     | PuzzleRound
-    | BalloonsRound;
+    | BalloonsRound
+    | CarryRound;

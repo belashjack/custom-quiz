@@ -57,7 +57,7 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
     } = useContext(AppContext);
     const currentRound = rounds[currentRoundIndex];
 
-    const showPreviousRoundButton = isEasyMode && currentRoundIndex > 0;
+    const showPreviousRoundButton = isEasyMode && currentRoundIndex > 0 && (isWin || isLose || isLoseByTimer);
     // eslint-disable-next-line no-nested-ternary
     const showResetRoundButton = withoutResetButton
         ? false

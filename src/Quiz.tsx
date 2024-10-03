@@ -9,6 +9,7 @@ import DragAndDrop from './rounds/DragAndDrop/DragAndDrop';
 import PressButton from './rounds/PressButton/PressButton';
 import Puzzle from './rounds/Puzzle/Puzzle';
 import Balloons from './rounds/Balloons/Balloons';
+import Carry from './rounds/Carry/Carry';
 
 const renderRoundComponent = (currentRound: Round, currentRoundIndex: number) => {
     switch (currentRound.type) {
@@ -26,6 +27,8 @@ const renderRoundComponent = (currentRound: Round, currentRoundIndex: number) =>
             return <Puzzle key={currentRoundIndex} {...currentRound} />;
         case RoundType.BALLOONS:
             return <Balloons key={currentRoundIndex} {...currentRound} />;
+        case RoundType.CARRY:
+            return <Carry key={currentRoundIndex} {...currentRound} />;
         default:
             return null;
     }
