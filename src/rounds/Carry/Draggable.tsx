@@ -18,6 +18,7 @@ const Draggable: FC<DraggableProps> = ({ item }) => {
             : `translate3d(${transform ? transform.x : 0}px, ${transform ? transform.y : 0}px, 0)`,
         cursor: isDragging ? 'grabbing' : 'grab',
         visibility: item.isHidden === true ? 'hidden' : 'visible',
+        fontSize: item.content.length > 1 ? '1.25rem' : '3rem',
     };
 
     return (

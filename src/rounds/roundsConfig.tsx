@@ -28,8 +28,8 @@ export const roundsConfig: Round[] = [
             },
             items: [
                 { draggable: { content: '❤️' }, droppable: { content: '🧠' } },
-                { draggable: { content: '🍌' }, droppable: { content: '🍉' } },
-                { draggable: { content: '🚁' }, droppable: { content: '⭐️' } },
+                { draggable: { content: 'абидки' }, droppable: { content: '🗑️' } },
+                { draggable: { content: '🚁' }, droppable: { content: '👩🏻‍⚕️' } },
             ],
         },
     },

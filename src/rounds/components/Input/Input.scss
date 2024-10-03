@@ -2,9 +2,10 @@
 
 .input-label {
     background-color: #ffffff;
+    min-width: 20rem;
 
     .input {
-        min-width: 30rem;
+        width: 100%;
         padding: 1rem 2rem;
         font-size: 1.25rem;
         border: 2px solid $neutral-color;
