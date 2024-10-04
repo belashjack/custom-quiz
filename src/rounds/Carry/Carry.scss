@@ -12,6 +12,16 @@
     }
 }
 
+@mixin draggable-droppable-content {
+    &--text {
+        font-size: 1.5rem;
+    }
+
+    &--emoji {
+        font-size: 3rem;
+    }
+}
+
 .carry {
     display: grid;
     grid-template-columns: auto auto;
@@ -24,6 +34,10 @@
 
 .draggable {
     z-index: 1;
+
+    .draggable-content {
+        @include draggable-droppable-content;
+    }
 }
 
 .droppable {
@@ -39,5 +53,9 @@
     &--over {
         background-color: lighten($color: $neutral-color, $amount: 45%);
         animation: pulse 0.5s infinite;
+    }
+
+    .droppable-content {
+        @include draggable-droppable-content;
     }
 }

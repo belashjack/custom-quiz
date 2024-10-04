@@ -18,12 +18,12 @@ const Draggable: FC<DraggableProps> = ({ item }) => {
             : `translate3d(${transform ? transform.x : 0}px, ${transform ? transform.y : 0}px, 0)`,
         cursor: isDragging ? 'grabbing' : 'grab',
         visibility: item.isHidden === true ? 'hidden' : 'visible',
-        fontSize: item.content.length > 1 ? '1.25rem' : '3rem',
     };
 
     return (
         <div ref={setNodeRef} className="draggable" style={style} {...listeners} {...attributes}>
-            {item.content}
+            {item.content.text !== undefined && <div className="draggable-content--text">{item.content.text}</div>}
+            {item.content.emoji !== undefined && <div className="draggable-content--emoji">{item.content.emoji}</div>}
         </div>
     );
 };

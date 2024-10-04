@@ -27,9 +27,9 @@ export const roundsConfig: Round[] = [
                 asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
             },
             items: [
-                { draggable: { content: '❤️' }, droppable: { content: '🧠' } },
-                { draggable: { content: 'абидки' }, droppable: { content: '🗑️' } },
-                { draggable: { content: '🚁' }, droppable: { content: '👩🏻‍⚕️' } },
+                { draggable: { content: { emoji: '❤️' } }, droppable: { content: { emoji: '🧠' } } },
+                { draggable: { content: { text: 'абидки' } }, droppable: { content: { emoji: '🗑️' } } },
+                { draggable: { content: { emoji: '🚁' } }, droppable: { content: { emoji: '👩🏻‍⚕️' } } },
             ],
         },
     },

@@ -15,7 +15,8 @@ const Droppable: FC<DroppableProps> = ({ item }) => {
         <div className="droppable" style={{ visibility: 'hidden' }} />
     ) : (
         <div ref={setNodeRef} className={clsx('droppable', { 'droppable--over': isOver })}>
-            {item.content}
+            {item.content.text !== undefined && <div className="droppable-content--text">{item.content.text}</div>}
+            {item.content.emoji !== undefined && <div className="droppable-content--emoji">{item.content.emoji}</div>}
         </div>
     );
 };

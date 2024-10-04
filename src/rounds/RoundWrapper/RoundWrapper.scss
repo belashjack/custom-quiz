@@ -11,13 +11,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 6rem;
     padding: 1rem;
-    font-size: 3rem;
     border-bottom: 1px solid $neutral-color;
     background-color: #ffffff;
     box-shadow: 0 4px 12px #00000014;
     z-index: 1;
+
+    .lives {
+        flex-wrap: wrap;
+        font-size: 2.5rem;
+    }
 }
 
 .round-content {

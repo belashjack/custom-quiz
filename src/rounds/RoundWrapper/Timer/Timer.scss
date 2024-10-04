@@ -1,4 +1,4 @@
-.timer-wrapper {
+.timer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,6 +10,6 @@
 
 .timer-text {
     position: absolute;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
 }

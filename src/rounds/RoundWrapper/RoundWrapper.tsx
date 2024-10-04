@@ -81,25 +81,20 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
         <div className="round">
             {showHeaderFinal && (
                 <header className="round-header">
-                    <div>
+                    <div className="lives">
                         {Array(INITIAL_LIVES_NUMBER)
                             .fill(null)
-                            .map((_, index) => {
-                                if (index < livesLeft) {
-                                    return '❤️';
-                                }
-
-                                return '💔';
-                            })
-                            .join('\u00A0')}
+                            .map((_, index) => (
+                                // eslint-disable-next-line react/no-array-index-key
+                                <span key={index}>{index < livesLeft ? '❤️' : '💔'}</span>
+                            ))}
                     </div>
-
                     {currentRound.timerOptions && !isWin && !isLose && !isLoseByTimer && (
                         <Timer duration={currentRound.timerOptions.duration} onTimerPassed={forceLose} />
                     )}
                 </header>
             )}
-            <div className="round-content" style={{ minHeight: showHeaderFinal ? `calc(100vh - 6rem)` : '100vh' }}>
+            <div className="round-content" style={{ minHeight: showHeaderFinal ? `calc(100vh - 5.75)` : '100vh' }}>
                 <div className="round-description">
                     <div
                         className={clsx('round-description-text', {

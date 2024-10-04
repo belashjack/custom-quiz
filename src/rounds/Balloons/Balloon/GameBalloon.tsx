@@ -47,7 +47,7 @@ const GameBalloon = memo<GameBalloonProps>(function GameBalloon(props) {
 
     const handleAnimationEnd: React.AnimationEventHandler = (event) => {
         switch (event.animationName) {
-            case 'balloonFlightAnimation':
+            case 'gameBalloonFlyAnimation':
                 if (isCorrectColor) {
                     forceLose();
                 }

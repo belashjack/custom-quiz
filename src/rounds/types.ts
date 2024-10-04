@@ -103,7 +103,10 @@ interface BalloonsRoundContent extends Omit<GameRoundContent, 'winExplanation'> 
 }
 
 export interface DraggableDroppable {
-    content: string;
+    content: {
+        text?: string;
+        emoji?: string;
+    };
 }
 
 export interface CarryRoundItem {

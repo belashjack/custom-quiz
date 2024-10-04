@@ -39,7 +39,7 @@ const Timer: FC<TimerProps> = ({ duration, onTimerPassed }) => {
         }
     }, [timeLeft]);
 
-    const radius = 29.5;
+    const radius = 27.5;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffsetRemaining = (1 - timeLeft / duration) * circumference;
     const circleCommonAttributes: SVGAttributes<SVGCircleElement> = {
@@ -53,8 +53,8 @@ const Timer: FC<TimerProps> = ({ duration, onTimerPassed }) => {
     const color = getRemainingColor(duration, timeLeft);
 
     return (
-        <div className="timer-wrapper">
-            <svg className="timer-circle" width="64" height="64">
+        <div className="timer">
+            <svg className="timer-circle" width="60" height="60">
                 <circle
                     {...circleCommonAttributes}
                     stroke="var(--disabled-color)"
