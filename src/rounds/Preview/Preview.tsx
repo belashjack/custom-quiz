@@ -3,10 +3,11 @@ import RoundWrapper from '../RoundWrapper/RoundWrapper';
 import { PreviewRound } from '../types';
 import { useInView } from 'react-intersection-observer';
 import useAnswer from '../hooks/useAnswer';
+import './Preview.scss';
 
 const Preview: FC<PreviewRound> = (props) => {
     const {
-        content: { description },
+        content: { title, description },
     } = props;
     const { ref, inView } = useInView({ triggerOnce: true });
 
@@ -19,7 +20,8 @@ const Preview: FC<PreviewRound> = (props) => {
     }, [inView]);
 
     return (
-        <RoundWrapper description={description} withoutResetButton isWin={isWin}>
+        <RoundWrapper title={title} withoutResetButton isWin={isWin}>
+            {Boolean(description) && <div className="preview-description">{description}</div>}
             <div ref={ref} />
         </RoundWrapper>
     );

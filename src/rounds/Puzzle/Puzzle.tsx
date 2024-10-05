@@ -8,7 +8,7 @@ import createPuzzle from './createPuzzle';
 
 const Puzzle: FC<PuzzleRound> = (props) => {
     const {
-        content: { description, imageUrl, difficulty },
+        content: { title, imageUrl, difficulty },
     } = props;
     const { isEasyMode } = useContext(AppContext);
     const isEasyGame = isEasyMode || difficulty === 'EASY';
@@ -53,7 +53,7 @@ const Puzzle: FC<PuzzleRound> = (props) => {
 
     return (
         <RoundWrapper
-            description={description}
+            title={title}
             isWin={isWin}
             isLoseByTimer={isLoseByTimer}
             forceLose={() => {

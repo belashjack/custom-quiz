@@ -16,7 +16,7 @@ const DIFFICULTY_TO_STEPS_MAP: Record<Difficulty, { step: number; decrementStep:
 
 const PressButton: FC<PressButtonRound> = (props) => {
     const {
-        content: { description, difficulty },
+        content: { title, difficulty },
     } = props;
     const { isEasyMode } = useContext(AppContext);
     const isEasyGame = isEasyMode || difficulty === 'EASY';
@@ -40,7 +40,7 @@ const PressButton: FC<PressButtonRound> = (props) => {
 
     return (
         <RoundWrapper
-            description={description}
+            title={title}
             isWin={isWin}
             isLoseByTimer={isLoseByTimer}
             resetRound={resetInternalState}

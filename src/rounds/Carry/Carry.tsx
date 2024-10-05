@@ -38,7 +38,7 @@ const getInitialState = (items: CarryRoundItem[]): CarryRoundStateItem[] => {
 
 const Carry: FC<CarryRound> = (props) => {
     const {
-        content: { description, items },
+        content: { title, items },
     } = props;
 
     const winDetector = (answer: boolean) => answer;
@@ -88,7 +88,7 @@ const Carry: FC<CarryRound> = (props) => {
 
     return (
         <RoundWrapper
-            description={description}
+            title={title}
             isWin={isWin}
             isLose={isLose}
             isLoseByTimer={isLoseByTimer}

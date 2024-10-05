@@ -23,7 +23,7 @@ import clsx from 'clsx';
 
 const DragAndDrop: FC<DragAndDropRound> = (props) => {
     const {
-        content: { description, options, correctOrder },
+        content: { title, options, correctOrder },
     } = props;
 
     const winDetector = (answer: number[]) => {
@@ -78,7 +78,7 @@ const DragAndDrop: FC<DragAndDropRound> = (props) => {
 
     return (
         <RoundWrapper
-            description={description}
+            title={title}
             isWin={isWin}
             isLose={isLose}
             isLoseByTimer={isLoseByTimer}

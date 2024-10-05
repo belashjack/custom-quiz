@@ -16,7 +16,7 @@ interface SimpleQuizFormFields {
 
 const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
     const { content } = props;
-    const { description, correctOptionIndexes } = content;
+    const { title, correctOptionIndexes } = content;
     const winDetector = (answer: number[]) => {
         return doArraysContainSameValues(correctOptionIndexes, answer);
     };
@@ -122,7 +122,7 @@ const SimpleQuiz: FC<SimpleQuizRound> = (props) => {
 
     return (
         <RoundWrapper
-            description={description}
+            title={title}
             isWin={isWin}
             isLose={isLose}
             isLoseByTimer={isLoseByTimer}

@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useContext } from 'react';
 import { AppContext } from '../../AppContext';
 import './RoundWrapper.scss';
-import { Description, Round } from '../types';
+import { Round, Title } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLeftLong, faRepeat, faRightLong } from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/Button/Button';
@@ -12,7 +12,7 @@ import { encodeToMorse } from '../utils';
 import clsx from 'clsx';
 
 interface RoundWrapperProps extends PropsWithChildren {
-    description: Description;
+    title?: Title;
     showHeader?: boolean;
     isWin?: boolean;
     isLose?: boolean;
@@ -38,7 +38,7 @@ const getLoseExplanation = (isLoseByTimer: boolean, currentRound: Round) => {
 
 const RoundWrapper: FC<RoundWrapperProps> = ({
     children,
-    description,
+    title,
     showHeader = true,
     isWin = false,
     isLose = false,
@@ -94,21 +94,20 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                     )}
                 </header>
             )}
-            <div className="round-content" style={{ minHeight: showHeaderFinal ? `calc(100vh - 5.75)` : '100vh' }}>
-                <div className="round-description">
-                    <div
-                        className={clsx('round-description-text', {
-                            'round-description-text--upside-down': Boolean(description.isUpsideDown),
-                        })}
-                    >
-                        {Boolean(description.isMorseCode) && typeof description.text === 'string' ? (
-                            <p style={{ fontFamily: `monospace` }}>{encodeToMorse(description.text)}</p>
-                        ) : (
-                            description.text
-                        )}
+            <div className="round-content" style={{ minHeight: showHeaderFinal ? `calc(100vh - 5.313rem)` : '100vh' }}>
+                {title && (
+                    <div className="round-title">
+                        <h1
+                            className={clsx('round-title-text', {
+                                'round-title-text--upside-down': Boolean(title.isUpsideDown),
+                                'round-title-text--morse-code': Boolean(title.isMorseCode),
+                            })}
+                        >
+                            {title.isMorseCode ?? false ? encodeToMorse(title.text) : title.text}
+                        </h1>
+                        {Boolean(title.asset) && <div className="round-title-asset">{title.asset}</div>}
                     </div>
-                    {Boolean(description.asset) && <div className="round-description-asset">{description.asset}</div>}
-                </div>
+                )}
                 {children}
                 {isWin && 'winExplanation' in currentRound.content && (
                     <Explanation isCorrect {...currentRound.content.winExplanation} />

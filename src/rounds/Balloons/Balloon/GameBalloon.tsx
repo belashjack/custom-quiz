@@ -16,7 +16,7 @@ interface GameBalloonProps {
     popBalloon: (id: number, color: BALLOON_COLOR) => void;
 }
 
-const ANIMATION_DURATION_BASE = 5;
+const ANIMATION_DURATION_BASE = 500;
 const SPEED_ADDITION_BASE = 10;
 const BALLOON_ROTATE_CORRECTION = 5;
 

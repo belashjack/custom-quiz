@@ -31,7 +31,7 @@ const getInitialGameBalloons = (correctColor: BALLOON_COLOR, isEasyGame: boolean
 
 const Balloons: FC<BalloonsRound> = (props) => {
     const {
-        content: { description, correctColor, difficulty, happyBirthdayName },
+        content: { title, correctColor, difficulty, happyBirthdayName },
     } = props;
     const { isEasyMode } = useContext(AppContext);
     const isEasyGame = isEasyMode || difficulty === 'EASY';
@@ -78,7 +78,7 @@ const Balloons: FC<BalloonsRound> = (props) => {
 
     return (
         <RoundWrapper
-            description={description}
+            title={title}
             isWin={isWin}
             isLose={isLose}
             isLoseByTimer={isLoseByTimer}

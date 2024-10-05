@@ -13,7 +13,7 @@ interface InputCorrectAnswerFormFields {
 
 const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
     const {
-        content: { description, correctAnswer },
+        content: { title, correctAnswer },
     } = props;
 
     const winDetector = (answer: string) => {
@@ -47,7 +47,7 @@ const InputCorrectAnswer: FC<InputCorrectAnswerRound> = (props) => {
 
     return (
         <RoundWrapper
-            description={description}
+            title={title}
             isWin={isWin}
             isLose={isLose}
             isLoseByTimer={isLoseByTimer}

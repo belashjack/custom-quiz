@@ -42,20 +42,24 @@ export interface MultipleOption {
 
 export type Option = SingleOption | MultipleOption;
 
-export interface Description {
-    text: React.ReactNode;
+export interface Title {
+    text: string;
     isMorseCode?: boolean;
     isUpsideDown?: boolean;
     asset?: React.ReactNode;
 }
 
 interface BaseRoundContent {
-    description: Description;
+    title?: Title;
 }
 
 interface GameRoundContent extends BaseRoundContent {
     winExplanation: Explanation;
     loseExplanation: Explanation;
+}
+
+interface PreviewRoundContent extends BaseRoundContent {
+    description?: React.ReactNode;
 }
 
 interface SimpleQuizRoundSingleContent extends BaseRoundContent {
@@ -131,6 +135,7 @@ interface BaseRound {
 
 export interface PreviewRound extends BaseRound {
     type: RoundType.PREVIEW;
+    content: PreviewRoundContent;
 }
 
 export interface SimpleQuizRound extends BaseRound {
