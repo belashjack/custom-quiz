@@ -15,8 +15,8 @@ import { shuffleArray } from '../utils';
 import { CarryRoundStateItem } from './types';
 import Draggable from './Draggable';
 import Droppable from './Droppable';
-import './Carry.scss';
 import useAnswer from '../hooks/useAnswer';
+import './Carry.scss';
 
 const generateConfigWithIds = (items: CarryRoundItem[]): CarryRoundStateItem[] =>
     items.map((item, index) => ({
@@ -40,7 +40,6 @@ const Carry: FC<CarryRound> = (props) => {
     const {
         content: { title, items },
     } = props;
-
     const winDetector = (answer: boolean) => answer;
 
     const { answer, answerExists, setAnswer, isWin, isLose, isLoseByTimer } = useAnswer<boolean>(winDetector);

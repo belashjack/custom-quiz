@@ -7,6 +7,7 @@ import { getRandomFromArray } from '../utils';
 import { AppContext } from '../../AppContext';
 import { BALLOON_COLOR } from './Balloon/Balloon';
 import HappyBirthdayBalloons from './HappyBirthdayBalloons';
+import popSound from '../../assets/sounds/pop.mp3';
 
 const CORRECT_BALLOON_PROBABILITY = 0.4;
 
@@ -49,6 +50,9 @@ const Balloons: FC<BalloonsRound> = (props) => {
     }, [gameBalloons]);
 
     const popBalloon = useCallback((id: number, color: BALLOON_COLOR) => {
+        const popAudio = new Audio(popSound);
+        void popAudio.play();
+
         if (color !== correctColor) {
             setAnswer(false);
         }

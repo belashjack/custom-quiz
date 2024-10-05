@@ -13,13 +13,13 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import clsx from 'clsx';
 import Sortable from './Sortable';
 import Item from './Item/Item';
-import './DragAndDrop.scss';
 import { areArraysEqual } from '../utils';
 import useAnswer from '../hooks/useAnswer';
 import Button from '../components/Button/Button';
-import clsx from 'clsx';
+import './DragAndDrop.scss';
 
 const DragAndDrop: FC<DragAndDropRound> = (props) => {
     const {
