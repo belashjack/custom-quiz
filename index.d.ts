@@ -9,3 +9,9 @@ declare module '*.mp3' {
 }
 
 declare module 'headbreaker';
+
+declare namespace NodeJS {
+    interface ProcessEnv {
+        NODE_ENV: 'development' | 'production';
+    }
+}
