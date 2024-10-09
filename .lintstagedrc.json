@@ -1,5 +1,6 @@
 {
     "*.{ts,tsx}": ["bash -c 'npm run lint-fix'", "prettier --write"],
     "*.{js,jsx}": ["npm run eslint-fix", "prettier --write"],
-    "*.{json,css,scss,md}": ["prettier --write"]
+    "*.{json,css,scss,md}": ["prettier --write"],
+    "*.tf": ["bash -c 'cd terraform && terraform fmt", "bash -c 'cd terraform && terraform validate"]
 }

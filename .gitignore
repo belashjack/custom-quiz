@@ -3,4 +3,5 @@ node_modules/
 parcel-bundle-reports/
 dist/
 .DS_Store
+.terraform/
 bla.json
