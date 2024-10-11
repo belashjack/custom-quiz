@@ -18,3 +18,21 @@ module "github_oidc" {
   aws_region                     = var.aws_region
   aws_account_id                 = var.aws_account_id
 }
+
+# Define the S3 bucket for the application
+resource "aws_s3_bucket" "custom_quiz_app" {
+  bucket = "custom-quiz-app"
+
+  tags = {
+    Project = var.project_name
+  }
+}
+
+# Define the S3 bucket for images
+resource "aws_s3_bucket" "custom_quiz_images" {
+  bucket = "custom-quiz-images"
+
+  tags = {
+    Project = var.project_name
+  }
+}

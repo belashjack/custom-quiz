@@ -129,10 +129,18 @@ resource "aws_iam_policy" "github_actions_oidc_iam_policy" {
       {
         Effect = "Allow",
         Action = [
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion"
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-s3-policy"
+      },
+      {
+        Effect = "Allow",
+        Action = [
           "iam:GetOpenIDConnectProvider"
         ],
         Resource = "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
-      }
+      },
     ]
   })
 }
@@ -140,4 +148,9 @@ resource "aws_iam_policy" "github_actions_oidc_iam_policy" {
 resource "aws_iam_role_policy_attachment" "github_actions_oidc_iam_policy_attachment" {
   role       = aws_iam_role.github_actions_oidc_role.name
   policy_arn = aws_iam_policy.github_actions_oidc_iam_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "github_actions_oidc_s3_policy_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+  role       = aws_iam_role.github_actions_oidc_role.name
 }
