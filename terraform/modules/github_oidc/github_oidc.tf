@@ -29,10 +29,10 @@ resource "aws_iam_role" "github_actions_oidc_role" {
   })
 }
 
-# Define the IAM policy for S3 access
-resource "aws_iam_policy" "github_actions_oidc_s3_policy" {
-  name        = "github-actions-oidc-s3-policy"
-  description = "Policy for GitHub Actions OIDC to access S3 bucket for Terraform state"
+# Define the IAM policy for access to the S3 bucket with the Terraform state file
+resource "aws_iam_policy" "github_actions_oidc_tf_state_s3_policy" {
+  name        = "github-actions-oidc-tf-state-s3-policy"
+  description = "Policy for GitHub Actions OIDC to access the S3 bucket for Terraform state file"
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -52,16 +52,15 @@ resource "aws_iam_policy" "github_actions_oidc_s3_policy" {
   })
 }
 
-# Attach the S3 policy to the GitHub Actions role
-resource "aws_iam_role_policy_attachment" "attach_github_actions_oidc_s3_policy" {
-  policy_arn = aws_iam_policy.github_actions_oidc_s3_policy.arn
+resource "aws_iam_role_policy_attachment" "attach_github_actions_oidc_tf_state_s3_policy" {
+  policy_arn = aws_iam_policy.github_actions_oidc_tf_state_s3_policy.arn
   role       = aws_iam_role.github_actions_oidc_role.name
 }
 
-# Define the IAM policy for DynamoDB access
-resource "aws_iam_policy" "github_actions_oidc_dynamodb_policy" {
-  name        = "github-actions-oidc-dynamodb-policy"
-  description = "Policy for GitHub Actions OIDC to access DynamoDB for state locking"
+# Define the IAM policy for access to the DynamoDB table for Terraform state locking
+resource "aws_iam_policy" "github_actions_oidc_tf_state_dynamodb_policy" {
+  name        = "github-actions-oidc-tf-state-dynamodb-policy"
+  description = "Policy for GitHub Actions OIDC to access the DynamoDB table for Terraform state locking"
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -78,9 +77,8 @@ resource "aws_iam_policy" "github_actions_oidc_dynamodb_policy" {
   })
 }
 
-# Attach the DynamoDB policy to the GitHub Actions role
-resource "aws_iam_role_policy_attachment" "attach_github_actions_oidc_dynamodb_policy" {
-  policy_arn = aws_iam_policy.github_actions_oidc_dynamodb_policy.arn
+resource "aws_iam_role_policy_attachment" "attach_github_actions_oidc_tf_state_dynamodb_policy" {
+  policy_arn = aws_iam_policy.github_actions_oidc_tf_state_dynamodb_policy.arn
   role       = aws_iam_role.github_actions_oidc_role.name
 }
 
@@ -104,8 +102,8 @@ resource "aws_iam_policy" "github_actions_oidc_iam_policy" {
         ],
         Resource = [
           "arn:aws:iam::${var.aws_account_id}:role/github-actions-oidc-role",
-          "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-s3-policy",
-          "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-dynamodb-policy",
+          "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-tf-state-s3-policy",
+          "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-tf-state-dynamodb-policy",
           "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-iam-policy",
           "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
         ]
@@ -114,7 +112,6 @@ resource "aws_iam_policy" "github_actions_oidc_iam_policy" {
   })
 }
 
-# Attach the IAM policy to the OIDC role
 resource "aws_iam_role_policy_attachment" "github_actions_oidc_iam_policy_attachment" {
   role       = aws_iam_role.github_actions_oidc_role.name
   policy_arn = aws_iam_policy.github_actions_oidc_iam_policy.arn
