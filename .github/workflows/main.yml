@@ -7,6 +7,12 @@ on:
     workflow_dispatch:
 
 jobs:
+    provision:
+        permissions:
+            id-token: write
+            contents: read
+        uses: ./.github/workflows/provision.yml
+
     build:
         uses: ./.github/workflows/build.yml
 
