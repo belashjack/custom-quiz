@@ -96,17 +96,42 @@ resource "aws_iam_policy" "github_actions_oidc_iam_policy" {
           "iam:GetRole",
           "iam:GetPolicy",
           "iam:GetPolicyVersion",
+          "iam:ListPolicyVersions",
           "iam:ListRolePolicies",
           "iam:ListAttachedRolePolicies",
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:role/github-actions-oidc-role"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion"
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-tf-state-s3-policy"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion"
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-tf-state-dynamodb-policy"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion"
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-iam-policy"
+      },
+      {
+        Effect = "Allow",
+        Action = [
           "iam:GetOpenIDConnectProvider"
         ],
-        Resource = [
-          "arn:aws:iam::${var.aws_account_id}:role/github-actions-oidc-role",
-          "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-tf-state-s3-policy",
-          "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-tf-state-dynamodb-policy",
-          "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-iam-policy",
-          "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
-        ]
+        Resource = "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
       }
     ]
   })
