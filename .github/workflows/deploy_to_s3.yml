@@ -1,0 +1,25 @@
+name: Deploy to S3
+
+on:
+    workflow_call:
+
+jobs:
+    deploy_to_s3:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Configure AWS credentials using OIDC
+              uses: aws-actions/configure-aws-credentials@v3
+              with:
+                  aws-region: us-east-1
+                  role-to-assume: arn:aws:iam::574783120239:role/github-actions-oidc-role
+
+            - name: Download dist artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: dist
+                  path: ./dist
+
+            - name: Sync files to S3
+              run: |
+                  aws s3 sync ./dist s3://custom-quiz-app --delete

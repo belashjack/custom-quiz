@@ -16,9 +16,14 @@ jobs:
     build:
         uses: ./.github/workflows/build.yml
 
+    deploy_to_s3:
+        needs: [provision, build]
+        permissions:
+            id-token: write
+        uses: ./.github/workflows/deploy_to_s3.yml
+
     deploy_to_github_pages:
         needs: build
-        # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
         permissions:
             pages: write
             id-token: write

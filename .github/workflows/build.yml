@@ -22,7 +22,15 @@ jobs:
             - name: Build project
               run: npm run build
 
-            - name: Upload artifact
+            # Upload the dist folder as an artifact just for GitHub Pages
+            - name: Upload artifact for GitHub Pages
               uses: actions/upload-pages-artifact@v3
               with:
                   path: './dist'
+
+            # Upload the dist folder as an artifact for anything else (e.g. S3)
+            - name: Upload dist artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dist
+                  path: ./dist
