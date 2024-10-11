@@ -9,14 +9,12 @@ terraform {
 }
 
 provider "aws" {
-  profile = "personal"
-  region  = "us-east-1"
+  region = var.aws_region
 }
 
-resource "aws_s3_bucket" "custom_quiz_bucket" {
-  bucket = "custom-quiz"
-
-  tags = {
-    Project = var.project_name
-  }
+module "github_oidc" {
+  source                         = "./modules/github_oidc"
+  terraform_state_s3_bucket_name = "custom-quiz-tfstate"
+  aws_region                     = var.aws_region
+  aws_account_id                 = var.aws_account_id
 }

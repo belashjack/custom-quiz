@@ -1,17 +1,14 @@
-variable "project_name" {
-  description = "The name of the project"
+variable "terraform_state_s3_bucket_name" {
+  description = "The name of the S3 bucket to store the Terraform state file"
   type        = string
-  default     = "Custom Quiz"
 }
 
 variable "aws_region" {
   description = "The AWS region to deploy the resources"
   type        = string
-  default     = "us-east-1"
 }
 
 variable "aws_account_id" {
   description = "The AWS account ID"
   type        = string
-  default     = "574783120239"
 }
