@@ -95,4 +95,28 @@ resource "aws_s3_bucket_policy" "custom_quiz_images_policy" {
 
 resource "aws_route53_zone" "custom_quiz_zone" {
   name = "happybirthdaydianayasenko.com"
+
+  tags = {
+    Project = var.project_name
+  }
+}
+
+resource "aws_route53_record" "custom_quiz_zone_record" {
+  zone_id = aws_route53_zone.custom_quiz_zone.zone_id
+  name    = "happybirthdaydianayasenko.com"
+  type    = "A"
+
+  alias {
+    name                   = aws_s3_bucket_website_configuration.custom_quiz_app_website_configuration.website_endpoint
+    zone_id                = aws_s3_bucket.custom_quiz_app.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "custom_quiz_zone_www_record" {
+  zone_id = aws_route53_zone.custom_quiz_zone.zone_id
+  name    = "www.happybirthdaydianayasenko.com"
+  type    = "CNAME"
+  ttl     = 300
+  records = [aws_route53_record.custom_quiz_zone_record.fqdn]
 }
