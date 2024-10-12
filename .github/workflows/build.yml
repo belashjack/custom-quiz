@@ -11,16 +11,17 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '20'
+            - name: Build Docker image
+              run: docker build -t custom-quiz-app .
 
-            - name: Install dependencies
-              run: npm install
+            - name: Create temporary container
+              run: docker create --name temp-container custom-quiz-app
 
-            - name: Build project
-              run: npm run build
+            - name: Copy dist folder from temporary container
+              run: docker cp temp-container:/app/dist ./dist
+
+            - name: Remove temporary container
+              run: docker rm temp-container
 
             # Upload the dist folder as an artifact just for GitHub Pages
             - name: Upload artifact for GitHub Pages
