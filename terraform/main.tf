@@ -21,7 +21,7 @@ module "github_oidc" {
 
 # Define the S3 bucket for the application
 resource "aws_s3_bucket" "custom_quiz_app" {
-  bucket = "custom-quiz-app"
+  bucket = "happybirthdaydianayasenko.com"
 
   tags = {
     Project = var.project_name
@@ -36,7 +36,7 @@ resource "aws_s3_bucket_website_configuration" "custom_quiz_app_website_configur
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "custom_quiz_app" {
+resource "aws_s3_bucket_public_access_block" "custom_quiz_app_public_access_block" {
   bucket = aws_s3_bucket.custom_quiz_app.id
 
   block_public_policy     = false
@@ -69,7 +69,7 @@ resource "aws_s3_bucket" "custom_quiz_images" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "custom_quiz_images_block" {
+resource "aws_s3_bucket_public_access_block" "custom_quiz_images_public_access_block" {
   bucket = aws_s3_bucket.custom_quiz_images.bucket
 
   block_public_policy     = false
@@ -107,7 +107,7 @@ resource "aws_route53_record" "custom_quiz_zone_record" {
   type    = "A"
 
   alias {
-    name                   = aws_s3_bucket_website_configuration.custom_quiz_app_website_configuration.website_endpoint
+    name                   = aws_s3_bucket_website_configuration.custom_quiz_app_website_configuration.website_domain
     zone_id                = aws_s3_bucket.custom_quiz_app.hosted_zone_id
     evaluate_target_health = false
   }
