@@ -36,3 +36,25 @@ resource "aws_s3_bucket" "custom_quiz_images" {
     Project = var.project_name
   }
 }
+
+resource "aws_s3_bucket_public_access_block" "custom_quiz_images_block" {
+  bucket                  = aws_s3_bucket.custom_quiz_images.bucket
+  block_public_policy     = false
+  restrict_public_buckets = false
+}
+
+
+resource "aws_s3_bucket_policy" "custom_quiz_images_policy" {
+  bucket = aws_s3_bucket.custom_quiz_images.bucket
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect    = "Allow",
+        Principal = "*",
+        Action    = "s3:GetObject",
+        Resource  = "arn:aws:s3:::custom-quiz-images/*"
+      }
+    ]
+  })
+}
