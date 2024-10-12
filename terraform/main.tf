@@ -94,7 +94,7 @@ resource "aws_s3_bucket_policy" "custom_quiz_images_policy" {
 }
 
 resource "aws_route53_zone" "custom_quiz_zone" {
-  name = "happybirthdaydianayasenko.com"
+  name = var.domain_name
 
   tags = {
     Project = var.project_name
@@ -103,7 +103,7 @@ resource "aws_route53_zone" "custom_quiz_zone" {
 
 resource "aws_route53_record" "custom_quiz_zone_record" {
   zone_id = aws_route53_zone.custom_quiz_zone.zone_id
-  name    = "happybirthdaydianayasenko.com"
+  name    = var.domain_name
   type    = "A"
 
   alias {
@@ -115,7 +115,7 @@ resource "aws_route53_record" "custom_quiz_zone_record" {
 
 resource "aws_route53_record" "custom_quiz_zone_www_record" {
   zone_id = aws_route53_zone.custom_quiz_zone.zone_id
-  name    = "www.happybirthdaydianayasenko.com"
+  name    = "www.${var.domain_name}"
   type    = "CNAME"
   ttl     = 300
   records = [aws_route53_record.custom_quiz_zone_record.fqdn]

@@ -15,3 +15,9 @@ variable "aws_account_id" {
   type        = string
   default     = "574783120239"
 }
+
+variable "domain_name" {
+  description = "The domain name used for custom quiz application"
+  type        = string
+  default     = "happybirthdaydianayasenko.com"
+}
