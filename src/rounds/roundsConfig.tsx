@@ -205,7 +205,7 @@ export const roundsConfig: Round[] = [
                         asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
                     },
                     asset: (
-                        <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/inccorrectAnswers/image2.webp" />
+                        <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/incorrectAnswers/image2.webp" />
                     ),
                 },
                 {
@@ -222,7 +222,7 @@ export const roundsConfig: Round[] = [
                         asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
                     },
                     asset: (
-                        <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/inccorrectAnswers/image3.webp" />
+                        <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/incorrectAnswers/image3.webp" />
                     ),
                 },
             ],
