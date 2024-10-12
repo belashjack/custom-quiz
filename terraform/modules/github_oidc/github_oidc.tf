@@ -137,6 +137,14 @@ resource "aws_iam_policy" "github_actions_oidc_iam_policy" {
       {
         Effect = "Allow",
         Action = [
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion"
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-route53-policy"
+      },
+      {
+        Effect = "Allow",
+        Action = [
           "iam:GetOpenIDConnectProvider"
         ],
         Resource = "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
@@ -152,5 +160,27 @@ resource "aws_iam_role_policy_attachment" "github_actions_oidc_iam_policy_attach
 
 resource "aws_iam_role_policy_attachment" "github_actions_oidc_s3_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+  role       = aws_iam_role.github_actions_oidc_role.name
+}
+
+# New policy granting the necessary Route 53 actions to the OIDC role
+resource "aws_iam_policy" "github_actions_oidc_route53_policy" {
+  name        = "github-actions-oidc-route53-policy"
+  description = "Allows GitHub Actions to manage Route 53 resources."
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = "route53:*",
+        Resource = "*",
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "github_actions_oidc_route53_attachment" {
+  policy_arn = aws_iam_policy.github_actions_oidc_route53_policy.arn
   role       = aws_iam_role.github_actions_oidc_role.name
 }

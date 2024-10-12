@@ -50,6 +50,7 @@ resource "aws_s3_bucket_policy" "custom_quiz_app_policy" {
     Version = "2012-10-17"
     Statement = [
       {
+        Sid       = "PublicReadGetObject"
         Effect    = "Allow"
         Principal = "*"
         Action    = "s3:GetObject"
@@ -90,4 +91,8 @@ resource "aws_s3_bucket_policy" "custom_quiz_images_policy" {
       }
     ]
   })
+}
+
+resource "aws_route53_zone" "custom_quiz_zone" {
+  name = "happybirthdaydianayasenko.com"
 }
