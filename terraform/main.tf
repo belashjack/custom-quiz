@@ -21,7 +21,7 @@ module "github_oidc" {
 
 # Define the S3 bucket for the application
 resource "aws_s3_bucket" "custom_quiz_app" {
-  bucket = "happybirthdaydianayasenko.com"
+  bucket = "custom-quiz-app"
 
   tags = {
     Project = var.project_name
@@ -107,7 +107,7 @@ resource "aws_route53_record" "custom_quiz_zone_record" {
   type    = "A"
 
   alias {
-    name                   = aws_s3_bucket_website_configuration.custom_quiz_app_website_configuration.website_domain
+    name                   = aws_s3_bucket_website_configuration.custom_quiz_app_website_configuration.website_endpoint
     zone_id                = aws_s3_bucket.custom_quiz_app.hosted_zone_id
     evaluate_target_health = false
   }
