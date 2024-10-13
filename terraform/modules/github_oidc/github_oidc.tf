@@ -145,6 +145,22 @@ resource "aws_iam_policy" "github_actions_oidc_iam_policy" {
       {
         Effect = "Allow",
         Action = [
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion"
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-cloudfront-policy"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion"
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-acm-policy"
+      },
+      {
+        Effect = "Allow",
+        Action = [
           "iam:GetOpenIDConnectProvider"
         ],
         Resource = "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
@@ -180,7 +196,55 @@ resource "aws_iam_policy" "github_actions_oidc_route53_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "github_actions_oidc_route53_attachment" {
+resource "aws_iam_role_policy_attachment" "github_actions_oidc_route53_policy_attachment" {
   policy_arn = aws_iam_policy.github_actions_oidc_route53_policy.arn
+  role       = aws_iam_role.github_actions_oidc_role.name
+}
+
+# New policy granting the necessary CloudFront actions to the OIDC role
+resource "aws_iam_policy" "github_actions_oidc_cloudfront_policy" {
+  name        = "github-actions-oidc-cloudfront-policy"
+  description = "Allows GitHub Actions to manage CloudFront resources."
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "cloudfront:*",
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "github_actions_oidc_cloudfront_policy_attachment" {
+  policy_arn = aws_iam_policy.github_actions_oidc_cloudfront_policy.arn
+  role       = aws_iam_role.github_actions_oidc_role.name
+}
+
+# New policy granting the necessary ACM actions to the OIDC role
+resource "aws_iam_policy" "github_actions_oidc_acm_policy" {
+  name        = "github-actions-oidc-acm-policy"
+  description = "Allows GitHub Actions to manage ACM resources."
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "acm:*",
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "github_actions_oidc_acm_policy_attachment" {
+  policy_arn = aws_iam_policy.github_actions_oidc_acm_policy.arn
   role       = aws_iam_role.github_actions_oidc_role.name
 }
