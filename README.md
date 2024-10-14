@@ -1,5 +1,5 @@
 # custom-quiz
 
-To sync images from `assets` folder use this command:
+To sync assets from `assets` folder use this command:
 
-`aws s3 sync ./assets s3://custom-quiz-images/assets --delete --profile personal`
+`aws s3 sync ./assets s3://custom-quiz-assets --delete --profile personal`

@@ -63,7 +63,7 @@ export const roundsConfig: Round[] = [
             title: {
                 text: 'Соберись, тряпка! 🧩',
             },
-            imageUrl: 'https://custom-quiz-images.s3.amazonaws.com/assets/config1/content/ponchik.jpg',
+            imageUrl: 'https://custom-quiz-assets.s3.amazonaws.com/config1/content/ponchik.jpg',
             winExplanation: {
                 text: 'Ты справилась! 🎉',
                 asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
@@ -89,7 +89,7 @@ export const roundsConfig: Round[] = [
             title: {
                 text: 'Если вещи, который ты очень любишь. Например булочки. Нам очень нужно показать это, потому что булочки этого заслуживают. Покажи свою любовь!!! 🥐',
                 isUpsideDown: true,
-                asset: <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/content/ponchik.jpg" />,
+                asset: <img src="https://custom-quiz-assets.s3.amazonaws.com/config1/content/ponchik.jpg" />,
             },
             difficulty: 'EASY',
             winExplanation: {
@@ -153,7 +153,7 @@ export const roundsConfig: Round[] = [
             isSingleChoice: true,
             title: {
                 text: 'Вкусный? 🤔',
-                asset: <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/content/ponchik.jpg" />,
+                asset: <img src="https://custom-quiz-assets.s3.amazonaws.com/config1/content/ponchik.jpg" />,
             },
             options: [
                 {
@@ -188,7 +188,7 @@ export const roundsConfig: Round[] = [
             isSingleChoice: true,
             title: {
                 text: 'Вкусный? 🤔',
-                asset: <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/content/ponchik.jpg" />,
+                asset: <img src="https://custom-quiz-assets.s3.amazonaws.com/config1/content/ponchik.jpg" />,
             },
             options: [
                 {
@@ -196,7 +196,7 @@ export const roundsConfig: Round[] = [
                         text: 'Ага, вкуснятина, спасибо за совет 😋',
                         asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS),
                     },
-                    asset: <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/content/ponchik.jpg" />,
+                    asset: <img src="https://custom-quiz-assets.s3.amazonaws.com/config1/content/ponchik.jpg" />,
                 },
                 {
                     text: 'Нет',
@@ -205,7 +205,7 @@ export const roundsConfig: Round[] = [
                         asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
                     },
                     asset: (
-                        <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/incorrectAnswers/image2.webp" />
+                        <img src="https://custom-quiz-assets.s3.amazonaws.com/config1/incorrectAnswers/image2.webp" />
                     ),
                 },
                 {
@@ -222,7 +222,7 @@ export const roundsConfig: Round[] = [
                         asset: getRandomFromArray(INCORRECT_EXPLANATION_ASSETS),
                     },
                     asset: (
-                        <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/incorrectAnswers/image3.webp" />
+                        <img src="https://custom-quiz-assets.s3.amazonaws.com/config1/incorrectAnswers/image3.webp" />
                     ),
                 },
             ],
@@ -270,13 +270,13 @@ export const roundsConfig: Round[] = [
             options: [
                 {
                     text: 'Знать тебя не хочу',
-                    asset: <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/content/dubai.jpg" />,
+                    asset: <img src="https://custom-quiz-assets.s3.amazonaws.com/config1/content/dubai.jpg" />,
                 },
                 { text: 'Я католик' },
                 { text: 'Спасибо за веру в меня' },
                 {
                     text: 'Ясно понятно',
-                    asset: <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/content/ponchik.jpg" />,
+                    asset: <img src="https://custom-quiz-assets.s3.amazonaws.com/config1/content/ponchik.jpg" />,
                 },
             ],
             winExplanation: {
@@ -304,7 +304,7 @@ export const roundsConfig: Round[] = [
             title: {
                 text: `What is your sister's name?`,
                 isMorseCode: true,
-                asset: <img src="https://custom-quiz-images.s3.amazonaws.com/assets/config1/content/dubai.jpg" />,
+                asset: <img src="https://custom-quiz-assets.s3.amazonaws.com/config1/content/dubai.jpg" />,
             },
             correctAnswer: ['Дубай', 'Dubai'],
             winExplanation: { text: 'Верно! Это Дубай! 🎉', asset: getRandomFromArray(CORRECT_EXPLANATION_ASSETS) },
