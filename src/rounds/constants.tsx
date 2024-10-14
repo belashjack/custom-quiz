@@ -147,9 +147,9 @@ export const INCORRECT_EXPLANATION_ASSETS: Explanation['asset'][] = [
         />
     </video>,
     <img src="https://assets.happybirthdaydianayasenko.com/config1/incorrectAnswers/image1.webp" />,
-    <img src="https://assets.happybirthdaydianayasenko.com/config1/incorrectAnswers/image1.webp" />,
-    <img src="https://assets.happybirthdaydianayasenko.com/config1/incorrectAnswers/image1.webp" />,
-    <img src="https://assets.happybirthdaydianayasenko.com/config1/incorrectAnswers/image1.webp" />,
+    <img src="https://assets.happybirthdaydianayasenko.com/config1/incorrectAnswers/image2.webp" />,
+    <img src="https://assets.happybirthdaydianayasenko.com/config1/incorrectAnswers/image3.webp" />,
+    <img src="https://assets.happybirthdaydianayasenko.com/config1/incorrectAnswers/image4.webp" />,
 ];
 
 export const DEFAULT_TIMER_DURATION = 15000;

@@ -44,9 +44,10 @@ export type Option = SingleOption | MultipleOption;
 
 export interface Title {
     text: string;
+    asset?: React.ReactNode;
     isMorseCode?: boolean;
     isUpsideDown?: boolean;
-    asset?: React.ReactNode;
+    isColoredText?: boolean;
 }
 
 interface BaseRoundContent {

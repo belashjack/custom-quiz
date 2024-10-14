@@ -10,6 +10,7 @@ import Explanation from '../components/Explanation/Explanation';
 import Timer from './Timer/Timer';
 import { encodeToMorse } from '../utils';
 import clsx from 'clsx';
+import ColoredText from './ColoredText/ColoredText';
 
 interface RoundWrapperProps extends PropsWithChildren {
     title?: Title;
@@ -103,7 +104,9 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                                 'round-title-text--morse-code': Boolean(title.isMorseCode),
                             })}
                         >
-                            {title.isMorseCode ?? false ? encodeToMorse(title.text) : title.text}
+                            {title.isMorseCode === true && encodeToMorse(title.text)}
+                            {title.isColoredText === true && <ColoredText text={title.text} />}
+                            {title.isMorseCode !== true && title.isColoredText !== true && title.text}
                         </h1>
                         {Boolean(title.asset) && <div className="round-title-asset">{title.asset}</div>}
                     </div>
