@@ -146,6 +146,10 @@ resource "aws_cloudfront_distribution" "custom_quiz_app_distribution" {
 
   aliases = [var.domain_name, "www.${var.domain_name}"]
 
+  logging_config {
+    bucket = aws_s3_bucket.custom_quiz_cloudfront_logs.bucket_domain_name
+  }
+
   tags = {
     Project = var.project_name
   }
@@ -210,4 +214,43 @@ resource "aws_route53_record" "custom_quiz_zone_www_cloudfront" {
     zone_id                = aws_cloudfront_distribution.custom_quiz_app_distribution.hosted_zone_id
     evaluate_target_health = false
   }
+}
+
+resource "aws_s3_bucket" "custom_quiz_cloudfront_logs" {
+  bucket = "custom-quiz-cloudfront-logs"
+
+  tags = {
+    Project = var.project_name
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "custom_quiz_cloudfront_logs_bucket_ownership_controls" {
+  bucket = aws_s3_bucket.custom_quiz_cloudfront_logs.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_policy" "custom_quiz_cloudfront_logs_policy" {
+  bucket = aws_s3_bucket.custom_quiz_cloudfront_logs.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        },
+        Action   = "s3:PutObject",
+        Resource = "${aws_s3_bucket.custom_quiz_cloudfront_logs.arn}/*",
+        Condition = {
+          StringLike = {
+            "aws:Referer" = aws_cloudfront_distribution.custom_quiz_app_distribution.id
+          }
+        }
+      }
+    ]
+  })
 }
