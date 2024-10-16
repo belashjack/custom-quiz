@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useContext } from 'react';
+import { FC, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../AppContext';
 import './RoundWrapper.scss';
 import { Round, Title } from '../types';
@@ -58,6 +58,11 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
     } = useContext(AppContext);
     const currentRound = rounds[currentRoundIndex];
 
+    const [isContentVisible, setIsContentVisible] = useState(false);
+    useEffect(() => {
+        setIsContentVisible(true);
+    }, []);
+
     const showPreviousRoundButton = isEasyMode && currentRoundIndex > 0 && (isWin || isLose || isLoseByTimer);
     // eslint-disable-next-line no-nested-ternary
     const showResetRoundButton = withoutResetButton
@@ -95,7 +100,10 @@ const RoundWrapper: FC<RoundWrapperProps> = ({
                     )}
                 </header>
             )}
-            <div className="round-content" style={{ minHeight: showHeaderFinal ? `calc(100vh - 5.313rem)` : '100vh' }}>
+            <div
+                className={clsx('round-content', { 'round-content--visible': isContentVisible })}
+                style={{ minHeight: showHeaderFinal ? `calc(100vh - 5.313rem)` : '100vh' }}
+            >
                 {title && (
                     <div className="round-title">
                         <h1
