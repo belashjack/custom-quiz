@@ -182,6 +182,14 @@ resource "aws_iam_policy" "github_actions_oidc_iam_policy" {
         ],
         Resource = "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-lambda-policy"
       },
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion"
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-api-gateway-policy"
+      },
     ]
   })
 }
@@ -289,3 +297,28 @@ resource "aws_iam_role_policy_attachment" "github_actions_oidc_lambda_policy_att
   policy_arn = aws_iam_policy.github_actions_oidc_lambda_policy.arn
   role       = aws_iam_role.github_actions_oidc_role.name
 }
+
+# New policy granting the necessary API Gateway actions to the OIDC role
+resource "aws_iam_policy" "github_actions_oidc_api_gateway_policy" {
+  name        = "github-actions-oidc-api-gateway-policy"
+  description = "Allows GitHub Actions to manage API Gateway resources."
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "apigateway:*",
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "github_actions_oidc_api_gateway_policy_attachment" {
+  policy_arn = aws_iam_policy.github_actions_oidc_api_gateway_policy.arn
+  role       = aws_iam_role.github_actions_oidc_role.name
+}
+
