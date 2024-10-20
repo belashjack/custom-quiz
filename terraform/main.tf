@@ -369,26 +369,115 @@ resource "aws_api_gateway_resource" "custom_quiz_api_gateway" {
   path_part   = "log"
 }
 
-resource "aws_api_gateway_method" "custom_quiz_api_method_post_logs" {
+resource "aws_api_gateway_method" "custom_quiz_api_method_log_post" {
   rest_api_id   = aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id
   resource_id   = aws_api_gateway_resource.custom_quiz_api_gateway.id
   http_method   = "POST"
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "custom_quiz_api_gateway_integration" {
+resource "aws_api_gateway_integration" "custom_quiz_api_gateway_integration_post" {
   rest_api_id             = aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id
   resource_id             = aws_api_gateway_resource.custom_quiz_api_gateway.id
-  http_method             = aws_api_gateway_method.custom_quiz_api_method_post_logs.http_method
+  http_method             = aws_api_gateway_method.custom_quiz_api_method_log_post.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.custom_quiz_logging.invoke_arn
 }
 
-resource "aws_api_gateway_deployment" "custom_quiz_api_gateway_deployment" {
-  depends_on  = [aws_api_gateway_integration.custom_quiz_api_gateway_integration]
+resource "aws_api_gateway_method_response" "custom_quiz_api_log_post_method_response" {
   rest_api_id = aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id
-  stage_name  = "prod"
+  resource_id = aws_api_gateway_resource.custom_quiz_api_gateway.id
+  http_method = aws_api_gateway_method.custom_quiz_api_method_log_post.http_method
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"  = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Headers" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "custom_quiz_api_log_post_integration_response" {
+  rest_api_id = aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id
+  resource_id = aws_api_gateway_resource.custom_quiz_api_gateway.id
+  http_method = aws_api_gateway_method.custom_quiz_api_method_log_post.http_method
+  status_code = aws_api_gateway_method_response.custom_quiz_api_log_post_method_response.status_code
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"  = "'http://localhost:1234, https://belashjack.github.io/custom-quiz, https://happybirthdaydianayasenko.com'"
+    "method.response.header.Access-Control-Allow-Methods" = "'POST'"
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type'"
+  }
+}
+
+resource "aws_api_gateway_method" "custom_quiz_api_method_log_options" {
+  rest_api_id   = aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id
+  resource_id   = aws_api_gateway_resource.custom_quiz_api_gateway.id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "custom_quiz_api_gateway_integration_options" {
+  rest_api_id = aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id
+  resource_id = aws_api_gateway_resource.custom_quiz_api_gateway.id
+  http_method = aws_api_gateway_method.custom_quiz_api_method_log_options.http_method
+  type        = "MOCK"
+}
+
+resource "aws_api_gateway_method_response" "custom_quiz_api_log_options_method_response" {
+  rest_api_id = aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id
+  resource_id = aws_api_gateway_resource.custom_quiz_api_gateway.id
+  http_method = aws_api_gateway_method.custom_quiz_api_method_log_options.http_method
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"  = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Headers" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "custom_quiz_api_log_options_integration_response" {
+  rest_api_id = aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id
+  resource_id = aws_api_gateway_resource.custom_quiz_api_gateway.id
+  http_method = aws_api_gateway_method.custom_quiz_api_method_log_options.http_method
+  status_code = aws_api_gateway_method_response.custom_quiz_api_log_options_method_response.status_code
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"  = "'http://localhost:1234, https://belashjack.github.io/custom-quiz, https://happybirthdaydianayasenko.com'"
+    "method.response.header.Access-Control-Allow-Methods" = "'OPTIONS'"
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type'"
+  }
+}
+
+resource "aws_api_gateway_deployment" "custom_quiz_api_gateway_deployment" {
+  rest_api_id = aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id
+
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id,
+      aws_api_gateway_resource.custom_quiz_api_gateway.id,
+      aws_api_gateway_method.custom_quiz_api_method_log_post.id,
+      aws_api_gateway_integration.custom_quiz_api_gateway_integration_post.id,
+      aws_api_gateway_method_response.custom_quiz_api_log_post_method_response.id,
+      aws_api_gateway_integration_response.custom_quiz_api_log_post_integration_response.id,
+      aws_api_gateway_method.custom_quiz_api_method_log_options.id,
+      aws_api_gateway_integration.custom_quiz_api_gateway_integration_options.id,
+      aws_api_gateway_method_response.custom_quiz_api_log_options_method_response.id,
+      aws_api_gateway_integration_response.custom_quiz_api_log_options_integration_response.id,
+    ]))
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_api_gateway_stage" "custom_quiz_api_gateway_deployment_stage" {
+  deployment_id = aws_api_gateway_deployment.custom_quiz_api_gateway_deployment.id
+  rest_api_id   = aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.id
+  stage_name    = "prod"
 }
 
 resource "aws_lambda_permission" "allow_api_gateway" {
@@ -396,5 +485,5 @@ resource "aws_lambda_permission" "allow_api_gateway" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.custom_quiz_logging.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.execution_arn}/log/POST"
+  source_arn    = "${aws_api_gateway_rest_api.custom_quiz_api_gateway_rest_api.execution_arn}/log/*"
 }
