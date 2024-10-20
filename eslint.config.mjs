@@ -4,13 +4,8 @@ import tseslint from 'typescript-eslint';
 import { fixupConfigRules } from '@eslint/compat';
 import pluginReactConfig from 'eslint-plugin-react/configs/recommended.js';
 
-export default [
-    {
-        files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
-    },
-    {
-        ignores: ['dist/', 'eslint.config.mjs'],
-    },
+export default tseslint.config(
+    ...fixupConfigRules(pluginReactConfig),
     {
         languageOptions: {
             parserOptions: {
@@ -26,11 +21,13 @@ export default [
             globals: globals.browser,
         },
     },
-    pluginJs.configs.recommended,
-    ...tseslint.configs.strict,
-    ...tseslint.configs.stylistic,
-    ...fixupConfigRules(pluginReactConfig),
+    { ignores: ['dist/'] },
     {
+        files: ['**/*.{js}'],
+        extends: [pluginJs.configs.recommended],
+    },
+    {
+        files: ['**/*.{js,jsx,ts,tsx}'],
         rules: {
             // Custom "@eslint/js" rules
             'array-callback-return': 'error',
@@ -61,7 +58,42 @@ export default [
             radix: 'error',
             'sort-imports': ['error', { ignoreDeclarationSort: true }],
             yoda: 'error',
-
+        },
+    },
+    {
+        files: ['**/*.{jsx,tsx}'],
+        rules: {
+            // Custom "eslint-plugin-react" rules
+            'react/button-has-type': 'error',
+            'react/checked-requires-onchange-or-readonly': 'error',
+            'react/destructuring-assignment': 'error',
+            'react/hook-use-state': 'error',
+            'react/jsx-boolean-value': 'error',
+            'react/jsx-closing-bracket-location': 'error',
+            'react/jsx-closing-tag-location': 'error',
+            'react/jsx-curly-brace-presence': 'error',
+            'react/jsx-curly-spacing': 'error',
+            'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
+            'react/jsx-fragments': 'error',
+            'react/jsx-handler-names': 'error',
+            'react/jsx-indent': ['error', 4],
+            'react/jsx-key': 'error',
+            'react/jsx-no-constructed-context-values': 'error',
+            'react/jsx-no-useless-fragment': 'error',
+            'react/jsx-wrap-multilines': 'error',
+            'react/no-access-state-in-setstate': 'error',
+            'react/no-array-index-key': 'error',
+            'react/no-invalid-html-attribute': 'error',
+            'react/no-object-type-as-default-prop': 'error',
+            'react/self-closing-comp': 'error',
+            'react/style-prop-object': 'error',
+            'react/react-in-jsx-scope': 'off', // We use new JSX transform
+        },
+    },
+    {
+        files: ['**/*.{ts,tsx}'],
+        extends: [pluginJs.configs.recommended, ...tseslint.configs.strict, ...tseslint.configs.stylistic],
+        rules: {
             // Rules (both custom and from "@eslint/js" recommended config), disabled in favor of "typescript-eslint" rules
             'dot-notation': 'off',
             'no-array-constructor': 'off',
@@ -121,32 +153,6 @@ export default [
             '@typescript-eslint/strict-boolean-expressions': 'error',
             '@typescript-eslint/switch-exhaustiveness-check': 'error',
             '@typescript-eslint/use-unknown-in-catch-callback-variable': 'error',
-
-            // Custom "eslint-plugin-react" rules
-            'react/button-has-type': 'error',
-            'react/checked-requires-onchange-or-readonly': 'error',
-            'react/destructuring-assignment': 'error',
-            'react/hook-use-state': 'error',
-            'react/jsx-boolean-value': 'error',
-            'react/jsx-closing-bracket-location': 'error',
-            'react/jsx-closing-tag-location': 'error',
-            'react/jsx-curly-brace-presence': 'error',
-            'react/jsx-curly-spacing': 'error',
-            'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
-            'react/jsx-fragments': 'error',
-            'react/jsx-handler-names': 'error',
-            'react/jsx-indent': ['error', 4],
-            'react/jsx-key': 'error',
-            'react/jsx-no-constructed-context-values': 'error',
-            'react/jsx-no-useless-fragment': 'error',
-            'react/jsx-wrap-multilines': 'error',
-            'react/no-access-state-in-setstate': 'error',
-            'react/no-array-index-key': 'error',
-            'react/no-invalid-html-attribute': 'error',
-            'react/no-object-type-as-default-prop': 'error',
-            'react/self-closing-comp': 'error',
-            'react/style-prop-object': 'error',
-            'react/react-in-jsx-scope': 'off', // We use new JSX transform
         },
-    },
-];
+    }
+);
