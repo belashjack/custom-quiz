@@ -318,3 +318,38 @@ resource "aws_route53_record" "custom_quiz_assets_cloudfront" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_lambda_function" "custom_quiz_logging" {
+  filename         = data.archive_file.custom_quiz_logging_archive.output_path
+  function_name    = "customQuizLogging"
+  role             = aws_iam_role.lambda_basic_execution_role.arn
+  handler          = "index.handler"
+  runtime          = "nodejs20.x"
+  source_code_hash = data.archive_file.custom_quiz_logging_archive.output_base64sha256
+
+  tags = {
+    Project = var.project_name
+  }
+}
+
+data "archive_file" "custom_quiz_logging_archive" {
+  type        = "zip"
+  source_dir  = "../lambdas/custom_quiz_logging"
+  output_path = "../lambdas/custom_quiz_logging.zip"
+}
+
+resource "aws_iam_role" "lambda_basic_execution_role" {
+  name = "lambda-basic-execution-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
+      }
+    ]
+  })
+}

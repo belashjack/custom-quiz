@@ -165,6 +165,23 @@ resource "aws_iam_policy" "github_actions_oidc_iam_policy" {
         ],
         Resource = "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
       },
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:GetRole",
+          "iam:ListRolePolicies",
+          "iam:ListAttachedRolePolicies",
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:role/lambda-basic-execution-role"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion"
+        ],
+        Resource = "arn:aws:iam::${var.aws_account_id}:policy/github-actions-oidc-lambda-policy"
+      },
     ]
   })
 }
@@ -246,5 +263,29 @@ resource "aws_iam_policy" "github_actions_oidc_acm_policy" {
 
 resource "aws_iam_role_policy_attachment" "github_actions_oidc_acm_policy_attachment" {
   policy_arn = aws_iam_policy.github_actions_oidc_acm_policy.arn
+  role       = aws_iam_role.github_actions_oidc_role.name
+}
+
+# New policy granting the necessary Lambda actions to the OIDC role
+resource "aws_iam_policy" "github_actions_oidc_lambda_policy" {
+  name        = "github-actions-oidc-lambda-policy"
+  description = "Allows GitHub Actions to manage Lambda resources."
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "lambda:*",
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "github_actions_oidc_lambda_policy_attachment" {
+  policy_arn = aws_iam_policy.github_actions_oidc_lambda_policy.arn
   role       = aws_iam_role.github_actions_oidc_role.name
 }

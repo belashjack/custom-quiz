@@ -6,3 +6,4 @@ dist/
 .terraform/
 bla.json
 assets/
+lambdas/*.zip
